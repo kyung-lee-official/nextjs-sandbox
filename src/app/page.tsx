@@ -76,8 +76,48 @@ export default function Home() {
 						text: "animate function",
 					},
 					{
+						link: "/animation/framer-motion/animatepresence",
+						text: "AnimatePresence",
+					},
+					{
+						link: "/animation/framer-motion/animatepresence-bug",
+						text: "AnimatePresence bug",
+					},
+					{
+						link: "/animation/framer-motion/animation",
+						text: "animation",
+					},
+					{
+						link: "/animation/framer-motion/buttons",
+						text: "buttons",
+					},
+					{
+						link: "/animation/framer-motion/chitubox-drop",
+						text: "chitubox-drop",
+					},
+					{
+						link: "/animation/framer-motion/clippath",
+						text: "clippath",
+					},
+					{
+						link: "/animation/framer-motion/gooey-effect",
+						text: "gooey-effect",
+					},
+					{
+						link: "/animation/framer-motion/layout-animation",
+						text: "layout animation",
+					},
+					{
 						link: "/animation/framer-motion/motion-path",
 						text: "motion path",
+					},
+					{
+						link: "/animation/framer-motion/theme-switch",
+						text: "theme switch",
+					},
+					{
+						link: "/animation/framer-motion/variants",
+						text: "variants",
 					},
 				]}
 			/>
