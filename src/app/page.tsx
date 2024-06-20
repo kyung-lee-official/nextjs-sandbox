@@ -121,6 +121,15 @@ export default function Home() {
 					},
 				]}
 			/>
+			<Block
+				title="Animation | Lottie"
+				list={[
+					{
+						link: "/animation/lottie/lottie-basic",
+						text: "lottie basic",
+					},
+				]}
+			/>
 		</main>
 	);
 }
