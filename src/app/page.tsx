@@ -3,13 +3,16 @@ import Link from "next/link";
 const Block = ({
 	title,
 	list,
+	children,
 }: {
 	title: string;
 	list: { link: string; text: string }[];
+	children?: React.ReactNode;
 }) => {
 	return (
 		<div className="flex flex-col gap-3">
 			<h1 className="text-xl">{title}</h1>
+			{children}
 			<div className="flex flex-col">
 				{list.map((item) => {
 					return (
@@ -130,6 +133,30 @@ export default function Home() {
 					},
 				]}
 			/>
+			<Block
+				title="Animation | React Spring"
+				list={[
+					{
+						link: "/animation/react-spring/basic-spring",
+						text: "basic spring",
+					},
+					{
+						link: "/animation/react-spring/usetransition",
+						text: "useTransition",
+					},
+					{
+						link: "/animation/react-spring/declaretive-vs-imperative",
+						text: "declaretive vs imperative",
+					},
+				]}
+			>
+				<Link
+					href={"https://github.com/pmndrs/react-spring/issues/2146"}
+					className={"underline"}
+				>
+					Bug #2146
+				</Link>
+			</Block>
 			<Block
 				title="Styles | Menu"
 				list={[

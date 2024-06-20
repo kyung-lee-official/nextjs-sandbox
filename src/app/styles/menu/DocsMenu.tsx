@@ -114,7 +114,6 @@ const SubMenu: React.FC<any> = (props) => {
 
 export const DocsMenu: React.FC<any> = (props) => {
 	const { items, defaultOpenKeys, activeKey } = props;
-	console.log("asdf");
 
 	return (
 		<StyledUl>
