@@ -130,6 +130,27 @@ export default function Home() {
 					},
 				]}
 			/>
+			<Block
+				title="Styles | Menu"
+				list={[
+					{
+						link: "/styles/menu/menu-1",
+						text: "menu 1",
+					},
+					{
+						link: "/styles/menu/menu-2",
+						text: "menu 2",
+					},
+					{
+						link: "/styles/menu/cat1/menu-3",
+						text: "menu 3",
+					},
+					{
+						link: "/styles/menu/cat1/menu-4",
+						text: "menu 4",
+					},
+				]}
+			/>
 		</main>
 	);
 }
