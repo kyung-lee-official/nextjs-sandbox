@@ -12,7 +12,11 @@ const Block = ({
 			<h1 className="text-xl">{title}</h1>
 			<div className="flex flex-col">
 				{list.map((item) => {
-					return <Link href={item.link}>{item.text}</Link>;
+					return (
+						<Link key={item.link} href={item.link}>
+							{item.text}
+						</Link>
+					);
 				})}
 			</div>
 		</div>
