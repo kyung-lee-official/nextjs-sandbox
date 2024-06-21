@@ -125,6 +125,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Animation | keyframes"
+				list={[
+					{
+						link: "/animation/keyframes/basic",
+						text: "basic",
+					},
+				]}
+			/>
+			<Block
 				title="Animation | Lottie"
 				list={[
 					{
@@ -133,6 +142,7 @@ export default function Home() {
 					},
 				]}
 			/>
+			
 			<Block
 				title="Animation | React Spring"
 				list={[
@@ -147,6 +157,14 @@ export default function Home() {
 					{
 						link: "/animation/react-spring/declaretive-vs-imperative",
 						text: "declaretive vs imperative",
+					},
+					{
+						link: "/animation/react-spring/chain",
+						text: "chain",
+					},
+					{
+						link: "/animation/react-spring/trail",
+						text: "trail",
 					},
 				]}
 			>
