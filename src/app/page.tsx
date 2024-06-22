@@ -193,6 +193,14 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Javascript"
+				list={[
+					{ link: "/js/drag-and-drop", text: "drag and drop" },
+					{ link: "/js/event-listener", text: "event listener" },
+					{ link: "/js/new-date", text: "new date" },
+				]}
+			/>
+			<Block
 				title="Styles | Menu"
 				list={[
 					{

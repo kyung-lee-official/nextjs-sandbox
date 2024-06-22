@@ -74,8 +74,8 @@ const ServerForward = () => {
 			<h3 className="text-sm">
 				This method upload the file to our backend server first, then
 				the server upload the file to Tencent COS. The drawback is that
-				the file is uploaded twice, and the client can't get the upload
-				progress.
+				the file is uploaded twice, and the client can&apos;t get the
+				upload progress.
 			</h3>
 			<form
 				method="put"

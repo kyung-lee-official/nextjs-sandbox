@@ -224,10 +224,11 @@ const Content = () => {
 				<h1 className="text-xl">Preview</h1>
 				<h2 className="text-base w-[600px]">
 					The preview can be abnormal if the image is scaled and the
-					"Cancel" button is clicked. This is because the "Cancel"
-					button reset scale to 1. In production environment, you
-					don't need this preview canvas and all operations are done
-					before the dialog is closed so you can ignore this issue.
+					&quot;Cancel&quot; button is clicked. This is because the
+					&quot;Cancel&quot; button reset scale to 1. In production
+					environment, you don&apos;t need this preview canvas and all
+					operations are done before the dialog is closed so you can
+					ignore this issue.
 				</h2>
 				<div className="w-[400px] h-[400px] bg-slate-500">
 					<canvas

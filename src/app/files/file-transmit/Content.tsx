@@ -51,7 +51,7 @@ const UploadFile = () => {
 			<p>
 				Throttle down your network in the dev tools to test this
 				feature. The file will be uploaded to the server, check it out
-				in the server's file system.
+				in the server&apos;s file system.
 			</p>
 			<form
 				method="put"
@@ -100,7 +100,7 @@ const UploadBlob = () => {
 			<p>
 				Throttle down your network in the dev tools to test this
 				feature. The file will be uploaded to the server, check it out
-				in the server's file system.
+				in the server&apos;s file system.
 			</p>
 			<p>
 				This is useful if you need to convert a canvas to a blob for

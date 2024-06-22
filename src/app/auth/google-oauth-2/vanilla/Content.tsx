@@ -2,8 +2,9 @@
 
 import { useSearchParams } from "next/navigation";
 import { getGoogleOAuth2Url } from "./api";
+import { Suspense } from "react";
 
-const Content = () => {
+const Result = () => {
 	let searchParams = useSearchParams();
 	const id = searchParams.get("id");
 	const name = searchParams.get("name");
@@ -24,6 +25,14 @@ const Content = () => {
 	} else {
 		return <a href={getGoogleOAuth2Url()}>Sign In with Google</a>;
 	}
+};
+
+const Content = () => {
+	return (
+		<Suspense>
+			<Result />
+		</Suspense>
+	);
 };
 
 export default Content;
