@@ -193,11 +193,40 @@ export default function Home() {
 				]}
 			/>
 			<Block
-				title="Javascript"
+				title="Javascript | React"
 				list={[
-					{ link: "/js/drag-and-drop", text: "drag and drop" },
-					{ link: "/js/event-listener", text: "event listener" },
-					{ link: "/js/new-date", text: "new date" },
+					{
+						link: "/js/react/context",
+						text: "context",
+					},
+					{
+						link: "/js/react/event-listener",
+						text: "event listener",
+					},
+					{ link: "/js/react/new-date", text: "new date" },
+				]}
+			/>
+			<Block
+				title="Javascript | Vanilla"
+				list={[
+					{
+						link: "/js/vanilla/drag-and-drop",
+						text: "drag and drop",
+					},
+					{
+						link: "/js/vanilla/event-listener",
+						text: "event listener",
+					},
+					{ link: "/js/vanilla/new-date", text: "new date" },
+				]}
+			/>
+			<Block
+				title="Payment"
+				list={[
+					{
+						link: "/payment/paypal",
+						text: "paypal",
+					},
 				]}
 			/>
 			<Block
