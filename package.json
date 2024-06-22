@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@casl/ability": "^6.7.1",
+    "@casl/react": "^4.0.0",
     "@react-spring/web": "^9.7.3",
     "@types/animejs": "^3.1.12",
     "animejs": "^3.2.2",
+    "axios": "^1.7.2",
+    "cos-js-sdk-v5": "^1.8.1",
     "framer-motion": "^11.2.11",
     "leva": "^0.9.35",
     "lottie-react": "^2.4.0",
+    "mathjs": "^13.0.0",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",

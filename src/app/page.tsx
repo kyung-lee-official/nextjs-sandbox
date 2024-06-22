@@ -142,7 +142,6 @@ export default function Home() {
 					},
 				]}
 			/>
-			
 			<Block
 				title="Animation | React Spring"
 				list={[
@@ -175,6 +174,24 @@ export default function Home() {
 					Bug #2146
 				</Link>
 			</Block>
+			<Block
+				title="Auth | Google OAuth2"
+				list={[
+					{ link: "/auth/google-oauth-2/vanilla", text: "vanilla" },
+				]}
+			/>
+			<Block
+				title="Casl"
+				list={[{ link: "/casl/basic", text: "basic" }]}
+			/>
+			<Block
+				title="Files"
+				list={[
+					{ link: "/files/image-cropper", text: "image cropper" },
+					{ link: "/files/file-transmit", text: "file transmit" },
+					{ link: "/files/tencent-cos", text: "tencent cos" },
+				]}
+			/>
 			<Block
 				title="Styles | Menu"
 				list={[
