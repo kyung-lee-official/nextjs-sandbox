@@ -244,6 +244,47 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Styles | Basic"
+				list={[
+					{
+						link: "/styles/basic/gradient-text",
+						text: "gradient text",
+					},
+					{
+						link: "/styles/basic/css-translate",
+						text: "css translate",
+					},
+					{
+						link: "/styles/basic/image",
+						text: "image",
+					},
+					{
+						link: "/styles/basic/mix-blend-difference",
+						text: "mix blend difference",
+					},
+					{
+						link: "/styles/basic/overflow-x",
+						text: "overflow-x",
+					},
+					{
+						link: "/styles/basic/sticky",
+						text: "sticky",
+					},
+					{
+						link: "/styles/basic/svg-icon-inline-text",
+						text: "svg icon inline text",
+					},
+					{
+						link: "/styles/basic/text-ellipsis",
+						text: "text ellipsis",
+					},
+					{
+						link: "/styles/basic/turing-fonts",
+						text: "turing fonts",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Dialog"
 				list={[
 					{
@@ -291,20 +332,33 @@ export default function Home() {
 				title="Styles | Menu"
 				list={[
 					{
-						link: "/styles/menu/menu-1",
-						text: "menu 1",
+						link: "/styles/menu/navigation-menu/navigation-menu-1",
+						text: "navigation menu 1",
 					},
 					{
-						link: "/styles/menu/menu-2",
-						text: "menu 2",
+						link: "/styles/menu/navigation-menu/navigation-menu-2",
+						text: "navigation menu 2",
 					},
 					{
-						link: "/styles/menu/cat1/menu-3",
-						text: "menu 3",
+						link: "/styles/menu/navigation-menu/cat1/navigation-menu-3",
+						text: "navigation menu 3",
 					},
 					{
-						link: "/styles/menu/cat1/menu-4",
-						text: "menu 4",
+						link: "/styles/menu/navigation-menu/cat1/navigation-menu-4",
+						text: "navigation menu 4",
+					},
+					{
+						link: "/styles/menu/context-menu",
+						text: "context menu",
+					},
+				]}
+			/>
+			<Block
+				title="Styles | Tailwind"
+				list={[
+					{
+						link: "/styles/tailwind/react-responsive",
+						text: "react-responsive",
 					},
 				]}
 			/>
