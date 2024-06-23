@@ -231,6 +231,32 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Styles | Dialog"
+				list={[
+					{
+						link: "/styles/dialog/basic",
+						text: "basic",
+					},
+				]}
+			/>
+			<Block
+				title="Styles | Dropdown"
+				list={[
+					{
+						link: "/styles/dropdown/basic",
+						text: "basic",
+					},
+					{
+						link: "/styles/dropdown/header-dropdown",
+						text: "header dropdown",
+					},
+					{
+						link: "/styles/dropdown/hover-dropdown",
+						text: "hover dropdown",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Menu"
 				list={[
 					{
