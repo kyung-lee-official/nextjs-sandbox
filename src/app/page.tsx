@@ -200,10 +200,11 @@ export default function Home() {
 						text: "context",
 					},
 					{
-						link: "/js/react/event-listener",
-						text: "event listener",
+						link: "/js/react/useeffect-order",
+						text: "useEffect order",
 					},
-					{ link: "/js/react/new-date", text: "new date" },
+					{ link: "/js/react/useref", text: "useRef" },
+					{ link: "/js/react/usetransition", text: "useTransition" },
 				]}
 			/>
 			<Block
