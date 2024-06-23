@@ -10,7 +10,11 @@ const Block = ({
 	children?: React.ReactNode;
 }) => {
 	return (
-		<div className="flex flex-col gap-3">
+		<div
+			className="flex flex-col p-6 gap-3
+			bg-white
+			rounded-lg"
+		>
 			<h1 className="text-xl">{title}</h1>
 			{children}
 			<div className="flex flex-col">
@@ -28,7 +32,16 @@ const Block = ({
 
 export default function Home() {
 	return (
-		<main className="flex flex-col items-start w-fit min-h-svh p-10 m-auto gap-6">
+		<main
+			className="grid
+			grid-cols-1
+			sm:grid-cols-2
+			md:grid-cols-3
+			lg:grid-cols-4
+			xl:grid-cols-5
+			min-h-svh p-10 gap-6
+			bg-neutral-100"
+		>
 			<Block title="Home" list={[{ link: "/", text: "home" }]} />
 			<Block
 				title="Animation | AnimeJS"
@@ -253,6 +266,24 @@ export default function Home() {
 					{
 						link: "/styles/dropdown/hover-dropdown",
 						text: "hover dropdown",
+					},
+				]}
+			/>
+			<Block
+				title="Styles | Flexbox"
+				list={[
+					{
+						link: "/styles/flexbox/header",
+						text: "header",
+					},
+				]}
+			/>
+			<Block
+				title="Styles | Grid"
+				list={[
+					{
+						link: "/styles/grid/basic",
+						text: "basic",
 					},
 				]}
 			/>
