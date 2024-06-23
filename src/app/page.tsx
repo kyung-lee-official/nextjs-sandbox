@@ -244,6 +244,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Styles | Ant Design"
+				list={[
+					{
+						link: "/styles/ant-design/tables",
+						text: "tables",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Basic"
 				list={[
 					{
@@ -359,6 +368,24 @@ export default function Home() {
 					{
 						link: "/styles/tailwind/react-responsive",
 						text: "react-responsive",
+					},
+				]}
+			/>
+			<Block
+				title="SVG"
+				list={[
+					{
+						link: "/svg/mask",
+						text: "mask",
+					},
+				]}
+			/>
+			<Block
+				title="WebSocket"
+				list={[
+					{
+						link: "/websocket/socket.io",
+						text: "socket.io",
 					},
 				]}
 			/>
