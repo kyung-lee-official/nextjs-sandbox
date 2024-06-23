@@ -8,12 +8,12 @@ const menuInstance = {
 		{
 			type: "doc",
 			label: "MenuPage1",
-			path: "/styles/menu/menu-1",
+			path: "/styles/menu/navigation-menu/navigation-menu-1",
 		},
 		{
 			type: "doc",
 			label: "MenuPage2",
-			path: "/styles/menu/menu-2",
+			path: "/styles/menu/navigation-menu/navigation-menu-2",
 		},
 		{
 			type: "category",
@@ -22,12 +22,12 @@ const menuInstance = {
 				{
 					type: "doc",
 					label: "MenuPage3",
-					path: "/styles/menu/cat1/menu-3",
+					path: "/styles/menu/navigation-menu/cat1/navigation-menu-3",
 				},
 				{
 					type: "doc",
 					label: "MenuPage4",
-					path: "/styles/menu/cat1/menu-4",
+					path: "/styles/menu/navigation-menu/cat1/navigation-menu-4",
 				},
 			],
 		},
@@ -38,12 +38,12 @@ const menuInstance = {
 				{
 					type: "doc",
 					label: "MenuPage5",
-					path: "/styles/menu/cat2/menu-5",
+					path: "/styles/menu/navigation-menu/cat2/navigation-menu-5",
 				},
 				{
 					type: "doc",
 					label: "MenuPage6",
-					path: "/styles/menu/cat2/menu-6",
+					path: "/styles/menu/navigation-menu/cat2/navigation-menu-6",
 				},
 			],
 		},
