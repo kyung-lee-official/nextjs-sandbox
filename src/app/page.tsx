@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReactNode } from "react";
 
 const Block = ({
 	title,
@@ -7,7 +8,7 @@ const Block = ({
 }: {
 	title: string;
 	list: { link: string; text: string }[];
-	children?: React.ReactNode;
+	children?: ReactNode;
 }) => {
 	return (
 		<div
@@ -196,6 +197,15 @@ export default function Home() {
 			<Block
 				title="Casl"
 				list={[{ link: "/casl/basic", text: "basic" }]}
+			/>
+			<Block
+				title="Data Fetching"
+				list={[
+					{
+						link: "/data-fetching/tanstack-query",
+						text: "TanStack Query",
+					},
+				]}
 			/>
 			<Block
 				title="Files"
