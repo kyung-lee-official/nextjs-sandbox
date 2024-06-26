@@ -245,6 +245,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Search"
+				list={[
+					{
+						link: "/search/orama",
+						text: "orama",
+					},
+				]}
+			/>
+			<Block
 				title="Payment"
 				list={[
 					{
