@@ -223,6 +223,10 @@ export default function Home() {
 						text: "context",
 					},
 					{
+						link: "/js/react/suspense",
+						text: "Suspense",
+					},
+					{
 						link: "/js/react/useeffect-order",
 						text: "useEffect order",
 					},
