@@ -343,20 +343,24 @@ export default function Home() {
 				]}
 			/>
 			<Block
-				title="Styles | Flexbox"
+				title="Styles | Form and Input"
 				list={[
 					{
-						link: "/styles/flexbox/header",
-						text: "header",
+						link: "/styles/form-and-input/zod-and-react-hook-form",
+						text: "zod and react-hook-form",
 					},
 				]}
 			/>
 			<Block
-				title="Styles | Grid"
+				title="Styles | Layout"
 				list={[
 					{
-						link: "/styles/grid/basic",
-						text: "basic",
+						link: "/styles/layout/header-flexbox",
+						text: "header flexbox",
+					},
+					{
+						link: "/styles/layout/grid",
+						text: "grid",
 					},
 				]}
 			/>

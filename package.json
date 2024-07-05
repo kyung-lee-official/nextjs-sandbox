@@ -11,6 +11,7 @@
   "dependencies": {
     "@casl/ability": "^6.7.1",
     "@casl/react": "^4.0.0",
+    "@hookform/resolvers": "^3.7.0",
     "@oramacloud/client": "^1.2.3",
     "@react-spring/web": "^9.7.3",
     "@tanstack/react-query": "^5.47.0",
@@ -28,10 +29,12 @@
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.52.1",
     "react-plotlyjs": "^0.4.4",
     "react-responsive": "^10.0.0",
     "socket.io-client": "^4.7.5",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "typescript": "^5",
