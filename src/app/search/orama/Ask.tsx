@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { oramaClient } from "./orama-client";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
@@ -7,6 +7,7 @@ import { Bubble } from "./bubble/Bubble";
 export const Ask = () => {
 	const [conversation, setConversation] = useState<any[]>([]);
 	const [question, setQuestion] = useState("");
+	const conversationRef = useRef<HTMLDivElement>(null);
 
 	const cachedAnswerSession = useMemo(() => {
 		return oramaClient.createAnswerSession({
@@ -21,14 +22,27 @@ export const Ask = () => {
 		});
 	}, []);
 
-	const askQuestion = async () => {
+	useEffect(() => {
+		const lastBubble = conversation[conversation.length - 1];
+		if (lastBubble?.type === "a") {
+			conversationRef.current?.scrollTo({
+				top: conversationRef.current.scrollHeight,
+				behavior: "smooth",
+			});
+		}
+	}, [conversation]);
+
+	const askQuestion = async (e: any) => {
+		e.preventDefault();
+		const cachedQuestion = question;
+		setQuestion("");
 		setConversation((conversation) => [
 			...conversation,
 			{
 				type: "q",
 				bubbleId: nanoid(),
 				state: "fulfilled",
-				content: question,
+				content: cachedQuestion,
 				timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
 			},
 		]);
@@ -45,7 +59,7 @@ export const Ask = () => {
 		]);
 		try {
 			const answer = await cachedAnswerSession.ask({
-				term: question,
+				term: cachedQuestion,
 			});
 			setConversation((conversation) => {
 				return conversation.map((bubble) => {
@@ -80,6 +94,7 @@ export const Ask = () => {
 	return (
 		<div className="flex-[0_1_50%] flex flex-col gap-4">
 			<div
+				ref={conversationRef}
 				className="flex flex-col h-[80dvh] p-4 gap-6
 				bg-neutral-200/60
 				overflow-y-auto"
@@ -96,24 +111,33 @@ export const Ask = () => {
 					);
 				})}
 			</div>
-			<div className="flex gap-4">
+			<form
+				className="flex flex-col items-end gap-4"
+				onSubmit={askQuestion}
+			>
 				<textarea
-					className="w-full p-2
+					className="w-full h-24 p-2
 					bg-neutral-100
-					outline-none"
+					outline-none resize-none"
 					onChange={(e) => {
 						setQuestion(e.target.value);
+					}}
+					value={question}
+					onKeyDown={(e) => {
+						if (e.key === "Enter" && !e.shiftKey) {
+							e.preventDefault();
+							askQuestion(e);
+						}
 					}}
 				/>
 				<button
 					type="submit"
-					className="p-2
+					className="w-20 p-2
 					bg-neutral-200"
-					onClick={askQuestion}
 				>
 					Ask
 				</button>
-			</div>
+			</form>
 		</div>
 	);
 };

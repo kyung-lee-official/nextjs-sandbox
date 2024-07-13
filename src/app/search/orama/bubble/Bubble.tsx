@@ -30,7 +30,7 @@ const Row = (props: {
 				}`}
 			>
 				<div
-					className={`w-4/5 p-2
+					className={`max-w-96 p-2
 					${props.type === "q" ? "bg-blue-200" : "bg-green-200"}
 					`}
 				>
@@ -53,7 +53,12 @@ export const Bubble = (props: BubbleType) => {
 			const result = await processor.process(trimmed);
 			const resultWithLinks = result
 				.toString()
-				.replace("<a", "<a class='text-blue-500'");
+				.replace("<a", "<a class='text-blue-500'")
+				.replace(
+					"<code",
+					`<code class='w-80 p-1
+					overflow-x-auto'`
+				);
 			setMdxContent({ __html: resultWithLinks });
 		}
 	}
