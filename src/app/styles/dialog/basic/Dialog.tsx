@@ -15,38 +15,11 @@ const DialogContent = forwardRef(function DialogContent(
 ) {
 	const { setShowDialog } = props;
 	const dialogRef = ref as MutableRefObject<HTMLDialogElement | null>;
-	const dialogBgRef = useRef<HTMLDivElement | null>(null);
-
-	const handleClickOutside = (e: MouseEvent) => {
-		if (
-			!dialogBgRef.current?.contains(e.target as Node) &&
-			dialogBgRef.current !== e.target
-		) {
-			if (dialogRef.current) {
-				dialogRef.current.close();
-			}
-			setShowDialog(false);
-		}
-	};
-	useEffect(() => {
-		if (dialogRef.current) {
-			dialogRef.current.addEventListener("click", handleClickOutside);
-		}
-		return () => {
-			if (dialogRef.current) {
-				dialogRef.current.removeEventListener(
-					"click",
-					handleClickOutside
-				);
-			}
-		};
-	}, []);
 
 	const [count, setCount] = useState(0);
 
 	return (
 		<div
-			ref={dialogBgRef}
 			className="flex flex-col w-[calc(100vw-80px)] max-w-[800px] p-3 gap-2
 				text-white"
 		>
@@ -67,7 +40,7 @@ const DialogContent = forwardRef(function DialogContent(
 			<div className="flex items-center gap-10">
 				<button
 					className="bg-black px-2 py-1
-						rounded-md select-none"
+					rounded-md select-none"
 					onClick={() => {
 						setCount(count + 1);
 					}}
@@ -78,8 +51,8 @@ const DialogContent = forwardRef(function DialogContent(
 			</div>
 			<button
 				className="text-white/80 px-2 py-1
-					bg-sky-500 hover:bg-white/20
-					rounded-md"
+				bg-sky-500 hover:bg-white/20
+				rounded-md"
 				onClick={() => {
 					if (dialogRef.current) {
 						dialogRef.current.close();
@@ -101,7 +74,34 @@ const Dialog = forwardRef(function Dialog(
 	ref: ForwardedRef<HTMLDialogElement | null>
 ) {
 	const { showDialog, setShowDialog } = props;
-	const dialogRef = ref;
+	const dialogRef = ref as MutableRefObject<HTMLDialogElement | null>;
+	const contentRef = useRef<HTMLDivElement | null>(null);
+
+	const handleClickOutside = (e: MouseEvent) => {
+		if (contentRef.current) {
+			if (
+				!contentRef.current.contains(e.target as Node) &&
+				contentRef.current !== e.target
+			) {
+				dialogRef.current?.close();
+				setShowDialog(false);
+			}
+		}
+	};
+
+	useEffect(() => {
+		if (dialogRef.current) {
+			dialogRef.current.addEventListener("click", handleClickOutside);
+		}
+		return () => {
+			if (dialogRef.current) {
+				dialogRef.current.removeEventListener(
+					"click",
+					handleClickOutside
+				);
+			}
+		};
+	}, []);
 
 	return (
 		<dialog
@@ -112,7 +112,12 @@ const Dialog = forwardRef(function Dialog(
 			backdrop:bg-black/50 backdrop:[backdrop-filter:blur(1px)]"
 		>
 			{showDialog && (
-				<DialogContent ref={dialogRef} setShowDialog={setShowDialog} />
+				<div ref={contentRef}>
+					<DialogContent
+						ref={dialogRef}
+						setShowDialog={setShowDialog}
+					/>
+				</div>
 			)}
 		</dialog>
 	);
