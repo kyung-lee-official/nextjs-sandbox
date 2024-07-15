@@ -230,6 +230,10 @@ export default function Home() {
 						link: "/js/react/useeffect-order",
 						text: "useEffect order",
 					},
+					{
+						link: "/js/react/useeffect-timer",
+						text: "useEffect timer",
+					},
 					{ link: "/js/react/useref", text: "useRef" },
 					{ link: "/js/react/usetransition", text: "useTransition" },
 				]}
