@@ -396,6 +396,10 @@ export default function Home() {
 						link: "/styles/tailwind/react-responsive",
 						text: "react-responsive",
 					},
+					{
+						link: "/styles/tailwind/animation",
+						text: "animation",
+					},
 				]}
 			/>
 			<Block
