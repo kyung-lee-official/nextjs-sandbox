@@ -53,9 +53,11 @@ const Content = () => {
 									{
 										amount: {
 											value: amount,
+											currency_code: "USD",
 										},
 									},
 								],
+								intent: "CAPTURE",
 							});
 						}}
 						onApprove={(data, actions) => {
