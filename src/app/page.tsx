@@ -13,7 +13,7 @@ const Block = ({
 	return (
 		<div
 			className="flex flex-col p-6 gap-3
-			bg-white
+			bg-white/50
 			rounded-lg"
 		>
 			<h1 className="text-xl">{title}</h1>
@@ -41,7 +41,7 @@ export default function Home() {
 			lg:grid-cols-4
 			xl:grid-cols-5
 			min-h-svh p-10 gap-6
-			bg-neutral-100"
+			bg-gradient-to-br from-cyan-500/60 to-purple-500/60"
 		>
 			<Block title="Home" list={[{ link: "/", text: "home" }]} />
 			<Block
