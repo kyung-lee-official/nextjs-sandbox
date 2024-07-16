@@ -145,6 +145,10 @@ export default function Home() {
 						link: "/animation/keyframes/basic",
 						text: "basic",
 					},
+					{
+						link: "/animation/keyframes/tailwind",
+						text: "tailwind",
+					},
 				]}
 			/>
 			<Block
