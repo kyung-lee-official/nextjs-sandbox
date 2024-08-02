@@ -1,4 +1,6 @@
 import BasicMask from "./BasicMask";
+import MaskImageFromHttp from "./MaskImageFromHttp";
+import MaskImageFromLocal from "./MaskImageFromLocal";
 
 const Block = ({ children }: any) => {
 	return (
@@ -18,6 +20,17 @@ const Page = () => {
 			<Block>
 				<h1>Basic Mask</h1>
 				<BasicMask />
+			</Block>
+			<Block>
+				<h1>CSS: mask-image, mask image from http</h1>
+				<h2 className="text-neutral-500">
+					Note that black now represents "display"
+				</h2>
+				<MaskImageFromHttp />
+			</Block>
+			<Block>
+				<h1>CSS: mask-image, mask image from local</h1>
+				<MaskImageFromLocal />
 			</Block>
 		</div>
 	);

@@ -1,17 +1,9 @@
-const BasicMask = () => {
+const MaskImageFromLocal = () => {
 	return (
 		<div className="flex gap-8">
 			<div className="flex flex-col items-center">
-				<svg
-					width="100"
-					height="100"
-					viewBox="0 0 100 100"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path d="M100 0H0V100H100V0Z" className="fill-red-500" />
-				</svg>
-				svg
+				<img src="https://picsum.photos/200" width={100} alt="" />
+				png
 			</div>
 			<div className="flex flex-col items-center">
 				<svg
@@ -38,17 +30,6 @@ const BasicMask = () => {
 							<stop stopColor="black" offset={1} />
 						</linearGradient>
 					</defs>
-				</svg>
-				mask
-			</div>
-			<div className="flex flex-col items-center">
-				<svg
-					width="100"
-					height="100"
-					viewBox="0 0 100 100"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
 					<mask
 						id="svg_mask"
 						maskUnits="userSpaceOnUse"
@@ -62,17 +43,20 @@ const BasicMask = () => {
 							fill="url(#linear_gradient)"
 						/>
 					</mask>
-					<g mask="url(#svg_mask)">
-						<path
-							d="M100 0H0V100H100V0Z"
-							className="fill-red-500"
-						/>
-					</g>
 				</svg>
+				mask
+			</div>
+			<div className="flex flex-col items-center">
+				<div
+					className="w-[100px] h-[100px]
+					[mask-image:url(#svg_mask)]"
+				>
+					<img src="https://picsum.photos/200" width={100} alt="" />
+				</div>
 				result
 			</div>
 		</div>
 	);
 };
 
-export default BasicMask;
+export default MaskImageFromLocal;
