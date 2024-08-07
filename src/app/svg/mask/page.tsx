@@ -24,7 +24,7 @@ const Page = () => {
 			<Block>
 				<h1>CSS: mask-image, mask image from http</h1>
 				<h2 className="text-neutral-500">
-					Note that black now represents "display"
+					Note that black now represents &quot;display&quot;
 				</h2>
 				<MaskImageFromHttp />
 			</Block>
