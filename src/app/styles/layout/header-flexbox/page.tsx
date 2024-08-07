@@ -1,7 +1,13 @@
-import Content from "./Content";
+import { Example1 } from "./example1/Example1";
+import { Example2 } from "./example2/Example2";
 
 const Page = () => {
-	return <Content />;
+	return (
+		<div>
+			<Example1 />
+			<Example2 />
+		</div>
+	);
 };
 
 export default Page;
