@@ -243,6 +243,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="NextJS"
+				list={[
+					{
+						link: "/nextjs/usepathname",
+						text: "usePathname",
+					},
+				]}
+			/>
+			<Block
 				title="Javascript | Vanilla"
 				list={[
 					{
