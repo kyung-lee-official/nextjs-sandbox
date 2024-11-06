@@ -308,6 +308,10 @@ export default function Home() {
 						text: "image",
 					},
 					{
+						link: "/styles/basic/zoomable-image",
+						text: "zoomable image",
+					},
+					{
 						link: "/styles/basic/mix-blend-difference",
 						text: "mix blend difference",
 					},
