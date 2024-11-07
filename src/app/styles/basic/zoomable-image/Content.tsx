@@ -36,7 +36,7 @@ const ZoomableImage = (props: ImageProps) => {
 						}}
 					>
 						<div
-							className="flex justify-center items-center w-11/12 h-[90svh]
+							className="flex justify-center items-center w-fit max-w-[95%] h-[90svh]
 							overflow-auto hide-scrollbar"
 						>
 							<img src={src} alt="" />
