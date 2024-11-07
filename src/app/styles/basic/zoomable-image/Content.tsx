@@ -35,7 +35,12 @@ const ZoomableImage = (props: ImageProps) => {
 							setIsZoomOut(false);
 						}}
 					>
-						<img src={src} alt="" />
+						<div
+							className="flex justify-center items-center w-11/12 h-[90svh]
+							overflow-auto hide-scrollbar"
+						>
+							<img src={src} alt="" />
+						</div>
 					</div>,
 					document.body
 				)}
@@ -48,16 +53,12 @@ const Content = () => {
 		<div className="flex flex-col w-full min-h-svh p-10 gap-20">
 			<h1 className="text-4xl">Zoomable Image</h1>
 			<ZoomableImage
-				src={"/images/styles/image/horizontal.jpg"}
+				src={"/images/styles/image/2000x300.jpg"}
 				width={300}
 			/>
 			<ZoomableImage
-				src={"/images/styles/image/vertical.jpg"}
-				width={200}
-			/>
-			<ZoomableImage
-				src={"/images/styles/image/400x400.jpg"}
-				width={200}
+				src={"/images/styles/image/300x2000.jpg"}
+				width={100}
 			/>
 		</div>
 	);
