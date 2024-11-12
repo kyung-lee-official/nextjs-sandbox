@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { Input } from "./Input";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -26,7 +27,7 @@ const schema = z.object({
 });
 
 export const Form = () => {
-	const { register, handleSubmit, formState } = useForm<IFormInput>({
+	const { register, handleSubmit, formState, control } = useForm<IFormInput>({
 		mode: "onChange",
 		resolver: zodResolver(schema),
 	});
@@ -43,36 +44,40 @@ export const Form = () => {
 	};
 
 	return (
-		<form
-			className="flex flex-col gap-4 w-full"
-			onSubmit={handleSubmit(onSubmit)}
-		>
-			<Input
-				title={"title"}
-				isInvalid={!!formState.errors.email}
-				isRequired={true}
-				errorMessage={formState.errors.email?.message}
-				{...register("email")}
-				disabled={mutation.isPending}
-			/>
-			<Input
-				title={"Password"}
-				isInvalid={!!formState.errors.password}
-				isRequired={true}
-				errorMessage={formState.errors.password?.message}
-				{...register("password")}
-				type="password"
-				placeholder="Password"
-				disabled={mutation.isPending}
-			/>
-			{mutation.isError && mutation.error.response?.status === 401 && (
-				<div className="text-base text-red-400 font-bold">
-					Account or password is incorrect
-				</div>
-			)}
-			<button type="submit" className="font-bold">
-				Sign In
-			</button>
-		</form>
+		<>
+			<form
+				className="flex flex-col gap-4 w-full"
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<Input
+					title={"title"}
+					isInvalid={!!formState.errors.email}
+					isRequired={true}
+					errorMessage={formState.errors.email?.message}
+					{...register("email")}
+					disabled={mutation.isPending}
+				/>
+				<Input
+					title={"Password"}
+					isInvalid={!!formState.errors.password}
+					isRequired={true}
+					errorMessage={formState.errors.password?.message}
+					{...register("password")}
+					type="password"
+					placeholder="Password"
+					disabled={mutation.isPending}
+				/>
+				{mutation.isError &&
+					mutation.error.response?.status === 401 && (
+						<div className="text-base text-red-400 font-bold">
+							Account or password is incorrect
+						</div>
+					)}
+				<button type="submit" className="font-bold">
+					Sign In
+				</button>
+			</form>
+			<DevTool control={control} /> {/* set up the dev tool */}
+		</>
 	);
 };
