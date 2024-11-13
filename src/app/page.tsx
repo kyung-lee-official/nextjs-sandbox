@@ -296,6 +296,10 @@ export default function Home() {
 				title="Styles | Basic"
 				list={[
 					{
+						link: "/styles/basic/clippath",
+						text: "clippath",
+					},
+					{
 						link: "/styles/basic/gradient-text",
 						text: "gradient text",
 					},
