@@ -412,6 +412,10 @@ export default function Home() {
 						link: "/styles/menu/context-menu",
 						text: "context menu",
 					},
+					{
+						link: "/styles/menu/left-click-menu",
+						text: "left click menu",
+					},
 				]}
 			/>
 			<Block
