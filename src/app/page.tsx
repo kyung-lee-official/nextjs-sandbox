@@ -296,6 +296,10 @@ export default function Home() {
 				title="Styles | Basic"
 				list={[
 					{
+						link: "/styles/basic/aspect-ratio",
+						text: "aspect-ratio",
+					},
+					{
 						link: "/styles/basic/clippath",
 						text: "clippath",
 					},
