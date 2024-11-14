@@ -240,6 +240,10 @@ export default function Home() {
 					},
 					{ link: "/js/react/useref", text: "useRef" },
 					{ link: "/js/react/usetransition", text: "useTransition" },
+					{
+						link: "/js/react/resize-observer",
+						text: "work with resize observer",
+					},
 				]}
 			/>
 			<Block
