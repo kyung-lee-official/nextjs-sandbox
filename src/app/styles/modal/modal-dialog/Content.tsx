@@ -1,31 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Dialog from "./Dialog";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import { ModalDialog } from "./ModalDialog";
 
-const DialogPage = () => {
-	const dialogRef = useRef<HTMLDialogElement | null>(null);
-	const [showDialog, setShowDialog] = useState<boolean>(false);
+const Content = () => {
+	const [show, setShow] = useState(false);
 
 	return (
 		<div className="flex flex-col justify-center items-center gap-6 p-10">
 			<button
 				className="bg-black/10 hover:bg-black/20 px-2 py-1 rounded-md"
-				onClick={() => {
-					if (dialogRef.current) {
-						dialogRef.current.showModal();
-						setShowDialog(true);
-					}
-				}}
+				onClick={() => setShow(!show)}
 			>
 				Open Modal
 			</button>
-			<Dialog
-				ref={dialogRef}
-				showDialog={showDialog}
-				setShowDialog={setShowDialog}
-			/>
-			{[...Array(10)].map((_, i) => {
+			{show &&
+				createPortal(<ModalDialog setShow={setShow} />, document.body)}
+			{[...Array(15)].map((_, i) => {
 				return (
 					<div key={i}>
 						Lorem ipsum, dolor sit amet consectetur adipisicing
@@ -40,4 +32,4 @@ const DialogPage = () => {
 	);
 };
 
-export default DialogPage;
+export default Content;

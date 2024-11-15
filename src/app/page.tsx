@@ -350,11 +350,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
-				title="Styles | Dialog"
+				title="Styles | Modal (Portal)"
 				list={[
 					{
-						link: "/styles/dialog/basic",
-						text: "basic",
+						link: "/styles/modal/modal-dialog",
+						text: "traditional modal dialog",
+					},
+					{
+						link: "/styles/modal/dialog",
+						text: "html dialog",
 					},
 				]}
 			/>
