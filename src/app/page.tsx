@@ -227,6 +227,14 @@ export default function Home() {
 						text: "context",
 					},
 					{
+						link: "/js/react/event-listener",
+						text: "event listener",
+					},
+					{
+						link: "/js/react/functional-update",
+						text: "functional update",
+					},
+					{
 						link: "/js/react/suspense",
 						text: "Suspense",
 					},
@@ -261,10 +269,6 @@ export default function Home() {
 					{
 						link: "/js/vanilla/drag-and-drop",
 						text: "drag and drop",
-					},
-					{
-						link: "/js/vanilla/event-listener",
-						text: "event listener",
 					},
 					{ link: "/js/vanilla/new-date", text: "new date" },
 				]}
