@@ -361,6 +361,10 @@ export default function Home() {
 						text: "traditional modal dialog",
 					},
 					{
+						link: "/styles/modal/modal-dialog-example",
+						text: "traditional modal dialog example",
+					},
+					{
 						link: "/styles/modal/dialog",
 						text: "html dialog",
 					},
