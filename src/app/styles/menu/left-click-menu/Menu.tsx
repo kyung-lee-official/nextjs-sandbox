@@ -4,6 +4,7 @@ import {
 	SetStateAction,
 	useCallback,
 	useEffect,
+	useRef,
 } from "react";
 
 type MenuProps = {
@@ -14,22 +15,31 @@ type MenuProps = {
 export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 	const { show, setShow } = props;
 	const entryRef = ref as React.MutableRefObject<HTMLButtonElement>;
+	const menuRef = useRef<HTMLDivElement>(null);
 
 	const handleClick = useCallback((e: any) => {
 		if (entryRef.current) {
-			if (e.target === entryRef.current) {
+			if (
+				e.target === entryRef.current ||
+				entryRef.current.contains(e.target)
+			) {
 				/* entry clicked */
 				setShow((state) => {
 					return !state;
 				});
 			} else {
-				/* menu item clicked */
-				if (entryRef.current.contains(e.target)) {
-					/* do nothing or hide menu, up to you */
-					// setShow(false);
-				} else {
-					/* outside clicked */
-					setShow(false);
+				if (menuRef.current) {
+					/* menu clicked */
+					if (
+						menuRef.current.contains(e.target) ||
+						menuRef.current.contains(e.target)
+					) {
+						/* do nothing or hide menu, up to you */
+						// setShow(false);
+					} else {
+						/* outside clicked */
+						setShow(false);
+					}
 				}
 			}
 		}
@@ -50,31 +60,33 @@ export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 				rounded-md shadow-lg cursor-pointer"
 			>
 				Left click this Menu.
-				{show && (
-					<div
-						className="absolute 
-						flex flex-col top-12
-						bg-gray-200/80 rounded-md shadow-lg"
-					>
-						<button
-							className="p-2"
-							onClick={() => {
-								console.log("Keep");
-							}}
-						>
-							Keep
-						</button>
-						<button
-							className="p-2"
-							onClick={() => {
-								setShow(false);
-							}}
-						>
-							Hide
-						</button>
-					</div>
-				)}
 			</button>
+			{/* note that menu is not a child of entry */}
+			{show && (
+				<div
+					ref={menuRef}
+					className="absolute 
+					flex flex-col top-12
+					bg-gray-200/80 rounded-md shadow-lg"
+				>
+					<button
+						className="p-2"
+						onClick={() => {
+							/* do nothing */
+						}}
+					>
+						Keep
+					</button>
+					<button
+						className="p-2"
+						onClick={() => {
+							setShow(false);
+						}}
+					>
+						Hide
+					</button>
+				</div>
+			)}
 		</div>
 	);
 });
