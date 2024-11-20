@@ -1,16 +1,4 @@
-import {
-	Dispatch,
-	SetStateAction,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
-
-type MenuProps = {
-	show: boolean;
-	setShow: Dispatch<SetStateAction<boolean>>;
-};
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const Menu = () => {
 	// const { show, setShow } = props;
