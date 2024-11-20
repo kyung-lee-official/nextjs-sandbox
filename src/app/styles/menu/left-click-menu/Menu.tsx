@@ -1,10 +1,10 @@
 import {
 	Dispatch,
-	forwardRef,
 	SetStateAction,
 	useCallback,
 	useEffect,
 	useRef,
+	useState,
 } from "react";
 
 type MenuProps = {
@@ -12,8 +12,10 @@ type MenuProps = {
 	setShow: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Menu = (props: MenuProps) => {
-	const { show, setShow } = props;
+export const Menu = () => {
+	// const { show, setShow } = props;
+	const [show, setShow] = useState<boolean>(false);
+
 	const entryRef = useRef<HTMLButtonElement>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
 
