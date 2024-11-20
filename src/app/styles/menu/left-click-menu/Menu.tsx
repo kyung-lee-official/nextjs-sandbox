@@ -12,9 +12,9 @@ type MenuProps = {
 	setShow: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
+export const Menu = (props: MenuProps) => {
 	const { show, setShow } = props;
-	const entryRef = ref as React.MutableRefObject<HTMLButtonElement>;
+	const entryRef = useRef<HTMLButtonElement>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const handleClick = useCallback((e: any) => {
@@ -89,4 +89,4 @@ export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 			)}
 		</div>
 	);
-});
+};

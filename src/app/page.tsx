@@ -438,7 +438,7 @@ export default function Home() {
 					},
 					{
 						link: "/styles/menu/left-click-menu",
-						text: "left click menu",
+						text: "left click menu (popover)",
 					},
 				]}
 			/>
