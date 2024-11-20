@@ -13,7 +13,7 @@ type MenuProps = {
 
 export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 	const { show, setShow } = props;
-	const entryRef = ref as React.MutableRefObject<HTMLDivElement>;
+	const entryRef = ref as React.MutableRefObject<HTMLButtonElement>;
 
 	const handleClick = useCallback((e: any) => {
 		if (entryRef.current) {
@@ -44,7 +44,7 @@ export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 
 	return (
 		<div className="relative w-fit">
-			<div
+			<button
 				ref={entryRef}
 				className="p-2 bg-black/30 hover:bg-black/40
 				rounded-md shadow-lg cursor-pointer"
@@ -74,7 +74,7 @@ export const Menu = forwardRef(function Menu(props: MenuProps, ref) {
 						</button>
 					</div>
 				)}
-			</div>
+			</button>
 		</div>
 	);
 });

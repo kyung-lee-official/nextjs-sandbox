@@ -6,7 +6,7 @@ import { Menu } from "./Menu";
 
 const Content = () => {
 	const [show, setShow] = useState<boolean>(false);
-	const entryRef = useRef<HTMLDivElement | null>(null);
+	const entryRef = useRef<HTMLButtonElement | null>(null);
 
 	return (
 		<div className="flex flex-col p-10 gap-3">
