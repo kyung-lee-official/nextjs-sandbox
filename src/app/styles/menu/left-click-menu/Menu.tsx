@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const Menu = () => {
-	// const { show, setShow } = props;
 	const [show, setShow] = useState<boolean>(false);
 
 	const entryRef = useRef<HTMLButtonElement>(null);
@@ -21,7 +20,7 @@ export const Menu = () => {
 				if (menuRef.current) {
 					/* menu clicked */
 					if (
-						menuRef.current.contains(e.target) ||
+						e.target === menuRef.current ||
 						menuRef.current.contains(e.target)
 					) {
 						/* do nothing or hide menu, up to you */
@@ -55,8 +54,8 @@ export const Menu = () => {
 			{show && (
 				<div
 					ref={menuRef}
-					className="absolute 
-					flex flex-col top-12
+					className="absolute top-12
+					flex flex-col
 					bg-gray-200/80 rounded-md shadow-lg"
 				>
 					<button
