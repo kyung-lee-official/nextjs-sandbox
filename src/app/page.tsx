@@ -394,6 +394,14 @@ export default function Home() {
 						link: "/styles/form-and-input/zod-and-react-hook-form",
 						text: "zod and react-hook-form",
 					},
+					{
+						link: "/styles/date/date-picker",
+						text: "Date Picker",
+					},
+					{
+						link: "/styles/date/date-range-picker",
+						text: "Date Range Picker",
+					},
 				]}
 			/>
 			<Block
