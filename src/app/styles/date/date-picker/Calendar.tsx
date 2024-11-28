@@ -1,7 +1,55 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { DatePickerProps } from "./DatePicker";
-import { ChevronLeft, ChevronRight } from "./icons/arrows";
+import { ChevronLeft, ChevronRight } from "../icons/arrows";
 import dayjs from "dayjs";
+
+const Button = (props: {
+	children: React.ReactNode;
+	isFade: boolean;
+	isSelected: boolean;
+	onClick: () => void;
+}) => {
+	const { children, isFade, isSelected, onClick } = props;
+
+	if (isSelected) {
+		return (
+			<button
+				className="w-7 h-7
+				text-white
+				bg-blue-500
+				rounded-full"
+				onClick={onClick}
+			>
+				{children}
+			</button>
+		);
+	}
+
+	if (isFade) {
+		return (
+			<button
+				className="w-7 h-7
+				text-white/40 hover:text-blue-500
+				hover:bg-blue-500/30
+				rounded-full"
+				onClick={onClick}
+			>
+				{children}
+			</button>
+		);
+	}
+	return (
+		<button
+			className="w-7 h-7
+			text-white hover:text-blue-500
+			hover:bg-blue-500/30
+			rounded-full"
+			onClick={onClick}
+		>
+			{children}
+		</button>
+	);
+};
 
 type CalendarProps = DatePickerProps & {
 	setShow: Dispatch<SetStateAction<boolean>>;
@@ -80,43 +128,46 @@ export const Calendar = (props: CalendarProps) => {
 				{calendar.map((d, i) => {
 					if (i < dayOfWeek) {
 						return (
-							<button
+							<Button
 								key={i}
-								className="text-white/40"
+								isFade={true}
+								isSelected={d.isSame(date, "day")}
 								onClick={() => {
 									setDate(d);
 									setShow(false);
 								}}
 							>
 								{d.date()}
-							</button>
+							</Button>
 						);
 					}
 					if (i < dayOfWeek + daysInMonth) {
 						return (
-							<button
+							<Button
 								key={i}
-								className="text-white"
+								isFade={false}
+								isSelected={d.isSame(date, "day")}
 								onClick={() => {
 									setDate(d);
 									setShow(false);
 								}}
 							>
 								{d.date()}
-							</button>
+							</Button>
 						);
 					}
 					return (
-						<button
+						<Button
 							key={i}
-							className="text-white/40"
+							isFade={true}
+							isSelected={d.isSame(date, "day")}
 							onClick={() => {
 								setDate(d);
 								setShow(false);
 							}}
 						>
 							{d.date()}
-						</button>
+						</Button>
 					);
 				})}
 			</div>
