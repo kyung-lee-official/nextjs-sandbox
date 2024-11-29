@@ -62,7 +62,7 @@ export const Calendar = (props: CalendarProps) => {
 	const calendar: dayjs.Dayjs[] = [];
 	/* first date of the month */
 	const firstDate = calendarDate.date(1);
-	/* get day of the week (0-6)*/
+	/* get day of the week (0-6) */
 	const dayOfWeek = firstDate.day();
 	new Array(dayOfWeek).fill(null).map((_, i) => {
 		return calendar.push(firstDate.subtract(dayOfWeek - i, "day"));
