@@ -1,5 +1,11 @@
+import { Content } from "./Content";
+
 const Page = () => {
-	return <div>date rage picker</div>;
+	return (
+		<div className="p-4">
+			<Content />
+		</div>
+	);
 };
 
 export default Page;
