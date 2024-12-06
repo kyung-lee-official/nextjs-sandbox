@@ -68,6 +68,9 @@ export const DatePicker = (props: DatePickerProps) => {
 				text-white/70
 				bg-neutral-700
 				rounded"
+				onClick={(e) => {
+					e.preventDefault();
+				}}
 			>
 				{date.format("MMM DD, YYYY")}
 			</button>

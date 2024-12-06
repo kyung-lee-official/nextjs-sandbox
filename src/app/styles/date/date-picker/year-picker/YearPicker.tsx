@@ -57,6 +57,9 @@ export const YearPicker = (props: DatePickerProps) => {
 				bg-neutral-700
 				rounded border-[1px] border-white/10 border-t-white/15
 				whitespace-nowrap"
+				onClick={(e) => {
+					e.preventDefault();
+				}}
 			>
 				{date.format("YYYY")}
 			</button>
