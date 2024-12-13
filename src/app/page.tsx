@@ -420,8 +420,12 @@ export default function Home() {
 						text: "header flexbox",
 					},
 					{
-						link: "/styles/layout/flexbox-overflow",
-						text: "flexbox-overflow",
+						link: "/styles/layout/flexbox-overflow-x",
+						text: "flexbox-overflow-x",
+					},
+					{
+						link: "/styles/layout/flexbox-overflow-y",
+						text: "flexbox-overflow-y",
 					},
 					{
 						link: "/styles/layout/grid",
