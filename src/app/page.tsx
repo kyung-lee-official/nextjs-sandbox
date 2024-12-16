@@ -235,6 +235,10 @@ export default function Home() {
 						text: "functional update",
 					},
 					{
+						link: "/js/react/generics/arrow-component",
+						text: "generics | arrow component",
+					},
+					{
 						link: "/js/react/suspense",
 						text: "Suspense",
 					},
