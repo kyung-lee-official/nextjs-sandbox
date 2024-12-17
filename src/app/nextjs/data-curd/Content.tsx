@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
 export const Content = () => {
-	/* the reason to fill oldData is to avoid 'undefined' value, however you could use 'undefined' if you want */
+	/**
+	 * the reason to fill oldData is to avoid 'undefined' value, however you could use 'undefined' if you want.
+	 * the initial data doesn't matter, because you could use a loading UI to block the form and pervent user from submitting
+	 * until data from server is fetched.
+	 */
 	const [oldData, setOldData] = useState<UserResponse>({
 		id: 0,
 		name: "",
