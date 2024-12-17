@@ -265,6 +265,10 @@ export default function Home() {
 						link: "/nextjs/usepathname",
 						text: "usePathname",
 					},
+					{
+						link: "/nextjs/data-curd",
+						text: "data CURD best practice",
+					},
 				]}
 			/>
 			<Block
