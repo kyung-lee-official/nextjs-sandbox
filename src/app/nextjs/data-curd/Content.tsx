@@ -54,11 +54,22 @@ export const Content = () => {
 	/* for initializing data */
 	useEffect(() => {
 		if (usersQuery.data) {
-			const initialData = usersQuery.data;
+			/**
+			 * DON'T DO THIS:
+			 * const initialData = usersQuery.data;
+			 *
+			 * because if you're creating a new object, you don't need the 'id' property.
+			 * response data structure doesn't always match the structure of the object you're using in the form.
+			 */
+			const initialData = {
+				id: usersQuery.data.id,
+				name: usersQuery.data.name,
+				age: usersQuery.data.age,
+			};
 			setOldData(initialData);
+			setNewData(initialData);
 			setName(initialData.name);
 			setAge(initialData.age);
-			setNewData(initialData);
 		}
 	}, [usersQuery.data]);
 
