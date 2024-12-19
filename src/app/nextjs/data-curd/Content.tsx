@@ -41,13 +41,13 @@ export const Content = () => {
 			 * this is where you can recompose the data to match the API in case the data structure is different,
 			 * if the data structure is the same, you can just pass the newData
 			 */
-			const body = {
+			const dto = {
 				name: newData.name,
 				age: newData.age,
 			};
 			const res = await axios.patch<UserResponse>(
 				"/api/update-data",
-				body
+				dto
 			);
 			return res.data;
 		},
