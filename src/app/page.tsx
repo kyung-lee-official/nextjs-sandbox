@@ -259,6 +259,22 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Javascript | Vanilla"
+				list={[
+					{
+						link: "/js/vanilla/drag-and-drop",
+						text: "drag and drop",
+					},
+					{ link: "/js/vanilla/new-date", text: "new date" },
+				]}
+			/>
+			<Block
+				title="Libraries"
+				list={[
+					{ link: "/libraries/local-library", text: "local library" },
+				]}
+			/>
+			<Block
 				title="NextJS"
 				list={[
 					{
@@ -269,16 +285,6 @@ export default function Home() {
 						link: "/nextjs/data-curd",
 						text: "data CURD best practice",
 					},
-				]}
-			/>
-			<Block
-				title="Javascript | Vanilla"
-				list={[
-					{
-						link: "/js/vanilla/drag-and-drop",
-						text: "drag and drop",
-					},
-					{ link: "/js/vanilla/new-date", text: "new date" },
 				]}
 			/>
 			<Block
