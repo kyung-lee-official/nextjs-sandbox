@@ -21,7 +21,11 @@ const Block = ({
 			<div className="flex flex-col">
 				{list.map((item) => {
 					return (
-						<Link key={item.link} href={item.link}>
+						<Link
+							key={item.link}
+							href={item.link}
+							className="hover:underline"
+						>
 							{item.text}
 						</Link>
 					);
