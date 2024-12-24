@@ -24,6 +24,28 @@ export const Content = () => {
 			>
 				useReducer
 			</Link>
+			fooState: {JSON.stringify(fooState)}
+			<button
+				onClick={() => {
+					fooDispatch({ type: "add", payload: "a" });
+				}}
+			>
+				add a
+			</button>
+			<button
+				onClick={() => {
+					fooDispatch({ type: "add", payload: "b" });
+				}}
+			>
+				add b
+			</button>
+			<button
+				onClick={() => {
+					fooDispatch({ type: "subtract" });
+				}}
+			>
+				subtract both
+			</button>
 		</div>
 	);
 };
