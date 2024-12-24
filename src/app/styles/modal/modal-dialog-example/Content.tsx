@@ -28,9 +28,18 @@ const Content = () => {
 			>
 				Edit Email
 			</button>
-			In this case, we use a transparent layer as a click listener to
-			detect click outside the edit panel. A ref `listenerRef` is used to
-			add click event listener.
+			<p>
+				In this case, we use a transparent layer as a click listener to
+				detect click outside the edit panel. A ref `listenerRef` is used
+				to add click event listener.
+			</p>
+			<p>
+				note that when using a modal dialog component, do not placing
+				the component inside of a map function and control its
+				visibility with a shared state, or it will cause multiple
+				dialogs to overlay on top of each other, and you will only be
+				able to see the last one.
+			</p>
 			{createPortal(
 				<EditPanel edit={edit} setEdit={setEdit} />,
 				document.body
