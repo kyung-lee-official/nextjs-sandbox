@@ -4,13 +4,14 @@ import { EditContentName } from "./EditContentName";
 import { EditContentEmail } from "./EditContentEmail";
 
 export enum EditId {
-	NAME,
-	EMAIL,
+	NAME = "name",
+	EMAIL = "email",
 }
 
 export type EditProps = {
 	show: boolean;
 	id: EditId;
+	auxData?: any;
 };
 
 const DarkenMask = (props: { children: ReactNode }) => {

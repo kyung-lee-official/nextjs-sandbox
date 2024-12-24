@@ -255,6 +255,7 @@ export default function Home() {
 						text: "useEffect timer",
 					},
 					{ link: "/js/react/useref", text: "useRef" },
+					{ link: "js/react/usereducer", text: "useReducer" },
 					{ link: "/js/react/usetransition", text: "useTransition" },
 					{
 						link: "/js/react/resize-observer",
