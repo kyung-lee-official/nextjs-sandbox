@@ -219,7 +219,7 @@ export default function Home() {
 				title="Files"
 				list={[
 					{ link: "/files/image-cropper", text: "image cropper" },
-					{ link: "/files/file-transmit", text: "file transmit" },
+					{ link: "/files/file-transmit", text: "file transmit (upload and download)" },
 					{ link: "/files/tencent-cos", text: "tencent cos" },
 				]}
 			/>
