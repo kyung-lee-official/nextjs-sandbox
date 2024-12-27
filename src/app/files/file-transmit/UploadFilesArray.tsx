@@ -17,7 +17,7 @@ export const UploadFilesArray = () => {
 			data.append("files", files[i]);
 		}
 		const res = await axios.put(
-			`${process.env.NEXT_PUBLIC_NESTJS}/techniques/files-upload`,
+			`${process.env.NEXT_PUBLIC_NESTJS}/techniques/files-upload-array`,
 			data,
 			{
 				headers: {
