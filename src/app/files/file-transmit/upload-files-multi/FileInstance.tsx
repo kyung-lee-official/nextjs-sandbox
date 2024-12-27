@@ -1,11 +1,34 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { UnknownFileTypeIcon } from "./Icons";
+
+const Img = (props: {
+	isImage: boolean;
+	preview: string | undefined;
+	alt: string;
+	progress: number;
+}) => {
+	const { isImage, preview, alt, progress } = props;
+	if (isImage) {
+		return (
+			<img
+				src={preview}
+				alt={alt}
+				className={`object-cover w-full h-full
+				${progress === 1 ? "opacity-100" : "opacity-50"}`}
+			/>
+		);
+	} else {
+		return <UnknownFileTypeIcon size={100} />;
+	}
+};
 
 export const FileInstance = (props: { file: File }) => {
 	const { file } = props;
 
 	const [preview, setPreview] = useState<string>();
+	const [isImage, setIsImage] = useState<boolean>(false);
 	const [progress, setProgress] = useState(0);
 
 	const mutation = useMutation({
@@ -33,8 +56,15 @@ export const FileInstance = (props: { file: File }) => {
 
 	useEffect(() => {
 		if (file) {
-			const url = URL.createObjectURL(file);
-			setPreview(url);
+			/* check file type */
+			if (!file.type.startsWith("image/")) {
+				setIsImage(false);
+			} else {
+				setIsImage(true);
+				const url = URL.createObjectURL(file);
+				setPreview(url);
+			}
+
 			mutation.mutate();
 		}
 	}, [file]);
@@ -47,11 +77,11 @@ export const FileInstance = (props: { file: File }) => {
 				bg-white/50
 				rounded overflow-hidden"
 			>
-				<img
-					src={preview ? preview : "https://via.placeholder.com/150"}
+				<Img
+					isImage={isImage}
+					preview={preview}
 					alt={file.name}
-					className={`object-cover w-full h-full
-					${progress === 1 ? "opacity-100" : "opacity-50"}`}
+					progress={progress}
 				/>
 				<div className="absolute left-0 right-0 bottom-0 h-1">
 					<div

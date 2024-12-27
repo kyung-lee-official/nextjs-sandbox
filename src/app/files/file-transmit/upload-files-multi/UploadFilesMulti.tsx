@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
 import { FileInstance } from "./FileInstance";
 
@@ -54,7 +53,6 @@ export const UploadFilesMulti = () => {
 					className="hidden"
 				/>
 			</form>
-			{/* {progress} */}
 			<div
 				className="flex gap-2 min-w-96 min-h-32 p-2
 				bg-black/5
