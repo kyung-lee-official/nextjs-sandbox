@@ -4,9 +4,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { UploadFilesArray } from "./UploadFilesArray";
 import { UploadFilesAny } from "./UploadFilesAny";
-import { UploadFilesMulti } from "./upload-files-multi/UploadFilesMulti";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
 const DownloadBlob = () => {
 	const [progress, setProgress] = useState<string>("0%");
@@ -165,10 +162,6 @@ const Content = () => {
 			<UploadFilesArray />
 			<hr />
 			<UploadFilesAny />
-			<hr />
-			<QueryClientProvider client={queryClient}>
-				<UploadFilesMulti />
-			</QueryClientProvider>
 		</div>
 	);
 };
