@@ -1,10 +1,35 @@
-import { ChangeEvent, useRef, useState } from "react";
-import { FileInstance } from "./FileInstance";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { FileToUpload } from "./FileToUpload";
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { FileToPreview } from "./FileToPreview";
+
+export type Preview = {
+	name: string;
+	isImage: boolean;
+};
 
 export const UploadFilesMulti = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const [fileList, setFileList] = useState<File[] | null>(null);
+	const [fileList, setFileList] = useState<(File | Preview)[] | null>(null);
+
+	const previewQuery = useQuery<Preview[], AxiosError>({
+		queryKey: ["get-preview"],
+		queryFn: async () => {
+			const res = await axios.get<any>(
+				`${process.env.NEXT_PUBLIC_NESTJS}/techniques/preview-filelist`
+			);
+			return res.data;
+		},
+		retry: false,
+		refetchOnWindowFocus: false,
+	});
+	useEffect(() => {
+		if (previewQuery.data) {
+			setFileList(previewQuery.data);
+		}
+	}, [previewQuery.data]);
 
 	async function onFileChange(e: ChangeEvent<HTMLInputElement>) {
 		e.preventDefault();
@@ -54,15 +79,24 @@ export const UploadFilesMulti = () => {
 				/>
 			</form>
 			<div
-				className="flex gap-2 min-w-96 min-h-32 p-2
+				className="grid grid-cols-6 min-w-96 min-h-32 p-2 gap-2
 				bg-black/5
 				rounded"
 			>
 				{fileList &&
 					fileList.length > 0 &&
-					fileList.map((file, i) => (
-						<FileInstance key={i} file={file} />
-					))}
+					fileList.map((file, i) => {
+						if (file instanceof File) {
+							return <FileToUpload key={i} file={file} />;
+						} else {
+							return (
+								<FileToPreview
+									key={i}
+									preview={file as Preview}
+								/>
+							);
+						}
+					})}
 			</div>
 		</div>
 	);
