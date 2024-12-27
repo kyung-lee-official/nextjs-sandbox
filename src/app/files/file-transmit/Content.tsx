@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import React, { useState } from "react";
-const { VITE_SERVER_HOST } = process.env;
+import { UploadFilesArray } from "./UploadFilesArray";
 
 const DownloadBlob = () => {
 	const [progress, setProgress] = useState<string>("0%");
@@ -18,7 +18,7 @@ const DownloadBlob = () => {
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 				onClick={async () => {
 					const blob = await axios.get(
-						`${VITE_SERVER_HOST}/files/download`,
+						`${process.env.NEXT_PUBLIC_NESTJS}/techniques/file-download`,
 						{
 							responseType: "blob",
 							onDownloadProgress: (progressEvent) => {
@@ -60,7 +60,7 @@ const UploadFile = () => {
 					const file = e.target.file.files[0];
 					console.log(file);
 					axios.put(
-						`${VITE_SERVER_HOST}/files/upload`,
+						`${process.env.NEXT_PUBLIC_NESTJS}/techniques/file-upload`,
 						{ file: file },
 						{
 							headers: {
@@ -118,7 +118,7 @@ const UploadBlob = () => {
 					const blob = new Blob([file]);
 					const fileFromBlob = new File([blob], file.name);
 					axios.put(
-						`${VITE_SERVER_HOST}/files/upload`,
+						`${process.env.NEXT_PUBLIC_NESTJS}/techniques/file-upload`,
 						{ file: fileFromBlob },
 						{
 							headers: {
@@ -155,6 +155,8 @@ const Content = () => {
 			<DownloadBlob />
 			<hr />
 			<UploadFile />
+			<hr />
+			<UploadFilesArray />
 			<hr />
 			<UploadBlob />
 		</div>
