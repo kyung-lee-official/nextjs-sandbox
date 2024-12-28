@@ -4,15 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { FileToPreview } from "./FileToPreview";
 
+export type Item = File | Preview;
 export type Preview = {
 	name: string;
-	isImage: boolean;
+	hasThumbnail: boolean;
 };
 
 export const UploadFilesMulti = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const [fileList, setFileList] = useState<(File | Preview)[] | null>(null);
+	/* displayList = serverData + uploadList */
+	const [serverData, setServerData] = useState<Preview[]>([]);
+	const [uploadList, setUploadList] = useState<File[]>([]);
+	const [displayList, setDisplayList] = useState<Item[]>([]);
 
 	const previewQuery = useQuery<Preview[], AxiosError>({
 		queryKey: ["get-preview"],
@@ -27,19 +31,23 @@ export const UploadFilesMulti = () => {
 	});
 	useEffect(() => {
 		if (previewQuery.data) {
-			setFileList(previewQuery.data);
+			setServerData(previewQuery.data);
 		}
 	}, [previewQuery.data]);
 
 	async function onFileChange(e: ChangeEvent<HTMLInputElement>) {
 		e.preventDefault();
-		console.log(e.target.files);
-		const files = e.target.files as File[] | null;
+		const files = e.target.files;
 		if (!files) return;
-		console.log(files);
+		// console.log(files);
 		/* convert FileList to Array so it can be mapped */
-		setFileList(Array.from(files));
+		setUploadList(Array.from(files));
 	}
+	useEffect(() => {
+		if (uploadList) {
+			setDisplayList([...serverData, ...uploadList]);
+		}
+	}, [serverData, uploadList]);
 
 	return (
 		<div className="flex flex-col justify-center items-start gap-2">
@@ -62,7 +70,7 @@ export const UploadFilesMulti = () => {
 				onClick={() => {
 					/* clear the input field */
 					inputRef.current!.value = "";
-					setFileList(null);
+					setUploadList([]);
 					/* trigger the input field */
 					inputRef.current?.click();
 				}}
@@ -79,22 +87,23 @@ export const UploadFilesMulti = () => {
 				/>
 			</form>
 			<div
-				className="grid grid-cols-6 min-w-96 min-h-32 p-2 gap-2
+				className="grid grid-cols-5 min-w-96 min-h-32 p-2 gap-2
 				bg-black/5
 				rounded"
 			>
-				{fileList &&
-					fileList.length > 0 &&
-					fileList.map((file, i) => {
+				{displayList.length > 0 &&
+					displayList.map((file, i) => {
 						if (file instanceof File) {
-							return <FileToUpload key={i} file={file} />;
-						} else {
 							return (
-								<FileToPreview
+								<FileToUpload
 									key={i}
-									preview={file as Preview}
+									file={file}
+									uploadList={uploadList}
+									setUploadList={setUploadList}
 								/>
 							);
+						} else {
+							return <FileToPreview key={i} preview={file} />;
 						}
 					})}
 			</div>

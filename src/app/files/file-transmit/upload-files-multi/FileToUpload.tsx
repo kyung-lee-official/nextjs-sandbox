@@ -1,34 +1,18 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UnknownFileTypeIcon } from "./Icons";
+import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
-const Img = (props: {
-	isImage: boolean;
-	preview: string | undefined;
-	alt: string;
-	progress: number;
+export const FileToUpload = (props: {
+	file: File;
+	uploadList: File[];
+	setUploadList: Dispatch<SetStateAction<File[]>>;
 }) => {
-	const { isImage, preview, alt, progress } = props;
-	if (isImage) {
-		return (
-			<img
-				src={preview}
-				alt={alt}
-				className={`object-cover w-full h-full
-				${progress === 1 ? "opacity-100" : "opacity-50"}`}
-			/>
-		);
-	} else {
-		return <UnknownFileTypeIcon size={100} />;
-	}
-};
+	const { file, uploadList, setUploadList } = props;
 
-export const FileToUpload = (props: { file: File }) => {
-	const { file } = props;
-
-	const [preview, setPreview] = useState<string>();
-	const [isImage, setIsImage] = useState<boolean>(false);
+	const [url, setUrl] = useState<string>();
+	const [hasThumbnail, setHasThumbnail] = useState<boolean>(false);
 	const [progress, setProgress] = useState(0);
 
 	const mutation = useMutation({
@@ -52,17 +36,26 @@ export const FileToUpload = (props: { file: File }) => {
 			);
 			return res.data;
 		},
+		onSuccess: () => {
+			setProgress(1);
+			/* remove the uploaded file from the list */
+			const newList = uploadList.filter((item) => item !== file);
+			setUploadList(newList);
+			/* update the display list */
+			queryClient.invalidateQueries({
+				queryKey: ["get-preview"],
+			});
+		},
 	});
 
 	useEffect(() => {
 		if (file) {
 			/* check file type */
 			if (!file.type.startsWith("image/")) {
-				setIsImage(false);
+				setHasThumbnail(false);
 			} else {
-				setIsImage(true);
-				const url = URL.createObjectURL(file);
-				setPreview(url);
+				setHasThumbnail(true);
+				setUrl(URL.createObjectURL(file));
 			}
 
 			mutation.mutate();
@@ -77,12 +70,22 @@ export const FileToUpload = (props: { file: File }) => {
 				bg-white/50
 				rounded overflow-hidden"
 			>
-				<Img
-					isImage={isImage}
-					preview={preview}
-					alt={file.name}
-					progress={progress}
-				/>
+				{hasThumbnail ? (
+					<img
+						src={url}
+						alt={file.name}
+						className={`object-cover w-full h-full
+						${progress === 1 ? "opacity-100" : "opacity-50"}`}
+					/>
+				) : (
+					<div
+						className={
+							progress === 1 ? "opacity-100" : "opacity-50"
+						}
+					>
+						<UnknownFileTypeIcon title={file.name} size={100} />
+					</div>
+				)}
 				<div className="absolute left-0 right-0 bottom-0 h-1">
 					<div
 						className={`h-full 
