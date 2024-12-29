@@ -17,7 +17,7 @@ type ImageProps =
 			className?: string;
 	  };
 
-export const ZoomableImage = (
+export const Zoomable = (
 	props: ImgHTMLAttributes<HTMLImageElement> & ImageProps
 ) => {
 	const {
