@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UnknownFileTypeIcon } from "./Icons";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
+import { isImageType, isVideoType } from "./types";
 
 export const FileToUpload = (props: {
 	file: File;
@@ -10,9 +11,9 @@ export const FileToUpload = (props: {
 	setUploadList: Dispatch<SetStateAction<File[]>>;
 }) => {
 	const { file, uploadList, setUploadList } = props;
+	const filetype = file.name.split(".").pop() as string;
 
 	const [url, setUrl] = useState<string>();
-	const [hasThumbnail, setHasThumbnail] = useState<boolean>(false);
 	const [progress, setProgress] = useState(0);
 
 	const mutation = useMutation({
@@ -50,12 +51,6 @@ export const FileToUpload = (props: {
 
 	useEffect(() => {
 		if (file) {
-			/* check if the file has a thumbnail */
-			if (!hasThumbnail) {
-				setHasThumbnail(false);
-			} else {
-				setHasThumbnail(true);
-			}
 			setUrl(URL.createObjectURL(file));
 			mutation.mutate();
 		}
@@ -68,20 +63,21 @@ export const FileToUpload = (props: {
 				flex flex-col w-28 h-28 gap-2
 				bg-white/50"
 			>
-				{hasThumbnail ? (
-					file.name.endsWith(".mp4") ? (
-						<video className="object-cover w-full h-full">
-							<source src={url} type="video/mp4" />
-						</video>
-					) : (
-						<img
-							src={url}
-							alt={file.name}
-							className={`object-cover w-full h-full
+				{isImageType(filetype) ? (
+					<img
+						src={url}
+						alt={file.name}
+						className={`object-cover w-full h-full
 						${progress === 1 ? "opacity-100" : "opacity-50"}`}
-						/>
-					)
+					/>
+				) : isVideoType(filetype) ? (
+					<video
+						src={url}
+						className={`object-cover w-full h-full
+						${progress === 1 ? "opacity-100" : "opacity-50"}`}
+					/>
 				) : (
+					/* unknown file type */
 					<div
 						className={
 							progress === 1 ? "opacity-100" : "opacity-50"

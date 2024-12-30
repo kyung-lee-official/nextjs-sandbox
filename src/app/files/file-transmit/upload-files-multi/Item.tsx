@@ -14,17 +14,7 @@ import {
 } from "./Icons";
 import { DeleteConfirmDialog } from "@/app/components/delete-confirmation/DeleteConfirmDialog";
 import { Square } from "./Square";
-
-type ImageType = "jpg" | "jpeg" | "png" | "gif";
-type VideoType = "mp4" | "avi";
-
-function isImageType(type: string): type is ImageType {
-	return ["jpg", "jpeg", "png", "gif"].includes(type);
-}
-
-function isVideoType(type: string): type is VideoType {
-	return ["mp4", "avi"].includes(type);
-}
+import { isImageType, isVideoType } from "./types";
 
 type FileProps = {
 	name: string;
