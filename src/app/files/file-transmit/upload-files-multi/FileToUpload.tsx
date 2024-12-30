@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UnknownFileTypeIcon } from "./Icons";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { isImageType, isVideoType } from "./types";
+import { Square } from "./Square";
 
 export const FileToUpload = (props: {
 	file: File;
@@ -58,11 +59,7 @@ export const FileToUpload = (props: {
 
 	if (file) {
 		return (
-			<div
-				className="relative
-				flex flex-col w-28 h-28 gap-2
-				bg-white/50"
-			>
+			<Square>
 				{isImageType(filetype) ? (
 					<img
 						src={url}
@@ -89,13 +86,13 @@ export const FileToUpload = (props: {
 				<div className="absolute left-0 right-0 bottom-0 h-1">
 					<div
 						className={`h-full 
-						bg-blue-400 ${progress === 1 && "hidden"}`}
+						bg-sky-400 ${progress === 1 && "hidden"}`}
 						style={{
 							width: `${progress * 100}%`,
 						}}
 					/>
 				</div>
-			</div>
+			</Square>
 		);
 	}
 	return null;
