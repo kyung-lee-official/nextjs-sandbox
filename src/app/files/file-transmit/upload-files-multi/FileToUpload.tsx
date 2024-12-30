@@ -50,14 +50,13 @@ export const FileToUpload = (props: {
 
 	useEffect(() => {
 		if (file) {
-			/* check file type */
-			if (!file.type.startsWith("image/")) {
+			/* check if the file has a thumbnail */
+			if (!hasThumbnail) {
 				setHasThumbnail(false);
 			} else {
 				setHasThumbnail(true);
-				setUrl(URL.createObjectURL(file));
 			}
-
+			setUrl(URL.createObjectURL(file));
 			mutation.mutate();
 		}
 	}, [file]);
@@ -67,16 +66,21 @@ export const FileToUpload = (props: {
 			<div
 				className="relative
 				flex flex-col w-28 h-28 gap-2
-				bg-white/50
-				rounded overflow-hidden"
+				bg-white/50"
 			>
 				{hasThumbnail ? (
-					<img
-						src={url}
-						alt={file.name}
-						className={`object-cover w-full h-full
+					file.name.endsWith(".mp4") ? (
+						<video className="object-cover w-full h-full">
+							<source src={url} type="video/mp4" />
+						</video>
+					) : (
+						<img
+							src={url}
+							alt={file.name}
+							className={`object-cover w-full h-full
 						${progress === 1 ? "opacity-100" : "opacity-50"}`}
-					/>
+						/>
+					)
 				) : (
 					<div
 						className={

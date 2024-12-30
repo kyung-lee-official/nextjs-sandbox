@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { FileToUpload } from "./FileToUpload";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -8,6 +8,21 @@ export type Item = File | Preview;
 export type Preview = {
 	name: string;
 	hasThumbnail: boolean;
+};
+
+const Square = (props: { children: ReactNode }) => {
+	const { children } = props;
+	return (
+		<div
+			className="relative
+			flex justify-center items-center aspect-square w-28
+			bg-white/30
+			rounded-md overflow-hidden"
+		>
+			{children}
+			{/* <div className="w-full h-full">{children}</div> */}
+		</div>
+	);
 };
 
 export const UploadFilesMulti = () => {
@@ -87,23 +102,28 @@ export const UploadFilesMulti = () => {
 				/>
 			</form>
 			<div
-				className="grid grid-cols-5 min-w-96 min-h-32 p-2 gap-2
-				bg-black/5
+				className="grid grid-cols-4 min-w-96 min-h-32 p-2 gap-2
+				bg-black
 				rounded"
 			>
 				{displayList.length > 0 &&
 					displayList.map((file, i) => {
 						if (file instanceof File) {
 							return (
-								<FileToUpload
-									key={i}
-									file={file}
-									uploadList={uploadList}
-									setUploadList={setUploadList}
-								/>
+								<Square key={i}>
+									<FileToUpload
+										file={file}
+										uploadList={uploadList}
+										setUploadList={setUploadList}
+									/>
+								</Square>
 							);
 						} else {
-							return <FileToPreview key={i} preview={file} />;
+							return (
+								<Square key={i}>
+									<FileToPreview key={i} preview={file} />
+								</Square>
+							);
 						}
 					})}
 			</div>

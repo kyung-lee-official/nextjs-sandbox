@@ -4,16 +4,16 @@ import { Preview } from "./UploadFilesMulti";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
-import { DeleteConfirmDialog } from "@/app/components/delete-confirmation/DeleteConfirmDialog";
+import { MediaType, Zoomable } from "@/app/styles/basic/zoomable/Zoomable";
 
 export const FileToPreview = (props: { preview: Preview }) => {
 	const { preview } = props;
-	const { hasThumbnail, name } = preview;
-	const [image, setImage] = useState<string>();
-	const [showDelete, setShowDelete] = useState(false);
+	const { name, hasThumbnail } = preview;
+	const type = name.split(".").pop() as MediaType;
+	const [url, setUrl] = useState<string>();
 
-	const imageBlobQuery = useQuery({
-		queryKey: ["get-image-blob", name],
+	const fileBlobQuery = useQuery({
+		queryKey: ["get-file-blob", name],
 		queryFn: async () => {
 			const blob = await axios.get(
 				`${process.env.NEXT_PUBLIC_NESTJS}/techniques/preview-image/${name}`,
@@ -21,7 +21,7 @@ export const FileToPreview = (props: { preview: Preview }) => {
 					responseType: "blob",
 				}
 			);
-			setImage(URL.createObjectURL(blob.data));
+			setUrl(URL.createObjectURL(blob.data));
 			return blob;
 		},
 		retry: false,
@@ -32,23 +32,23 @@ export const FileToPreview = (props: { preview: Preview }) => {
 		await axios.delete(
 			`${process.env.NEXT_PUBLIC_NESTJS}/techniques/delete-file/${name}`
 		);
-		setShowDelete(false);
 		queryClient.invalidateQueries({
 			queryKey: ["get-preview"],
 		});
 	}
 
 	return (
-		<div
-			className="relative
-			rounded-md overflow-hidden"
-		>
+		<div>
 			{hasThumbnail ? (
-				image ? (
-					<img
-						src={image}
+				url ? (
+					<Zoomable
+						mode="upload"
+						filetype={type}
+						src={url}
 						alt={name}
 						title={name}
+						question="Are you sure you want to delete this file?"
+						onDelete={onDelete}
 						className={`object-cover w-full h-full`}
 					/>
 				) : (
@@ -64,23 +64,6 @@ export const FileToPreview = (props: { preview: Preview }) => {
 			) : (
 				<UnknownFileTypeIcon title={name} size={100} />
 			)}
-			<button
-				className="absolute left-0 right-0 bottom-0 h-5
-				flex justify-center items-center
-				text-sm text-white
-				bg-black/40"
-				onClick={() => {
-					setShowDelete(true);
-				}}
-			>
-				Delete
-			</button>
-			<DeleteConfirmDialog
-				show={showDelete}
-				setShow={setShowDelete}
-				question="Are you sure you want to delete this file?"
-				onDelete={onDelete}
-			/>
 		</div>
 	);
 };
