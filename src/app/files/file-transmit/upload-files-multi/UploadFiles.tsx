@@ -7,25 +7,9 @@ import { FileToPreview } from "./FileToPreview";
 export type Item = File | Preview;
 export type Preview = {
 	name: string;
-	hasThumbnail: boolean;
 };
 
-const Square = (props: { children: ReactNode }) => {
-	const { children } = props;
-	return (
-		<div
-			className="relative
-			flex justify-center items-center aspect-square w-28
-			bg-white/30
-			rounded-md overflow-hidden"
-		>
-			{children}
-			{/* <div className="w-full h-full">{children}</div> */}
-		</div>
-	);
-};
-
-export const UploadFilesMulti = () => {
+export const UploadFiles = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	/* displayList = serverData + uploadList */
@@ -66,17 +50,6 @@ export const UploadFilesMulti = () => {
 
 	return (
 		<div className="flex flex-col justify-center items-start gap-2">
-			<h1 className="text-lg">Upload Files (one by one in a loop)</h1>
-			<p>The files are uploaded in multipart/form-data format.</p>
-			<p>
-				Essentially the same as uploading a single file, but do it in a
-				loop for each file in the array.
-			</p>
-			<p>
-				Throttle down (fast 4G) your network in the dev tools to test
-				this feature. The file will be uploaded to the server, check it
-				out in the server&apos;s file system.
-			</p>
 			<button
 				className="py-2 px-4
 				text-white font-bold
@@ -102,28 +75,23 @@ export const UploadFilesMulti = () => {
 				/>
 			</form>
 			<div
-				className="grid grid-cols-4 min-w-96 min-h-32 p-2 gap-2
+				className="grid grid-cols-4 justify-items-stretch w-[536px] min-h-32 p-2 gap-6
 				bg-black
-				rounded"
+				rounded-md"
 			>
 				{displayList.length > 0 &&
 					displayList.map((file, i) => {
 						if (file instanceof File) {
 							return (
-								<Square key={i}>
-									<FileToUpload
-										file={file}
-										uploadList={uploadList}
-										setUploadList={setUploadList}
-									/>
-								</Square>
+								<FileToUpload
+									key={i}
+									file={file}
+									uploadList={uploadList}
+									setUploadList={setUploadList}
+								/>
 							);
 						} else {
-							return (
-								<Square key={i}>
-									<FileToPreview key={i} preview={file} />
-								</Square>
-							);
+							return <FileToPreview key={i} preview={file} />;
 						}
 					})}
 			</div>

@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { ImageIcon, UnknownFileTypeIcon } from "./Icons";
-import { Preview } from "./UploadFilesMulti";
+import { ItemLoading } from "./Icons";
+import { Preview } from "./UploadFiles";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
-import { MediaType, Zoomable } from "@/app/styles/basic/zoomable/Zoomable";
+import { Item } from "@/app/files/file-transmit/upload-files-multi/Item";
 
 export const FileToPreview = (props: { preview: Preview }) => {
 	const { preview } = props;
-	const { name, hasThumbnail } = preview;
-	const type = name.split(".").pop() as MediaType;
+	const { name } = preview;
 	const [url, setUrl] = useState<string>();
 
 	const fileBlobQuery = useQuery({
@@ -39,30 +38,16 @@ export const FileToPreview = (props: { preview: Preview }) => {
 
 	return (
 		<div>
-			{hasThumbnail ? (
-				url ? (
-					<Zoomable
-						mode="upload"
-						filetype={type}
-						src={url}
-						alt={name}
-						title={name}
-						question="Are you sure you want to delete this file?"
-						onDelete={onDelete}
-						className={`object-cover w-full h-full`}
-					/>
-				) : (
-					<div
-						className="w-full h-full p-8
-						bg-black/20
-						animate-pulse
-						text-black/50"
-					>
-						<ImageIcon />
-					</div>
-				)
+			{fileBlobQuery.isPending ? (
+				<ItemLoading />
 			) : (
-				<UnknownFileTypeIcon title={name} size={100} />
+				<Item
+					name={name}
+					src={url}
+					question="Are you sure you want to delete this file?"
+					onDelete={onDelete}
+					className={`object-cover w-full h-full`}
+				/>
 			)}
 		</div>
 	);
