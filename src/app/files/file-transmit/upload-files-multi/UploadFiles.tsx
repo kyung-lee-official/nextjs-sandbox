@@ -3,6 +3,7 @@ import { FileToUpload } from "./FileToUpload";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { FileToPreview } from "./FileToPreview";
+import { getAttachmentListByEventId, UploadFilesQK } from "./api";
 
 export type Item = File | Preview;
 export type Preview = {
@@ -18,12 +19,10 @@ export const UploadFiles = () => {
 	const [displayList, setDisplayList] = useState<Item[]>([]);
 
 	const previewQuery = useQuery<Preview[], AxiosError>({
-		queryKey: ["get-preview"],
+		queryKey: [UploadFilesQK.GET_PREVIEW_FILELIST],
 		queryFn: async () => {
-			const res = await axios.get<any>(
-				`${process.env.NEXT_PUBLIC_NESTJS}/techniques/preview-filelist`
-			);
-			return res.data;
+			const data = await getAttachmentListByEventId();
+			return data;
 		},
 		retry: false,
 		refetchOnWindowFocus: false,

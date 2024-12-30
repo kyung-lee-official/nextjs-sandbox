@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { Item } from "@/app/files/file-transmit/upload-files-multi/Item";
+import { getFileBlob, UploadFilesQK } from "./api";
 
 export const FileToPreview = (props: { preview: Preview }) => {
 	const { preview } = props;
@@ -12,14 +13,9 @@ export const FileToPreview = (props: { preview: Preview }) => {
 	const [url, setUrl] = useState<string>();
 
 	const fileBlobQuery = useQuery({
-		queryKey: ["get-file-blob", name],
+		queryKey: [UploadFilesQK.GET_FILE_BLOB, name],
 		queryFn: async () => {
-			const blob = await axios.get(
-				`${process.env.NEXT_PUBLIC_NESTJS}/techniques/preview-image/${name}`,
-				{
-					responseType: "blob",
-				}
-			);
+			const blob = await getFileBlob(name);
 			setUrl(URL.createObjectURL(blob.data));
 			return blob;
 		},
@@ -32,7 +28,7 @@ export const FileToPreview = (props: { preview: Preview }) => {
 			`${process.env.NEXT_PUBLIC_NESTJS}/techniques/delete-file/${name}`
 		);
 		queryClient.invalidateQueries({
-			queryKey: ["get-preview"],
+			queryKey: [UploadFilesQK.GET_PREVIEW_FILELIST],
 		});
 	}
 

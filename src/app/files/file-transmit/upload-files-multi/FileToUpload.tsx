@@ -5,6 +5,7 @@ import { UnknownFileTypeIcon } from "./Icons";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { isImageType, isVideoType } from "./types";
 import { Square } from "./Square";
+import { UploadFilesQK } from "./api";
 
 export const FileToUpload = (props: {
 	file: File;
@@ -45,7 +46,7 @@ export const FileToUpload = (props: {
 			setUploadList(newList);
 			/* update the display list */
 			queryClient.invalidateQueries({
-				queryKey: ["get-preview"],
+				queryKey: [UploadFilesQK.GET_PREVIEW_FILELIST],
 			});
 		},
 	});
