@@ -85,7 +85,6 @@ export const UploadFiles = () => {
 								<FileToUpload
 									key={i}
 									file={file}
-									uploadList={uploadList}
 									setUploadList={setUploadList}
 								/>
 							);

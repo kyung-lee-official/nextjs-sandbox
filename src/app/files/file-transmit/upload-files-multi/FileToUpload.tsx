@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { UnknownFileTypeIcon } from "./Icons";
+import { ItemLoading, UnknownFileTypeIcon } from "./Icons";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { isImageType, isVideoType } from "./types";
 import { Square } from "./Square";
@@ -9,10 +9,9 @@ import { UploadFilesQK } from "./api";
 
 export const FileToUpload = (props: {
 	file: File;
-	uploadList: File[];
 	setUploadList: Dispatch<SetStateAction<File[]>>;
 }) => {
-	const { file, uploadList, setUploadList } = props;
+	const { file, setUploadList } = props;
 	const filetype = file.name.split(".").pop() as string;
 
 	const [url, setUrl] = useState<string>();
@@ -65,7 +64,7 @@ export const FileToUpload = (props: {
 		}
 	}, [file]);
 
-	if (file) {
+	if (url) {
 		return (
 			<Square>
 				{isImageType(filetype) ? (
@@ -102,6 +101,9 @@ export const FileToUpload = (props: {
 				</div>
 			</Square>
 		);
+	} else {
+		<Square>
+			<ItemLoading />;
+		</Square>;
 	}
-	return null;
 };
