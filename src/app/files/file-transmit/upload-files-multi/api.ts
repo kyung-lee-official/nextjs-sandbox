@@ -13,9 +13,9 @@ export const getAttachmentListByEventId = async () => {
 };
 
 export const getFileBlob = async (name: string) => {
-	const blob = await axios.get(`/techniques/preview-image/${name}`, {
+	const res = await axios.get(`/techniques/preview-image/${name}`, {
 		baseURL: process.env.NEXT_PUBLIC_NESTJS,
 		responseType: "blob",
 	});
-	return blob;
+	return res.data;
 };

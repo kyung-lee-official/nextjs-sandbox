@@ -16,7 +16,7 @@ export const FileToPreview = (props: { preview: Preview }) => {
 		queryKey: [UploadFilesQK.GET_FILE_BLOB, name],
 		queryFn: async () => {
 			const blob = await getFileBlob(name);
-			setUrl(URL.createObjectURL(blob.data));
+			setUrl(URL.createObjectURL(blob));
 			return blob;
 		},
 		retry: false,

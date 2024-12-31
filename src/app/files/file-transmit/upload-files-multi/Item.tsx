@@ -15,6 +15,8 @@ import {
 import { DeleteConfirmDialog } from "@/app/components/delete-confirmation/DeleteConfirmDialog";
 import { Square } from "./Square";
 import { isImageType, isVideoType } from "./types";
+import { useMutation } from "@tanstack/react-query";
+import { getFileBlob } from "./api";
 
 type FileProps = {
 	name: string;
@@ -25,14 +27,29 @@ type FileProps = {
 };
 
 const ThumbnailMask = (props: {
-	filetype: string;
+	name: string;
 	question: string;
 	setIsZoomOut: Dispatch<SetStateAction<boolean>>;
 	onDelete: Function;
 }) => {
-	const { filetype, question, setIsZoomOut, onDelete } = props;
+	const { name, question, setIsZoomOut, onDelete } = props;
+	const filetype = name.split(".").pop() as string;
+
 	const [showDelete, setShowDelete] = useState(false);
 	const [showThumbnailMask, setShowThumbnailMask] = useState(false);
+
+	const downloadMutation = useMutation({
+		mutationFn: async () => {
+			const blob = await getFileBlob(name);
+			/* download the file */
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = name;
+			a.click();
+			URL.revokeObjectURL(url); /* free up memory */
+		},
+	});
 
 	return (
 		<div
@@ -61,7 +78,11 @@ const ThumbnailMask = (props: {
 						</button>
 					) : (
 						/* unknown file type */
-						<button onClick={() => {}}>
+						<button
+							onClick={() => {
+								downloadMutation.mutate();
+							}}
+						>
 							<DownloadIcon size={16} />
 						</button>
 					)}
@@ -133,7 +154,7 @@ export const Item = (
 					</div>
 				)}
 				<ThumbnailMask
-					filetype={filetype}
+					name={name}
 					question={question}
 					setIsZoomOut={setIsZoomOut}
 					onDelete={onDelete}
