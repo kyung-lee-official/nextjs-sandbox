@@ -41,9 +41,16 @@ export const FileToUpload = (props: {
 		},
 		onSuccess: () => {
 			setProgress(1);
-			/* remove the uploaded file from the list */
-			const newList = uploadList.filter((item) => item !== file);
-			setUploadList(newList);
+			/**
+			 * remove the uploaded file from the list
+			 * note that the files are uploaded asynchronously,
+			 * so it's necessary to update the list based on its previous state,
+			 * because if another file is uploaded before the current file is uploaded,
+			 * the current state of the list will be out of sync with the actual files
+			 */
+			setUploadList((prev) => {
+				return prev.filter((item) => item.name !== file.name);
+			});
 			/* update the display list */
 			queryClient.invalidateQueries({
 				queryKey: [UploadFilesQK.GET_PREVIEW_FILELIST],
