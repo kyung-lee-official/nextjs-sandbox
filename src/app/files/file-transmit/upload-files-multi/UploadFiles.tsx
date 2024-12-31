@@ -1,7 +1,7 @@
-import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FileToUpload } from "./FileToUpload";
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { FileToPreview } from "./file-to-preview/FileToPreview";
 import { getAttachmentListByEventId, UploadFilesQK } from "./api";
 
