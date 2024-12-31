@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ItemLoading, UnknownFileTypeIcon } from "./Icons";
+import { ItemLoading, UnknownFileTypeIcon } from "./file-to-preview/Icons";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { isImageType, isVideoType } from "./types";
 import { Square } from "./Square";
@@ -64,46 +64,61 @@ export const FileToUpload = (props: {
 		}
 	}, [file]);
 
-	if (url) {
-		return (
+	return (
+		<div>
 			<Square>
-				{isImageType(filetype) ? (
-					<img
-						src={url}
-						alt={file.name}
-						className={`object-cover w-full h-full
+				{url ? (
+					<>
+						{isImageType(filetype) ? (
+							<img
+								src={url}
+								alt={file.name}
+								className={`object-cover w-full h-full
 						${progress === 1 ? "opacity-100" : "opacity-50"}`}
-					/>
-				) : isVideoType(filetype) ? (
-					<video
-						src={url}
-						className={`object-cover w-full h-full
+							/>
+						) : isVideoType(filetype) ? (
+							<video
+								src={url}
+								className={`object-cover w-full h-full
 						${progress === 1 ? "opacity-100" : "opacity-50"}`}
-					/>
+							/>
+						) : (
+							/* unknown file type */
+							<div
+								className={
+									progress === 1
+										? "opacity-100"
+										: "opacity-50"
+								}
+							>
+								<UnknownFileTypeIcon
+									title={file.name}
+									size={100}
+								/>
+							</div>
+						)}
+						<div className="absolute left-0 right-0 bottom-0 h-1">
+							<div
+								className={`h-full 
+								bg-sky-400 ${progress === 1 && "hidden"}`}
+								style={{
+									width: `${progress * 100}%`,
+								}}
+							/>
+						</div>
+					</>
 				) : (
-					/* unknown file type */
-					<div
-						className={
-							progress === 1 ? "opacity-100" : "opacity-50"
-						}
-					>
-						<UnknownFileTypeIcon title={file.name} size={100} />
-					</div>
+					<ItemLoading />
 				)}
-				<div className="absolute left-0 right-0 bottom-0 h-1">
-					<div
-						className={`h-full 
-						bg-sky-400 ${progress === 1 && "hidden"}`}
-						style={{
-							width: `${progress * 100}%`,
-						}}
-					/>
-				</div>
 			</Square>
-		);
-	} else {
-		<Square>
-			<ItemLoading />;
-		</Square>;
-	}
+			<div
+				title={file.name}
+				className="text-white/50 text-sm
+				overflow-hidden whitespace-nowrap text-ellipsis
+				cursor-default"
+			>
+				{file.name}
+			</div>
+		</div>
+	);
 };

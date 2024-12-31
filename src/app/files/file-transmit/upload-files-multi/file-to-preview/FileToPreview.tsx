@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { ItemLoading } from "./Icons";
-import { Preview } from "./UploadFiles";
+import { Preview } from "../UploadFiles";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { Item } from "@/app/files/file-transmit/upload-files-multi/Item";
-import { getFileBlob, UploadFilesQK } from "./api";
+import { getFileBlob, UploadFilesQK } from "../api";
 
 export const FileToPreview = (props: { preview: Preview }) => {
 	const { preview } = props;
@@ -33,18 +32,13 @@ export const FileToPreview = (props: { preview: Preview }) => {
 	}
 
 	return (
-		<div>
-			{fileBlobQuery.isPending ? (
-				<ItemLoading />
-			) : (
-				<Item
-					name={name}
-					src={url}
-					question="Are you sure you want to delete this file?"
-					onDelete={onDelete}
-					className={`object-cover w-full h-full`}
-				/>
-			)}
-		</div>
+		<Item
+			isLoading={fileBlobQuery.isPending || !url}
+			name={name}
+			src={url}
+			question="Are you sure you want to delete this file?"
+			onDelete={onDelete}
+			className={`object-cover w-full h-full`}
+		/>
 	);
 };

@@ -9,9 +9,10 @@ import { createPortal } from "react-dom";
 import {
 	DeleteIcon,
 	DownloadIcon,
+	ItemLoading,
 	PreviewIcon,
 	UnknownFileTypeIcon,
-} from "./Icons";
+} from "./file-to-preview/Icons";
 import { DeleteConfirmDialog } from "@/app/components/delete-confirmation/DeleteConfirmDialog";
 import { Square } from "./Square";
 import { isImageType, isVideoType } from "./types";
@@ -109,9 +110,11 @@ const ThumbnailMask = (props: {
 };
 
 export const Item = (
-	props: ImgHTMLAttributes<HTMLImageElement> & FileProps
+	props: ImgHTMLAttributes<HTMLImageElement> &
+		FileProps & { isLoading: boolean }
 ) => {
 	const {
+		isLoading,
 		src,
 		/* width of the image without zoom */ width,
 		name,
@@ -124,6 +127,24 @@ export const Item = (
 	const imageRef = useRef<HTMLImageElement>(null);
 
 	const [isZoomOut, setIsZoomOut] = useState(false);
+
+	if (isLoading) {
+		return (
+			<div>
+				<Square>
+					<ItemLoading />
+				</Square>
+				<div
+					title={name}
+					className="text-white/50 text-sm
+					overflow-hidden whitespace-nowrap text-ellipsis
+					cursor-default"
+				>
+					{name}
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div>

@@ -24,9 +24,8 @@ export const ItemLoading = () => {
 	return (
 		<div
 			className="w-full h-full p-8
-			bg-black/20
 			animate-pulse
-			text-black/50"
+			text-white/30"
 		>
 			<ImageIcon />
 		</div>
