@@ -37,6 +37,17 @@ export const Content = () => {
 			<div>{`undefinedValue: ${undefinedValue}`}</div>
 			<div>{`emptyString: ${emptyString}`}</div>
 			<div>{`NaNValue: ${NaNValue}`}</div>
+
+			<div className="my-2 font-bold">
+				Connected with '+' (the result is same as above)
+			</div>
+			<div>zero: {zero + ""}</div>
+			<div>emptyArray: {emptyArray + ""}</div>
+			<div>falseValue: {falseValue + ""}</div>
+			<div>nullValue: {nullValue + ""}</div>
+			<div>undefinedValue: {undefinedValue + ""}</div>
+			<div>emptyString: {emptyString + ""}</div>
+			<div>NaNValue: {NaNValue + ""}</div>
 		</div>
 	);
 };
