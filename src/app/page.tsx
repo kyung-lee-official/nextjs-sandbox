@@ -238,6 +238,10 @@ export default function Home() {
 						text: "falsy value",
 					},
 					{
+						link: "/js/react/setstate-union-type",
+						text: "setState union type",
+					},
+					{
 						link: "/js/react/context",
 						text: "context",
 					},
