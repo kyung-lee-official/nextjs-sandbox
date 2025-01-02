@@ -234,6 +234,10 @@ export default function Home() {
 				title="Javascript | React"
 				list={[
 					{
+						link: "/js/react/component-overload",
+						text: "Component Overload",
+					},
+					{
 						link: "/js/react/falsy-value",
 						text: "falsy value",
 					},
