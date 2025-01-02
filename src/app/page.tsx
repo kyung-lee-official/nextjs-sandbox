@@ -234,6 +234,10 @@ export default function Home() {
 				title="Javascript | React"
 				list={[
 					{
+						link: "/js/react/falsy-value",
+						text: "falsy value",
+					},
+					{
 						link: "/js/react/context",
 						text: "context",
 					},
