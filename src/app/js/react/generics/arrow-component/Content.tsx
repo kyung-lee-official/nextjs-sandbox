@@ -4,5 +4,5 @@
  */
 export const Content = <T,>(props: { p1: T }) => {
 	const { p1 } = props;
-	return <div>Check out the code</div>;
+	return <div>Check out both the Content.tsx and page.tsx code files</div>;
 };
