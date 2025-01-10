@@ -423,6 +423,10 @@ export default function Home() {
 						link: "/styles/dropdown/hover-dropdown",
 						text: "hover dropdown",
 					},
+					{
+						link: "/styles/dropdown/universal-dropdown",
+						text: "universal dropdown",
+					},
 				]}
 			/>
 			<Block
