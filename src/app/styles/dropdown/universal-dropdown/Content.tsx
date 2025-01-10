@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Dropdown } from "./Dropdown";
+import { Dropdown } from "./dropdown/Dropdown";
 
 enum ApprovalType {
 	PENDING = "PENDING",
