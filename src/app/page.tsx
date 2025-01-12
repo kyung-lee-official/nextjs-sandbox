@@ -518,6 +518,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Styles | Progress Gadgets"
+				list={[
+					{
+						link: "/styles/gadgets/circular-progress",
+						text: "circular progress",
+					},
+				]}
+			/>
+			<Block
 				title="SVG"
 				list={[
 					{
