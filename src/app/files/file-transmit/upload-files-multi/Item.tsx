@@ -24,7 +24,6 @@ type FileProps = {
 	question: string;
 	/* the function to call when the delete operation is confirmed in the dialog */
 	onDelete: Function;
-	className?: string;
 };
 
 const ThumbnailMask = (props: {
@@ -120,7 +119,6 @@ export const Item = (
 		name,
 		question,
 		onDelete,
-		className,
 	} = props;
 	const filetype = name.split(".").pop() as string;
 
@@ -202,7 +200,6 @@ export const Item = (
 										}}
 										src={src}
 										alt={name}
-										className={className}
 									/>
 								) : (
 									<video
@@ -211,7 +208,6 @@ export const Item = (
 										}}
 										src={src}
 										controls
-										className={className}
 									/>
 								)}
 							</div>
