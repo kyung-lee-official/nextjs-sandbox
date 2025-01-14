@@ -23,7 +23,7 @@ export const CircularProgress = (props: { size: number; progress: number }) => {
 						pathLength={
 							100
 						} /* pathLength sets the length of the path, which is used to calculate the length of the dash array */
-						strokeDasharray={`${progress}, 100`}
+						strokeDasharray={`${Math.min(progress, 100)}, 100`}
 						strokeLinecap="round"
 						className="stroke-black/40
 						origin-center -rotate-90"
