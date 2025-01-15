@@ -1,46 +1,44 @@
-import { forwardRef, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 
 type InputProps = {
-	title?: string;
+	title: string;
 	isRequired?: boolean;
-	isInvalid: boolean;
+	isError: boolean;
 	errorMessage?: string;
 };
 
-export const Input = forwardRef<
-	HTMLInputElement,
-	InputHTMLAttributes<HTMLInputElement> & InputProps
->(function Input(
-	{ children, title, isRequired = false, isInvalid, errorMessage, ...rest },
-	ref
-) {
+export const Input = (
+	props: InputHTMLAttributes<HTMLInputElement> & InputProps
+) => {
+	const {
+		children,
+		title,
+		isRequired = false,
+		isError,
+		errorMessage,
+		...rest
+	} = props;
+
 	return (
 		<div>
 			<div className="flex gap-1">
-				{title && (
-					<label className="font-bold text-neutral-500">
-						{title}
-					</label>
-				)}
+				{title && <label className="text-neutral-500">{title}</label>}
 				{isRequired && <span className="text-red-400">*</span>}
-				{isInvalid && (
-					<div className="ml-2 text-red-400">{errorMessage}</div>
-				)}
 			</div>
 			<input
-				ref={ref}
 				{...rest}
-				className={`w-full p-[10px] m-[2px] 
+				className={`w-full p-1 m-[2px] 
 				text-base
-				${isInvalid && "text-red-400"}
-				bg-neutral-100
+				${isError && "text-red-400"}
+				bg-black/10
 				caret-neutral-600
-				${isInvalid && "border-solid border-red-400 border-2 m-0"}
+				${isError && "border-solid border-red-400 border-2 m-0"}
 				rounded
 				outline-none`}
 			>
 				{children}
 			</input>
+			{isError && <div className="ml-2 text-red-400">{errorMessage}</div>}
 		</div>
 	);
-});
+};
