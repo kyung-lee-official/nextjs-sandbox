@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "../../icons/arrows";
 import dayjs from "dayjs";
 import { RangePickerProps } from "./DateRangePicker";
 import { Button } from "./Button";
 import { Debug } from "./Debug";
 import { DateRange } from "../Content";
+import { ChevronLeft, ChevronRight } from "./Icons";
 
 type CalendarProps = RangePickerProps & {
 	setShow: Dispatch<SetStateAction<boolean>>;
