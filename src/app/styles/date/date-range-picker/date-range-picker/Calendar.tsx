@@ -1,9 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { RangePickerProps } from "./DateRangePicker";
+import { DateRange, RangePickerProps } from "./DateRangePicker";
 import { Button } from "./Button";
 import { Debug } from "./Debug";
-import { DateRange } from "../Content";
 import { ChevronLeft, ChevronRight } from "./Icons";
 
 type CalendarProps = RangePickerProps & {

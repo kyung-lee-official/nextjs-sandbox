@@ -7,8 +7,12 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { DateRange } from "../Content";
 import { Calendar } from "./Calendar";
+
+export type DateRange = {
+	start: dayjs.Dayjs;
+	end: dayjs.Dayjs;
+};
 
 export type RangePickerProps = {
 	range: DateRange;

@@ -1,13 +1,8 @@
 "use client";
 
 import dayjs from "dayjs";
-import { DateRangePicker } from "./date-range-picker/DateRangePicker";
+import { DateRange, DateRangePicker } from "./date-range-picker/DateRangePicker";
 import { useState } from "react";
-
-export type DateRange = {
-	start: dayjs.Dayjs;
-	end: dayjs.Dayjs;
-};
 
 export const Content = () => {
 	const [range, setRange] = useState<DateRange>({
