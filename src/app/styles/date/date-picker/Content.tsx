@@ -6,10 +6,17 @@ import { DatePicker } from "./date-picker/DatePicker";
 import { MonthPicker } from "./month-picker/MonthPicker";
 import { YearPicker } from "./year-picker/YearPicker";
 
-export const Content = () => {
+const Content = () => {
 	const [date, setDate] = useState<dayjs.Dayjs>(dayjs());
-	const [month, setMonth] = useState<dayjs.Dayjs>(dayjs());
-	const [year, setYear] = useState<dayjs.Dayjs>(dayjs());
+	const [month, setMonth] = useState<dayjs.Dayjs>(
+		dayjs(dayjs().format("YYYY-MM"))
+	);
+	const [year, setYear] = useState<dayjs.Dayjs>(
+		dayjs(dayjs().format("YYYY"))
+	);
+
+	console.log(dayjs("2025-01-01").toISOString());
+	console.log(dayjs("2025-01-01").format("YYYY-MM-DD"));
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -83,6 +90,50 @@ export const Content = () => {
 					<YearPicker date={year} setDate={setYear} />
 				</div>
 			</div>
+			<div
+				className="w-1/2 p-3
+				border-dashed border-black border-2"
+			>
+				<p>
+					There is another scenario to consider, where we do not care
+					about the timezone, for example, our timezone is UTC+8, we
+					want to create an entity for each month. Essentially time is
+					always UTC, it was just represented in your local time
+					depending on your timezone.
+				</p>
+				<p>
+					The <code>toISOString()</code> method of dayjs will always
+					return the UTC time, while the <code>format()</code> method
+					will return the local. With this in mind, we can simply
+					turns the <code>date</code> (
+					<code>2024-12-31T16:00:00.000Z</code>) from month picker
+					into string <code>2025-01-01</code> by calling
+				</p>
+				<p>
+					<code>date.format("YYYY-MM-DD") /* 2025-01-01 */</code>
+				</p>
+				<p>
+					This string should be used as the identifier of the entity
+					when sending requests to the server. When saving to
+					database, we convert the string to a UTC time by calling
+				</p>
+				<p>
+					<code>
+						dayjs("2025-01-01").toISOString() /*
+						2025-01-01T00:00:00.000Z */
+					</code>
+				</p>
+				<p>which makes it easy for time comparison (filtering).</p>
+				<p>
+					When it comes to searching, we literally repeat the similar
+					thing. So if we wants all entities of year 2025, we first
+					send string "2025-01-01" to the server, and the server will
+					convert it to "2025-01-01T00:00:00.000Z" before querying the
+					database.
+				</p>
+			</div>
 		</div>
 	);
 };
+
+export default Content;

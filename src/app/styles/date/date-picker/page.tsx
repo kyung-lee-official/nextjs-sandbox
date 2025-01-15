@@ -1,9 +1,9 @@
-import { Content } from "./Content";
+import DynamicContent from "./DynamicContent";
 
 const Page = () => {
 	return (
 		<div className="p-4">
-			<Content />
+			<DynamicContent />
 		</div>
 	);
 };
