@@ -98,7 +98,7 @@ const Content = () => {
 					There is another scenario to consider, where we do not care
 					about the timezone, for example, our timezone is UTC+8, we
 					want to create an entity for each month. Essentially time is
-					always UTC, it was just represented in your local time
+					always UTC, it is just represented in your local time
 					depending on your timezone.
 				</p>
 				<p>
