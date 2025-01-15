@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { DatePickerProps } from "../DatePicker";
+import { DatePickerProps } from "../date-picker/DatePicker";
 import dayjs from "dayjs";
 import { cluster } from "radash";
 import { ChevronLeft, ChevronRight } from "../../icons/arrows";

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { DatePickerProps } from "../DatePicker";
+import { DatePickerProps } from "../date-picker/DatePicker";
 import { YearCalendar } from "./YearCalendar";
 
 export const YearPicker = (props: DatePickerProps) => {
@@ -68,7 +68,8 @@ export const YearPicker = (props: DatePickerProps) => {
 					ref={calendarRef}
 					className="absolute top-8 w-64
 					border-[1px] border-white/10 border-t-white/15
-					rounded overflow-hidden"
+					rounded overflow-hidden
+					z-10"
 				>
 					<YearCalendar
 						date={date}

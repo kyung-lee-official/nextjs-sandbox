@@ -1,7 +1,7 @@
 "use client";
 
 import dayjs from "dayjs";
-import { DateRangePicker } from "./DateRangePicker";
+import { DateRangePicker } from "./date-range-picker/DateRangePicker";
 import { useState } from "react";
 
 export type DateRange = {

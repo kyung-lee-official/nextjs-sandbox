@@ -1,67 +1,31 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { DatePickerProps } from "./DatePicker";
-import { ChevronLeft, ChevronRight } from "../icons/arrows";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "../../icons/arrows";
 import dayjs from "dayjs";
+import { RangePickerProps } from "./DateRangePicker";
+import { Button } from "./Button";
+import { Debug } from "./Debug";
+import { DateRange } from "../Content";
 
-const Button = (props: {
-	children: React.ReactNode;
-	isFade: boolean;
-	isSelected: boolean;
-	onClick: () => void;
-}) => {
-	const { children, isFade, isSelected, onClick } = props;
-
-	if (isSelected) {
-		return (
-			<button
-				className="w-7 h-7
-				text-white
-				bg-blue-500
-				rounded-full"
-				onClick={onClick}
-			>
-				{children}
-			</button>
-		);
-	}
-
-	if (isFade) {
-		return (
-			<button
-				className="w-7 h-7
-				text-white/40 hover:text-blue-500
-				hover:bg-blue-500/30
-				rounded-full"
-				onClick={onClick}
-			>
-				{children}
-			</button>
-		);
-	}
-	return (
-		<button
-			className="w-7 h-7
-			text-white hover:text-blue-500
-			hover:bg-blue-500/30
-			rounded-full"
-			onClick={onClick}
-		>
-			{children}
-		</button>
-	);
-};
-
-type CalendarProps = DatePickerProps & {
+type CalendarProps = RangePickerProps & {
 	setShow: Dispatch<SetStateAction<boolean>>;
 };
 
+export type CalendarRange = DateRange & { isSelecting: boolean };
+
 export const Calendar = (props: CalendarProps) => {
-	const { date, setDate, setShow } = props;
-	const [calendarDate, setCalendarDate] = useState<dayjs.Dayjs>(date);
+	const { range, setRange, setShow } = props;
+	const [calendarRange, setCalendarRange] = useState<CalendarRange>({
+		start: range.start,
+		end: range.end,
+		isSelecting: false,
+	});
+	const [displayedMonth, setDisplayedMonth] = useState<dayjs.Dayjs>(
+		range.start.date(1)
+	);
 
 	const calendar: dayjs.Dayjs[] = [];
 	/* first date of the month */
-	const firstDate = calendarDate.date(1);
+	const firstDate = displayedMonth.date(1);
 	/* get day of the week (0-6) */
 	const dayOfWeek = firstDate.day();
 	new Array(dayOfWeek).fill(null).map((_, i) => {
@@ -80,6 +44,15 @@ export const Calendar = (props: CalendarProps) => {
 		});
 	}
 
+	useEffect(() => {
+		if (!calendarRange.isSelecting) {
+			setRange({
+				start: calendarRange.start,
+				end: calendarRange.end,
+			});
+		}
+	}, [calendarRange]);
+
 	const daysHeader = ["S", "M", "T", "W", "T", "F", "S"];
 
 	return (
@@ -94,16 +67,16 @@ export const Calendar = (props: CalendarProps) => {
 				<button
 					onClick={(e) => {
 						e.preventDefault();
-						setCalendarDate(calendarDate.subtract(1, "month"));
+						setDisplayedMonth(displayedMonth.subtract(1, "month"));
 					}}
 				>
 					<ChevronLeft size={16} />
 				</button>
-				{calendarDate.format("MMMM YYYY")}
+				{displayedMonth.format("MMMM YYYY")}
 				<button
 					onClick={(e) => {
 						e.preventDefault();
-						setCalendarDate(calendarDate.add(1, "month"));
+						setDisplayedMonth(displayedMonth.add(1, "month"));
 					}}
 				>
 					<ChevronRight size={16} />
@@ -132,12 +105,18 @@ export const Calendar = (props: CalendarProps) => {
 						return (
 							<Button
 								key={i}
+								date={d}
 								isFade={true}
-								isSelected={d.isSame(date, "day")}
-								onClick={() => {
-									setDate(d);
-									setShow(false);
-								}}
+								isStartOrEnd={
+									d.isSame(calendarRange.start, "day") ||
+									d.isSame(calendarRange.end, "day")
+								}
+								isBetween={
+									d.isAfter(calendarRange.start, "day") &&
+									d.isBefore(calendarRange.end, "day")
+								}
+								calendarRange={calendarRange}
+								setCalendarRange={setCalendarRange}
 							>
 								{d.date()}
 							</Button>
@@ -147,12 +126,18 @@ export const Calendar = (props: CalendarProps) => {
 						return (
 							<Button
 								key={i}
+								date={d}
 								isFade={false}
-								isSelected={d.isSame(date, "day")}
-								onClick={() => {
-									setDate(d);
-									setShow(false);
-								}}
+								isStartOrEnd={
+									d.isSame(calendarRange.start, "day") ||
+									d.isSame(calendarRange.end, "day")
+								}
+								isBetween={
+									d.isAfter(calendarRange.start, "day") &&
+									d.isBefore(calendarRange.end, "day")
+								}
+								calendarRange={calendarRange}
+								setCalendarRange={setCalendarRange}
 							>
 								{d.date()}
 							</Button>
@@ -161,18 +146,25 @@ export const Calendar = (props: CalendarProps) => {
 					return (
 						<Button
 							key={i}
+							date={d}
 							isFade={true}
-							isSelected={d.isSame(date, "day")}
-							onClick={() => {
-								setDate(d);
-								setShow(false);
-							}}
+							isStartOrEnd={
+								d.isSame(calendarRange.start, "day") ||
+								d.isSame(calendarRange.end, "day")
+							}
+							isBetween={
+								d.isAfter(calendarRange.start, "day") &&
+								d.isBefore(calendarRange.end, "day")
+							}
+							calendarRange={calendarRange}
+							setCalendarRange={setCalendarRange}
 						>
 							{d.date()}
 						</Button>
 					);
 				})}
 			</div>
+			<Debug calendarRange={calendarRange} />
 		</div>
 	);
 };

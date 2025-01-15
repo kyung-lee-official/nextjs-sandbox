@@ -7,15 +7,16 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { DateRange } from "../Content";
 import { Calendar } from "./Calendar";
 
-export type DatePickerProps = {
-	date: dayjs.Dayjs;
-	setDate: Dispatch<SetStateAction<dayjs.Dayjs>>;
+export type RangePickerProps = {
+	range: DateRange;
+	setRange: Dispatch<SetStateAction<DateRange>>;
 };
 
-export const DatePicker = (props: DatePickerProps) => {
-	const { date, setDate } = props;
+export const DateRangePicker = (props: RangePickerProps) => {
+	const { range, setRange } = props;
 
 	const [show, setShow] = useState<boolean>(false);
 
@@ -68,19 +69,22 @@ export const DatePicker = (props: DatePickerProps) => {
 				text-white/70
 				bg-neutral-700
 				rounded"
-				onClick={(e) => {
-					e.preventDefault();
-				}}
 			>
-				{date.format("MMM DD, YYYY")}
+				{range.start.format("MMM DD, YYYY")} -{" "}
+				{range.end.format("MMM DD, YYYY")}
 			</button>
 			{show && (
 				<div
 					ref={calendarRef}
 					className="absolute top-8 w-64
-					rounded overflow-hidden"
+					rounded overflow-hidden
+					z-10"
 				>
-					<Calendar date={date} setDate={setDate} setShow={setShow} />
+					<Calendar
+						range={range}
+						setRange={setRange}
+						setShow={setShow}
+					/>
 				</div>
 			)}
 		</div>

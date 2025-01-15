@@ -441,14 +441,6 @@ export default function Home() {
 						text: "Date Picker",
 					},
 					{
-						link: "/styles/date/date-picker/month-picker",
-						text: "Month Picker",
-					},
-					{
-						link: "/styles/date/date-picker/year-picker",
-						text: "Year Picker",
-					},
-					{
 						link: "/styles/date/date-range-picker",
 						text: "Date Range Picker",
 					},
