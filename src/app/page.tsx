@@ -404,7 +404,7 @@ export default function Home() {
 					},
 					{
 						link: "/styles/modal/dialog",
-						text: "html dialog",
+						text: "html <dialog>",
 					},
 				]}
 			/>

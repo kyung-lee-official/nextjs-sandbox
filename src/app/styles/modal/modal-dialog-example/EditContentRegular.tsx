@@ -1,4 +1,3 @@
-import { UnsavedDialog } from "./UnsavedDialog";
 import { motion } from "framer-motion";
 import {
 	Dispatch,
@@ -10,6 +9,7 @@ import {
 } from "react";
 import { CloseIcon } from "./Icons";
 import { EditId, EditProps } from "./EditPanel";
+import { ConfirmDialog } from "@/app/components/confirm-dialog/ConfirmDialog";
 
 export const EditContentRegular = (props: {
 	children: ReactNode;
@@ -60,10 +60,10 @@ export const EditContentRegular = (props: {
 				quit();
 			}
 		}
-		listenerRef.current?.addEventListener("click", handleClickOutside);
+		listenerRef.current?.addEventListener("mousedown", handleClickOutside);
 		return () => {
 			listenerRef.current?.removeEventListener(
-				"click",
+				"mousedown",
 				handleClickOutside
 			);
 		};
@@ -134,11 +134,15 @@ export const EditContentRegular = (props: {
 					</div>
 				</div>
 			</motion.div>
-			<UnsavedDialog
-				edit={edit}
-				setEdit={setEdit}
-				showUnsaved={showUnsaved}
-				setShowUnsaved={setShowUnsaved}
+			<ConfirmDialog
+				show={showUnsaved}
+				setShow={setShowUnsaved}
+				question="Are you sure you want to leave this form?"
+				description="You have unsaved changes that will be lost if you exit this form."
+				onOk={() => {
+					setEdit({ show: false, id: edit.id });
+					setShowUnsaved(false);
+				}}
 			/>
 		</div>
 	);
