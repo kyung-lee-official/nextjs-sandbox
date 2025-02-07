@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
 import { sortByProp, StringKeys } from "../types";
 
 export const ObjectRegular = <T,>(props: {
@@ -40,6 +40,12 @@ export const ObjectRegular = <T,>(props: {
 			? `${selected[primaryKey]} (${selected[secondaryKey]})`
 			: `${selected[primaryKey]}`;
 	}
+
+	useEffect(() => {
+		if (selected) {
+			setSearchTerm(label);
+		}
+	}, [selected]);
 
 	return (
 		<div

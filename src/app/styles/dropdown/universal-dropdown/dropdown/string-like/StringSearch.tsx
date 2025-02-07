@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
 import { SearchOutlineIcon } from "../Icons";
 
 export const StringSearch = <T,>(props: {
@@ -6,6 +6,7 @@ export const StringSearch = <T,>(props: {
 	menuRef: RefObject<HTMLDivElement | null>;
 	show: boolean;
 	setShow: Dispatch<SetStateAction<boolean>>;
+	selected: T | undefined;
 	setSelected: Dispatch<SetStateAction<T | undefined>>;
 	label: string;
 	setHover?: Dispatch<SetStateAction<T | undefined>>;
@@ -19,6 +20,7 @@ export const StringSearch = <T,>(props: {
 		menuRef,
 		show,
 		setShow,
+		selected,
 		setSelected,
 		label,
 		setHover,
@@ -27,6 +29,12 @@ export const StringSearch = <T,>(props: {
 		searchTerm,
 		setSearchTerm,
 	} = props;
+
+	useEffect(() => {
+		if (selected) {
+			setSearchTerm(selected as string);
+		}
+	}, [selected]);
 	return (
 		<div
 			className="relative flex items-center

@@ -33,13 +33,22 @@ const users: Contact[] = [
 ];
 
 const Content = () => {
-	const [approval, setApproval] = useState<ApprovalType>();
+	const [approval, setApproval] = useState<ApprovalType | undefined>();
 	const [hoverApproval, setHoverApproval] = useState<
 		ApprovalType | undefined
 	>(undefined);
+	const [approvalWithDefault, setApprovalWithDefault] = useState<
+		ApprovalType | undefined
+	>(ApprovalType.PENDING);
 
 	const [user, setUser] = useState<Contact | undefined>(undefined);
 	const [hoverUser, setHoverUser] = useState<Contact | undefined>(undefined);
+	const [userWithDefault, setUserWithDefault] = useState<Contact | undefined>(
+		{
+			name: "Alice",
+			email: "alice@example.com",
+		}
+	);
 
 	return (
 		<div
@@ -109,6 +118,79 @@ const Content = () => {
 						mode="search"
 						selected={user}
 						setSelected={setUser}
+						setHover={setHoverUser}
+						options={users}
+						label={{ primaryKey: "name", secondaryKey: "email" }}
+						placeholder=""
+						sortBy="name"
+					/>
+					<div className="text-white/30">
+						{hoverUser?.name} {hoverUser?.email}
+					</div>
+				</div>
+			</div>
+			<div> ============= with default value ============= </div>
+			<div>
+				<div>
+					string-like data (string enum, string union type...),
+					regular mode, with default value
+				</div>
+				<div className="flex items-center gap-10">
+					<Dropdown<ApprovalType>
+						kind="string"
+						mode="regular"
+						selected={approvalWithDefault}
+						setSelected={setApprovalWithDefault}
+						setHover={setHoverApproval}
+						options={[
+							ApprovalType.PENDING,
+							ApprovalType.APPROVED,
+							ApprovalType.REJECTED,
+						]}
+						placeholder=""
+					/>
+					<div className="text-white/30">{hoverApproval}</div>
+				</div>
+			</div>
+			<div>
+				<div>
+					string-like data (string enum, string union type...), search
+					mode
+				</div>
+				<Dropdown<ApprovalType>
+					kind="string"
+					mode="search"
+					selected={approvalWithDefault}
+					setSelected={setApprovalWithDefault}
+					options={[
+						ApprovalType.PENDING,
+						ApprovalType.APPROVED,
+						ApprovalType.REJECTED,
+					]}
+					placeholder=""
+				/>
+			</div>
+			<div>
+				<div>object-like data, regular mode, with default value</div>
+				<Dropdown<Contact>
+					kind="object"
+					mode="regular"
+					selected={userWithDefault}
+					setSelected={setUserWithDefault}
+					options={users}
+					label={{ primaryKey: "name", secondaryKey: "email" }}
+					placeholder=""
+					sortBy="name"
+				/>
+			</div>
+			<div>
+				<div>object-like data, search mode, with default value</div>
+				<div className="flex items-center gap-10">
+					<Dropdown<Contact>
+						kind="object"
+						mode="search"
+						selected={userWithDefault}
+						setSelected={setUserWithDefault}
 						setHover={setHoverUser}
 						options={users}
 						label={{ primaryKey: "name", secondaryKey: "email" }}
