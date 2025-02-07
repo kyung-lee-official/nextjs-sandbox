@@ -35,6 +35,7 @@ export const StringSearch = <T,>(props: {
 			setSearchTerm(selected as string);
 		}
 	}, [selected]);
+
 	return (
 		<div
 			className="relative flex items-center
