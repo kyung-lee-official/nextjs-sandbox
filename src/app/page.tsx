@@ -283,14 +283,17 @@ export default function Home() {
 				]}
 			/>
 			<Block
-				title="Javascript | Vanilla"
+				title="Javascript | React Features"
 				list={[
 					{
-						link: "/js/vanilla/drag-and-drop",
+						link: "/js/react-features/drag-and-drop",
 						text: "drag and drop",
 					},
-					{ link: "/js/vanilla/new-date", text: "new date" },
 				]}
+			/>
+			<Block
+				title="Javascript | Vanilla"
+				list={[{ link: "/js/vanilla/new-date", text: "new date" }]}
 			/>
 			<Block
 				title="Libraries"
