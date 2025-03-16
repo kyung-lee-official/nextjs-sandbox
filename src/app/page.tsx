@@ -430,6 +430,10 @@ export default function Home() {
 						link: "/styles/dropdown/universal-dropdown",
 						text: "universal dropdown",
 					},
+					{
+						link: "/styles/dropdown/universal-dropdown-old",
+						text: "universal dropdown old",
+					},
 				]}
 			/>
 			<Block

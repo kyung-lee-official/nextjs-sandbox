@@ -3,207 +3,62 @@
 import { useState } from "react";
 import { Dropdown } from "./dropdown/Dropdown";
 
-enum ApprovalType {
-	PENDING = "PENDING",
-	APPROVED = "APPROVED",
-	REJECTED = "REJECTED",
-}
-
-type Contact = {
+type User = {
+	id: string;
 	name: string;
 	email: string;
 };
 
-/**
- * the order is intentionally set to be unsorted
- */
-const users: Contact[] = [
-	{
-		name: "Alice",
-		email: "alice@example.com",
-	},
-	{
-		name: "Charlie",
-		email: "charlie@example.com",
-	},
-	{
-		name: "Bob",
-		email: "bob@example.com",
-	},
-];
-
-const Content = () => {
-	const [approval, setApproval] = useState<ApprovalType | undefined>();
-	const [hoverApproval, setHoverApproval] = useState<
-		ApprovalType | undefined
-	>(undefined);
-	const [approvalWithDefault, setApprovalWithDefault] = useState<
-		ApprovalType | undefined
-	>(ApprovalType.PENDING);
-
-	const [user, setUser] = useState<Contact | undefined>(undefined);
-	const [hoverUser, setHoverUser] = useState<Contact | undefined>(undefined);
-	const [userWithDefault, setUserWithDefault] = useState<Contact | undefined>(
-		{
-			name: "Alice",
-			email: "alice@example.com",
-		}
+export const Content = () => {
+	const [stringSelected, setStringSelected] = useState<
+		string | string[] | null
+	>(null);
+	const [objectSelected, setObjectSelected] = useState<User | User[] | null>(
+		null
 	);
+	const [hovered, setHovered] = useState<any>(null);
+
+	const stringOptions = ["Apple", "Banana", "Orange"];
+	const objectOptions: User[] = [
+		{ id: "1", name: "John", email: "john@example.com" },
+		{ id: "2", name: "Jane", email: "jane@example.com" },
+		{ id: "3", name: "Bob", email: "bob@example.com" },
+	];
 
 	return (
-		<div
-			className="flex flex-col p-4 gap-4
-			text-white/80
-			bg-black/80"
-		>
-			<div className="text-lg">Universal Dropdown</div>
-			<div>
-				<div>
-					string-like data (string enum, string union type...),
-					regular mode
-				</div>
-				<div className="flex items-center gap-10">
-					<Dropdown<ApprovalType>
-						kind="string"
-						mode="regular"
-						selected={approval}
-						setSelected={setApproval}
-						setHover={setHoverApproval}
-						options={[
-							ApprovalType.PENDING,
-							ApprovalType.APPROVED,
-							ApprovalType.REJECTED,
-						]}
-						placeholder=""
-					/>
-					<div className="text-white/30">{hoverApproval}</div>
-				</div>
-			</div>
-			<div>
-				<div>
-					string-like data (string enum, string union type...), search
-					mode
-				</div>
-				<Dropdown<ApprovalType>
+		<div className="flex gap-10">
+			<div className="w-[500px] p-4 space-y-4">
+				{/* String Dropdown - Single Select */}
+				<Dropdown
 					kind="string"
-					mode="search"
-					selected={approval}
-					setSelected={setApproval}
-					options={[
-						ApprovalType.PENDING,
-						ApprovalType.APPROVED,
-						ApprovalType.REJECTED,
-					]}
-					placeholder=""
-				/>
-			</div>
-			<div>
-				<div>object-like data, regular mode</div>
-				<Dropdown<Contact>
-					kind="object"
 					mode="regular"
-					selected={user}
-					setSelected={setUser}
-					options={users}
-					label={{ primaryKey: "name", secondaryKey: "email" }}
-					placeholder=""
-					sortBy="name"
+					options={stringOptions}
+					selected={stringSelected}
+					setSelected={setStringSelected}
+					setHover={setHovered}
+					placeholder="Select a fruit"
 				/>
-			</div>
-			<div>
-				<div>object-like data, search mode</div>
-				<div className="flex items-center gap-10">
-					<Dropdown<Contact>
-						kind="object"
-						mode="search"
-						selected={user}
-						setSelected={setUser}
-						setHover={setHoverUser}
-						options={users}
-						label={{ primaryKey: "name", secondaryKey: "email" }}
-						placeholder=""
-						sortBy="name"
-					/>
-					<div className="text-white/30">
-						{hoverUser?.name} {hoverUser?.email}
-					</div>
-				</div>
-			</div>
-			<div> ============= with default value ============= </div>
-			<div>
-				<div>
-					string-like data (string enum, string union type...),
-					regular mode, with default value
-				</div>
-				<div className="flex items-center gap-10">
-					<Dropdown<ApprovalType>
-						kind="string"
-						mode="regular"
-						selected={approvalWithDefault}
-						setSelected={setApprovalWithDefault}
-						setHover={setHoverApproval}
-						options={[
-							ApprovalType.PENDING,
-							ApprovalType.APPROVED,
-							ApprovalType.REJECTED,
-						]}
-						placeholder=""
-					/>
-					<div className="text-white/30">{hoverApproval}</div>
-				</div>
-			</div>
-			<div>
-				<div>
-					string-like data (string enum, string union type...), search
-					mode
-				</div>
-				<Dropdown<ApprovalType>
-					kind="string"
-					mode="search"
-					selected={approvalWithDefault}
-					setSelected={setApprovalWithDefault}
-					options={[
-						ApprovalType.PENDING,
-						ApprovalType.APPROVED,
-						ApprovalType.REJECTED,
-					]}
-					placeholder=""
-				/>
-			</div>
-			<div>
-				<div>object-like data, regular mode, with default value</div>
-				<Dropdown<Contact>
+
+				{/* Object Dropdown - Multiple Select with Search */}
+				<Dropdown
 					kind="object"
-					mode="regular"
-					selected={userWithDefault}
-					setSelected={setUserWithDefault}
-					options={users}
-					label={{ primaryKey: "name", secondaryKey: "email" }}
-					placeholder=""
+					mode="search"
+					options={objectOptions}
+					selected={objectSelected}
+					setSelected={setObjectSelected}
+					setHover={setHovered}
 					sortBy="name"
+					label={{ primaryKey: "name", secondaryKey: "email" }}
+					multiple
+					placeholder="Select users"
 				/>
 			</div>
-			<div>
-				<div>object-like data, search mode, with default value</div>
-				<div className="flex items-center gap-10">
-					<Dropdown<Contact>
-						kind="object"
-						mode="search"
-						selected={userWithDefault}
-						setSelected={setUserWithDefault}
-						setHover={setHoverUser}
-						options={users}
-						label={{ primaryKey: "name", secondaryKey: "email" }}
-						placeholder=""
-						sortBy="name"
-					/>
-					<div className="text-white/30">
-						{hoverUser?.name} {hoverUser?.email}
-					</div>
+			{/* Preview hovered item */}
+			{hovered && (
+				<div className="mt-2 p-2 bg-gray-100 rounded">
+					Hovered: {JSON.stringify(hovered)}
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };
-
-export default Content;
