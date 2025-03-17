@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-interface BaseProps<T> {
+type BaseProps<T> = {
 	mode?: "regular" | "search";
 	placeholder?: string;
 	options: T[];
@@ -10,43 +10,58 @@ interface BaseProps<T> {
 	setSelected: (value: T | T[] | null) => void;
 	setHover: (value: T | null) => void;
 	multiple?: boolean;
-}
+};
 
-interface StringProps<T extends string> extends BaseProps<T> {
+type StringProps<T extends string> = BaseProps<T> & {
 	kind: "string";
-}
+};
 
-interface ObjectProps<T extends object, K extends keyof T>
-	extends BaseProps<T> {
+type ObjectProps<T extends object, K extends keyof T> = BaseProps<T> & {
 	kind: "object";
 	sortBy: K;
 	label: {
 		primaryKey: K;
 		secondaryKey?: K;
 	};
-}
+};
 
 type DropdownProps<T, K extends keyof T = keyof T> = T extends string
 	? StringProps<T>
-	: ObjectProps<T, K>;
+	: T extends object
+	? ObjectProps<T, K>
+	: never;
+type RestProps<T> = T extends object
+	? {
+			sortBy: keyof T;
+			label: {
+				primaryKey: keyof T;
+				secondaryKey?: keyof T;
+			};
+	  }
+	: never;
 
-export const Dropdown = <T, K extends keyof T = keyof T>({
-	mode = "regular",
-	kind,
-	placeholder = "Select an option",
-	options,
-	selected,
-	setSelected,
-	setHover,
-	multiple = false,
-	...rest
-}: DropdownProps<T, K>) => {
+export const Dropdown = <T, K extends keyof T = keyof T>(
+	props: DropdownProps<T, K>
+) => {
+	const {
+		mode = "regular",
+		kind,
+		placeholder = "Select an option",
+		options,
+		selected,
+		setSelected,
+		setHover,
+		multiple = false,
+		...rest
+	} = props;
+
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
-	// Type assertions for object-specific props
-	const objectProps = kind === "object" ? (rest as ObjectProps<T, K>) : null;
+	/* type assertions for object-specific props */
+	const objectProps =
+		kind === "object" ? (rest as unknown as RestProps<T>) : null;
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -101,7 +116,7 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 		.filter((option) => {
 			if (mode !== "search" || !searchTerm) return true;
 			if (kind === "string") {
-				return (option as string)
+				return (option as unknown as string)
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase());
 			}
@@ -131,16 +146,26 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 	};
 
 	return (
-		<div ref={dropdownRef} className="relative w-full max-w-md">
+		<div
+			ref={dropdownRef}
+			className="relative w-full max-w-md
+			text-sm"
+		>
 			<div
-				className="border rounded-md p-2 bg-white cursor-pointer flex flex-wrap gap-2 min-h-[42px]"
+				className="flex items-center flex-wrap min-h-8 p-1 gap-2
+				bg-neutral-600
+				border-1 border-neutral-500 rounded-md cursor-pointer"
 				onClick={() => setIsOpen(!isOpen)}
 			>
 				{multiple && Array.isArray(selected) && selected.length > 0 ? (
 					selected.map((item, index) => (
 						<div
 							key={index}
-							className="bg-gray-100 px-2 py-1 rounded flex items-center gap-1"
+							className="flex items-center h-fit px-1.5 py-0.5 gap-1
+							text-xs
+							text-white/60
+							bg-neutral-600
+							border-1 border-neutral-500 rounded"
 						>
 							<span>{getDisplayValue(item)}</span>
 							<button
@@ -148,7 +173,8 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 									e.stopPropagation();
 									handleRemove(item);
 								}}
-								className="text-red-500 hover:text-red-700"
+								className="text-white/60 hover:text-white/80
+								cursor-pointer"
 							>
 								×
 							</button>
@@ -157,12 +183,17 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 				) : !multiple && selected ? (
 					<span>{getDisplayValue(selected as T)}</span>
 				) : (
-					<span className="text-gray-400">{placeholder}</span>
+					<span className="text-neutral-400">{placeholder}</span>
 				)}
 			</div>
 
 			{isOpen && (
-				<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+				<div
+					className="absolute z-10 w-full mt-1
+					text-white/60
+					bg-neutral-600
+					border border-neutral-500 rounded-md overflow-auto"
+				>
 					{mode === "search" && (
 						<input
 							type="text"
@@ -170,13 +201,15 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 							onChange={(e) => setSearchTerm(e.target.value)}
 							onClick={(e) => e.stopPropagation()}
 							placeholder="Search..."
-							className="w-full p-2 border-b outline-none"
+							className="w-full p-2 border-b border-neutral-500 outline-none"
 						/>
 					)}
 					{filteredOptions.map((option, index) => (
 						<div
 							key={index}
-							className="p-2 hover:bg-gray-100 cursor-pointer"
+							className="p-1
+							hover:bg-neutral-500
+							cursor-pointer"
 							onClick={() => handleSelect(option)}
 							onMouseEnter={() => setHover(option)}
 							onMouseLeave={() => setHover(null)}
@@ -185,7 +218,7 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 								option
 							) : (
 								<div>
-									<div>
+									<div className="text-neutral-300">
 										{String(
 											(option as any)[
 												objectProps!.label.primaryKey
@@ -193,7 +226,7 @@ export const Dropdown = <T, K extends keyof T = keyof T>({
 										)}
 									</div>
 									{objectProps!.label.secondaryKey && (
-										<div className="text-sm text-gray-500">
+										<div className="text-sm text-neutral-400">
 											{String(
 												(option as any)[
 													objectProps!.label
