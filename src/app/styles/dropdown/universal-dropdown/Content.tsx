@@ -26,7 +26,10 @@ export const Content = () => {
 	];
 
 	return (
-		<div className="flex gap-10">
+		<div
+			className="flex gap-10 h-svh
+			bg-black/80"
+		>
 			<div className="w-[500px] p-4 space-y-4">
 				{/* String Dropdown - Single Select */}
 				<Dropdown
@@ -55,7 +58,7 @@ export const Content = () => {
 			</div>
 			{/* Preview hovered item */}
 			{hovered && (
-				<div className="mt-2 p-2 bg-gray-100 rounded">
+				<div className="mt-2 p-2 bg-neutral-400 rounded">
 					Hovered: {JSON.stringify(hovered)}
 				</div>
 			)}

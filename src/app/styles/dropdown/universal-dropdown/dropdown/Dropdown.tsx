@@ -16,20 +16,20 @@ type StringProps<T extends string> = BaseProps<T> & {
 	kind: "string";
 };
 
-type ObjectProps<T extends object, K extends keyof T> = BaseProps<T> & {
+type ObjectProps<T extends object> = BaseProps<T> & {
 	kind: "object";
-	sortBy: K;
+	sortBy: keyof T;
 	label: {
-		primaryKey: K;
-		secondaryKey?: K;
+		primaryKey: keyof T;
+		secondaryKey?: keyof T;
 	};
 };
 
-type DropdownProps<T, K extends keyof T = keyof T> = T extends string
+type DropdownProps<T> = T extends string
 	? StringProps<T>
 	: T extends object
-	? ObjectProps<T, K>
-	: never;
+	? ObjectProps<T>
+	: any;
 type RestProps<T> = T extends object
 	? {
 			sortBy: keyof T;
@@ -40,12 +40,10 @@ type RestProps<T> = T extends object
 	  }
 	: never;
 
-export const Dropdown = <T, K extends keyof T = keyof T>(
-	props: DropdownProps<T, K>
-) => {
+export const Dropdown = <T,>(props: DropdownProps<T>) => {
 	const {
-		mode = "regular",
 		kind,
+		mode = "regular",
 		placeholder = "Select an option",
 		options,
 		selected,
