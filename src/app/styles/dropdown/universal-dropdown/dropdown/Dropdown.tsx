@@ -150,19 +150,19 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 			text-sm"
 		>
 			<div
-				className="flex items-center flex-wrap min-h-8 p-1 gap-2
-				bg-neutral-600
+				className="flex items-center flex-wrap min-h-8 px-2 py-1 gap-2
+				bg-neutral-800
 				border-1 border-neutral-500 rounded-md cursor-pointer"
 				onClick={() => setIsOpen(!isOpen)}
 			>
 				{multiple && Array.isArray(selected) && selected.length > 0 ? (
-					selected.map((item, index) => (
+					selected.map((item, i) => (
 						<div
-							key={index}
+							key={i}
 							className="flex items-center h-fit px-1.5 py-0.5 gap-1
 							text-xs
 							text-white/60
-							bg-neutral-600
+							bg-neutral-700
 							border-1 border-neutral-500 rounded"
 						>
 							<span>{getDisplayValue(item)}</span>
@@ -189,7 +189,7 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 				<div
 					className="absolute z-10 w-full mt-1
 					text-white/60
-					bg-neutral-600
+					bg-neutral-800
 					border border-neutral-500 rounded-md overflow-auto"
 				>
 					{mode === "search" && (
@@ -202,11 +202,11 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 							className="w-full p-2 border-b border-neutral-500 outline-none"
 						/>
 					)}
-					{filteredOptions.map((option, index) => (
+					{filteredOptions.map((option, i) => (
 						<div
-							key={index}
-							className="p-1
-							hover:bg-neutral-500
+							key={i}
+							className="px-2 py-1
+							hover:bg-neutral-700
 							cursor-pointer"
 							onClick={() => handleSelect(option)}
 							onMouseEnter={() => setHover && setHover(option)}
@@ -215,7 +215,7 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 							{kind === "string" ? (
 								option
 							) : (
-								<div>
+								<div className="flex gap-1">
 									<div className="text-neutral-300">
 										{String(
 											(option as any)[

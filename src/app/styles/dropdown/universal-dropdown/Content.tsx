@@ -28,7 +28,7 @@ export const Content = () => {
 	return (
 		<div
 			className="flex gap-10 h-svh
-			bg-black/80"
+			bg-black/90"
 		>
 			<div className="w-[500px] p-4 space-y-4">
 				{/* String Dropdown - Single Select */}
