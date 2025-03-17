@@ -18,11 +18,21 @@ export const Content = () => {
 	);
 	const [hovered, setHovered] = useState<any>(null);
 
-	const stringOptions = ["Apple", "Banana", "Orange"];
+	const stringOptions = [
+		"Apple",
+		"Banana",
+		"Orange",
+		"A very loooooooooooooooooooooooooooooooooooooooooooooooooooooog option",
+	];
 	const objectOptions: User[] = [
 		{ id: "1", name: "John", email: "john@example.com" },
 		{ id: "2", name: "Jane", email: "jane@example.com" },
 		{ id: "3", name: "Bob", email: "bob@example.com" },
+		{
+			id: "4",
+			name: "Alice",
+			email: "alice@this-is-a-very-loooooooooooooooooooooooooooog-email.com",
+		},
 	];
 
 	return (
