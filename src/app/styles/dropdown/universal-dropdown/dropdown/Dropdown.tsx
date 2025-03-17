@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 
 type BaseProps<T> = {
 	mode?: "regular" | "search";
 	placeholder?: string;
 	options: T[];
 	selected: T | T[] | null;
-	setSelected: (value: T | T[] | null) => void;
-	setHover: (value: T | null) => void;
+	setSelected: Dispatch<SetStateAction<T | T[] | null>>;
+	setHover?: Dispatch<SetStateAction<T | T[] | null>>;
 	multiple?: boolean;
 };
 
@@ -209,8 +209,8 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 							hover:bg-neutral-500
 							cursor-pointer"
 							onClick={() => handleSelect(option)}
-							onMouseEnter={() => setHover(option)}
-							onMouseLeave={() => setHover(null)}
+							onMouseEnter={() => setHover && setHover(option)}
+							onMouseLeave={() => setHover && setHover(null)}
 						>
 							{kind === "string" ? (
 								option
