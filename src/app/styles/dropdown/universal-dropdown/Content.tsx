@@ -9,16 +9,22 @@ type User = {
 	email: string;
 };
 
+type Fruit =
+	| "Apple"
+	| "Banana"
+	| "Orange"
+	| "A very loooooooooooooooooooooooooooooooooooooooooooooooooooooog option";
+
 export const Content = () => {
 	const [stringSelected, setStringSelected] = useState<
-		string | string[] | null
+		Fruit | Fruit[] | null
 	>(null);
 	const [objectSelected, setObjectSelected] = useState<User | User[] | null>(
 		null
 	);
 	const [hovered, setHovered] = useState<any>(null);
 
-	const stringOptions = [
+	const stringOptions: Fruit[] = [
 		"Apple",
 		"Banana",
 		"Orange",
@@ -42,7 +48,7 @@ export const Content = () => {
 		>
 			<div className="w-[500px] p-4 space-y-4">
 				{/* String Dropdown - Single Select */}
-				<Dropdown
+				<Dropdown<Fruit>
 					kind="string"
 					mode="regular"
 					options={stringOptions}
