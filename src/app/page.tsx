@@ -309,8 +309,8 @@ export default function Home() {
 						text: "usePathname",
 					},
 					{
-						link: "/nextjs/data-curd",
-						text: "data CURD best practice",
+						link: "/nextjs/data-crud",
+						text: "data CRUD best practice",
 					},
 				]}
 			/>
