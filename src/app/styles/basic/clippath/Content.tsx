@@ -8,8 +8,8 @@ const Content = () => {
 			className="relative
 			m-4"
 		>
-			Note that clip-path doesn't dig a hole in this case, instead, it
-			creates a circle. And it doesn't support inverted circle.
+			Note that clip-path doesn&apos;t dig a hole in this case, instead,
+			it creates a circle. And it doesn&apos;t support inverted circle.
 			<div
 				className="w-56 h-32
 				bg-red-500"

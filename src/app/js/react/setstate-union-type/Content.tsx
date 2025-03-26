@@ -25,7 +25,7 @@ const Child = ({
 			Checkout the code for details.
 			<p>
 				If you hope the Child component to accept a union type for
-				number or undefined, don't do this:
+				number or undefined, don&apos;t do this:
 			</p>
 			<p>
 				<del>

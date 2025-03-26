@@ -1,9 +1,7 @@
-import dynamic from "next/dynamic";
-
-const DynamicContent = dynamic(() => import("./Content"), { ssr: false });
+import ContentWrapper from "./ContentWrapper";
 
 const Page = () => {
-	return <DynamicContent />;
+	return <ContentWrapper />;
 };
 
 export default Page;

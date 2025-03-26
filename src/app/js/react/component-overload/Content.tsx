@@ -40,7 +40,7 @@ export const Content = () => {
 	return (
 		<div className="p-2">
 			<p>
-				While React functional components don't support traditional
+				While React functional components don&apos;t support traditional
 				function overloading like in other languages, you can achieve
 				similar behavior using TypeScript and conditional props.
 			</p>

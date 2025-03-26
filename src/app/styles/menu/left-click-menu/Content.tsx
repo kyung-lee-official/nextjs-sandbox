@@ -24,7 +24,7 @@ const Content = () => {
 			</div>
 			<div className="flex gap-3">
 				{new Array(3).fill("_").map((m, i) => {
-					return <Menu />;
+					return <Menu key={i} />;
 				})}
 			</div>
 		</div>

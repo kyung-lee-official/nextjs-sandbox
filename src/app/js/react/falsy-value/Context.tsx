@@ -39,7 +39,7 @@ export const Content = () => {
 			<div>{`NaNValue: ${NaNValue}`}</div>
 
 			<div className="my-2 font-bold">
-				Connected with '+' (the result is same as above)
+				Connected with `&apos;`+`&apos;` (the result is same as above)
 			</div>
 			<div>zero: {zero + ""}</div>
 			<div>emptyArray: {emptyArray + ""}</div>

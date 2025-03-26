@@ -1,10 +1,7 @@
-import dynamic from "next/dynamic";
-
-const DynamicContent = dynamic(() => import("./Content"), {
-	ssr: false,
-});
+import Content from "./Content";
 
 const Page = () => {
-	return <DynamicContent />;
+	return <Content />;
 };
+
 export default Page;

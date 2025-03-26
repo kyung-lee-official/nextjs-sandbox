@@ -110,7 +110,9 @@ const Content = () => {
 					into string <code>2025-01-01</code> by calling
 				</p>
 				<p>
-					<code>date.format("YYYY-MM-DD") /* 2025-01-01 */</code>
+					<code>
+						date.format(&quot;YYYY-MM-DD&quot;) /* 2025-01-01 */
+					</code>
 				</p>
 				<p>
 					This string should be used as the identifier of the entity
@@ -119,7 +121,7 @@ const Content = () => {
 				</p>
 				<p>
 					<code>
-						dayjs("2025-01-01").toISOString() /*
+						dayjs(&quot;2025-01-01&quot;).toISOString() /*
 						2025-01-01T00:00:00.000Z */
 					</code>
 				</p>
@@ -127,8 +129,9 @@ const Content = () => {
 				<p>
 					When it comes to searching, we literally repeat the similar
 					thing. So if we wants all entities of year 2025, we first
-					send string "2025-01-01" to the server, and the server will
-					convert it to "2025-01-01T00:00:00.000Z" before querying the
+					send string &quot;2025-01-01&quot; to the server, and the
+					server will convert it to
+					&quot;2025-01-01T00:00:00.000Z&quot; before querying the
 					database.
 				</p>
 			</div>
