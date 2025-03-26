@@ -70,6 +70,20 @@ const roles = [
 		},
 	},
 	{
+		id: "lab",
+		name: "Lab",
+		superRoleId: "technical-support-lead",
+		createdAt: "2025-03-24T11:40:30.112Z",
+		updatedAt: "2025-03-24T11:42:39.678Z",
+		superRole: {
+			id: "technical-support-lead",
+			name: "Technical Support Lead",
+			superRoleId: "admin",
+			createdAt: "2025-03-24T11:39:46.262Z",
+			updatedAt: "2025-03-24T11:42:32.746Z",
+		},
+	},
+	{
 		id: "admin",
 		name: "Admin",
 		superRoleId: null,
@@ -95,30 +109,30 @@ type RoleNode = {
  * roles with the same superRole should be placed in the same column
  */
 const nodeSize = { width: 200, height: 60 };
-const gap = { x: 300, y: 200 };
+const gap = { x: 400, y: 200 };
 const roleNodes: RoleNode[] = [];
 
-// Helper function to recursively calculate positions
+/* helper function to recursively calculate positions */
 const calculateNodePosition = (
 	role: (typeof roles)[0],
 	x: number,
 	y: number,
 	columnMap: Map<string, number>
 ): number => {
-	// Check if the node is already placed
+	/* check if the node is already placed */
 	if (roleNodes.find((n) => n.id === role.id)) return x;
 
-	// Find child roles
+	/* find child roles */
 	const childRoles = roles.filter((r) => r.superRoleId === role.id);
 
-	// Calculate the total width of the subtree
+	/* calculate the total width of the subtree */
 	const subtreeWidth =
 		childRoles.length > 0 ? (childRoles.length - 1) * gap.x : 0;
 
-	// Calculate the starting X position for child nodes
+	/* calculate the starting x position for child nodes */
 	let childX = x - subtreeWidth / 2;
 
-	// Add the current node
+	/* add the current node */
 	roleNodes.push({
 		id: role.id,
 		position: { x, y },
@@ -131,7 +145,7 @@ const calculateNodePosition = (
 		},
 	});
 
-	// Place child roles in the next row
+	/* place child roles in the next row */
 	let maxX = x;
 	for (const child of childRoles) {
 		const newX = calculateNodePosition(child, childX, y + gap.y, columnMap);
@@ -142,7 +156,7 @@ const calculateNodePosition = (
 	return maxX;
 };
 
-// Start with root roles (superRoleId: null)
+/* start with root roles (superroleid: null) */
 const rootRoles = roles.filter((r) => r.superRoleId === null);
 let rootX = 0;
 let rootY = 0;
@@ -153,9 +167,8 @@ for (const rootRole of rootRoles) {
 		rootY,
 		new Map()
 	);
-	rootX += subtreeWidth + gap.x; // Add horizontal space between root nodes
+	rootX += subtreeWidth + gap.x; /* add horizontal space between root nodes */
 }
-
 /* generate initial edges */
 const initialEdges = roles
 	.filter((r) => r.superRoleId)
