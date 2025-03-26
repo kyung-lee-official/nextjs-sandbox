@@ -395,6 +395,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Styles | reactflow.dev"
+				list={[
+					{
+						link: "/styles/reactflow/tree-like",
+						text: "tree like",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Modal (Portal)"
 				list={[
 					{
