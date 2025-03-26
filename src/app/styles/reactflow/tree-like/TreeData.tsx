@@ -104,9 +104,19 @@ const calculateNodePosition = (
 	x: number,
 	y: number,
 	columnMap: Map<string, number>
-) => {
+): number => {
 	// Check if the node is already placed
-	if (roleNodes.find((n) => n.id === role.id)) return;
+	if (roleNodes.find((n) => n.id === role.id)) return x;
+
+	// Find child roles
+	const childRoles = roles.filter((r) => r.superRoleId === role.id);
+
+	// Calculate the total width of the subtree
+	const subtreeWidth =
+		childRoles.length > 0 ? (childRoles.length - 1) * gap.x : 0;
+
+	// Calculate the starting X position for child nodes
+	let childX = x - subtreeWidth / 2;
 
 	// Add the current node
 	roleNodes.push({
@@ -121,23 +131,29 @@ const calculateNodePosition = (
 		},
 	});
 
-	// Find child roles
-	const childRoles = roles.filter((r) => r.superRoleId === role.id);
-
 	// Place child roles in the next row
-	let childX = x;
+	let maxX = x;
 	for (const child of childRoles) {
+		const newX = calculateNodePosition(child, childX, y + gap.y, columnMap);
 		childX += gap.x;
-		calculateNodePosition(child, childX, y + gap.y, columnMap);
+		maxX = Math.max(maxX, newX);
 	}
+
+	return maxX;
 };
 
 // Start with root roles (superRoleId: null)
 const rootRoles = roles.filter((r) => r.superRoleId === null);
 let rootX = 0;
+let rootY = 0;
 for (const rootRole of rootRoles) {
-	calculateNodePosition(rootRole, rootX, 0, new Map());
-	rootX += gap.x;
+	const subtreeWidth = calculateNodePosition(
+		rootRole,
+		rootX,
+		rootY,
+		new Map()
+	);
+	rootX += subtreeWidth + gap.x; // Add horizontal space between root nodes
 }
 
 /* generate initial edges */
