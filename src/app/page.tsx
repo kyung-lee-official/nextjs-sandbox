@@ -389,6 +389,10 @@ export default function Home() {
 						text: "text ellipsis",
 					},
 					{
+						link: "/styles/basic/tooltip",
+						text: "tooltip",
+					},
+					{
 						link: "/styles/basic/turing-fonts",
 						text: "turing fonts",
 					},
