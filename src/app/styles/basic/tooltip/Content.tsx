@@ -1,6 +1,6 @@
 "use client";
 
-import Tooltip from "./Tooltip";
+import Tooltip from "./tooltip/Tooltip";
 
 export const Content = () => {
 	return (
