@@ -5,6 +5,7 @@ import { IntegerInput } from "./integer-input/IntegerInput";
 
 export const Content = () => {
 	const [unlimited, setUnlimited] = useState(0);
+	const [positiveOnly, setPositiveOnly] = useState(0);
 	return (
 		<div className="m-8">
 			<h1 className="text-2xl font-bold mb-4">Integer Input Component</h1>
@@ -26,6 +27,19 @@ export const Content = () => {
 					placeholder="unlimited"
 				/>
 				<p className="mt-2 text-gray-500">Current value: {unlimited}</p>
+			</div>
+			<div>
+				<IntegerInput
+					value={positiveOnly}
+					onChange={(e) => {
+						setPositiveOnly(e as number);
+					}}
+					placeholder="positive only"
+					min={0}
+				/>
+				<p className="mt-2 text-gray-500">
+					Current value: {positiveOnly}
+				</p>
 			</div>
 		</div>
 	);
