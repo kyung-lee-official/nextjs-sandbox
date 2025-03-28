@@ -457,6 +457,10 @@ export default function Home() {
 						text: "zod and react-hook-form",
 					},
 					{
+						link: "/styles/form-and-input/integer-input",
+						text: "Integer Input",
+					},
+					{
 						link: "/styles/date/date-picker",
 						text: "Date Picker",
 					},
