@@ -234,6 +234,10 @@ export default function Home() {
 				title="Javascript | React"
 				list={[
 					{
+						link: "/js/react/array-map-caveat",
+						text: "array map() caveat",
+					},
+					{
 						link: "/js/react/component-overload",
 						text: "Component Overload",
 					},
