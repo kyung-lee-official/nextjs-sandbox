@@ -41,6 +41,19 @@ export const Content = () => {
 					Current value: {positiveOnly}
 				</p>
 			</div>
+			<div>
+				<div>positiveOnly: {positiveOnly}</div>
+				<button
+					className="underline"
+					onClick={() => {
+						setPositiveOnly((pre) => {
+							return pre + 1;
+						});
+					}}
+				>
+					set value manually outside of the input component
+				</button>
+			</div>
 		</div>
 	);
 };
