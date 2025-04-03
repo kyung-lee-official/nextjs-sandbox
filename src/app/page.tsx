@@ -469,6 +469,10 @@ export default function Home() {
 						text: "Integer Input",
 					},
 					{
+						link: "/styles/form-and-input/decimal-input",
+						text: "Decimal Input",
+					},
+					{
 						link: "/styles/date/date-picker",
 						text: "Date Picker",
 					},
