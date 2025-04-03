@@ -1,13 +1,10 @@
 "use client";
 
-import dayjs from "dayjs";
 import dynamic from "next/dynamic";
 
 const DynamicImage = dynamic(() => import("./DynamicImage"), { ssr: false });
 
 const Content = () => {
-	const cacheBuster = dayjs().valueOf(); /* Generate a unique timestamp */
-
 	return (
 		<div className="flex flex-col w-96 m-8 gap-8">
 			<h1 className="text-xl">Image onLoad, check out the console</h1>
@@ -18,7 +15,7 @@ const Content = () => {
 				the server side.
 			</span>
 			<DynamicImage
-				src={`/images/styles/image/horizontal.jpg?cb=${cacheBuster}`}
+				src={`/images/styles/image/horizontal.jpg`}
 				onLoad={() => {
 					console.log("onLoad static image from public folder");
 				}}
