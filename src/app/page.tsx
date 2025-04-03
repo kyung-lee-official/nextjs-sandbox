@@ -309,12 +309,16 @@ export default function Home() {
 				title="NextJS"
 				list={[
 					{
-						link: "/nextjs/usepathname",
-						text: "usePathname",
-					},
-					{
 						link: "/nextjs/data-crud",
 						text: "data CRUD best practice",
+					},
+					{
+						link: "/nextjs/image-onload",
+						text: "image-onload",
+					},
+					{
+						link: "/nextjs/usepathname",
+						text: "usePathname",
 					},
 				]}
 			/>
