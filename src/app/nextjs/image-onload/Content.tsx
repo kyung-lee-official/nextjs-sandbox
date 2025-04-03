@@ -13,7 +13,9 @@ const Content = () => {
 			<h1 className="text-xl">Image onLoad, check out the console</h1>
 			<span>
 				In NextJS, to enforce `onLoad` to be fired, we need to set `ssr:
-				false` in the dynamic import.
+				false` in the dynamic import, otherwise the `onLoad` event will
+				not be fired. This is because NextJS will prerender the image on
+				the server side.
 			</span>
 			<DynamicImage
 				src={`/images/styles/image/horizontal.jpg?cb=${cacheBuster}`}
