@@ -8,7 +8,7 @@ const Content = () => {
 	const [progress, setProgress] = useState(0);
 
 	const socket = useMemo(() => {
-		const socket = io("http://localhost:3000", {
+		const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
 			autoConnect: false,
 		});
 		socket.on("connect", () => {
