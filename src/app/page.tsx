@@ -570,6 +570,10 @@ export default function Home() {
 						link: "/websocket/socket.io",
 						text: "socket.io",
 					},
+					{
+						link: "/websocket/upload-large-json",
+						text: "upload large json",
+					},
 				]}
 			/>
 		</main>
