@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import pako from "pako";
 import { useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { z } from "zod";
@@ -44,9 +45,9 @@ export const Content = () => {
 		return socket;
 	}, []);
 
-	async function sendDataAsBinary(data: File) {
-		/* read the data as text */
-		const fileContent = await data.text();
+	async function sendDataAsBinary(file: File) {
+		/* read the file as text */
+		const fileContent = await file.text();
 		/* parse the JSON content */
 		let parsedData;
 		try {
@@ -62,9 +63,17 @@ export const Content = () => {
 			throw new Error("JSON validation failed");
 		}
 
+		/* compress the JSON data using Gzip */
+		const compressedData = pako.gzip(JSON.stringify(parsedData));
+
+		/* convert parsedData to blob for minimum size */
+		const blob = new Blob([compressedData], {
+			type: "application/json",
+		});
+
 		/* create a FormData object and append the file */
 		const formData = new FormData();
-		formData.append("data", data);
+		formData.append("data", blob);
 
 		/* send the FormData to the backend */
 		const res = await axios.post(`upload-large-json`, formData, {
