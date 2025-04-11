@@ -65,6 +65,7 @@ export const Content = () => {
 
 		/* compress the JSON data using Gzip */
 		const compressedData = pako.gzip(JSON.stringify(parsedData));
+		console.log(`Size of compressed data: ${compressedData.length} bytes`);
 
 		/* convert parsedData to blob for minimum size */
 		const blob = new Blob([compressedData], {
