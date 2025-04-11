@@ -69,7 +69,7 @@ export const Content = () => {
 
 		/* convert parsedData to blob for minimum size */
 		const blob = new Blob([compressedData], {
-			type: "application/json",
+			type: "application/gzip",
 		});
 
 		/* create a FormData object and append the file */
