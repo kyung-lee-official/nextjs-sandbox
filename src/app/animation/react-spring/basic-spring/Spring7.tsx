@@ -2,6 +2,9 @@
 
 import { animated, useSpringValue } from "@react-spring/web";
 
+/**
+ * @deprecated
+ */
 const Spring7 = () => {
 	const springValue = useSpringValue(0, {
 		config: {
@@ -19,7 +22,7 @@ const Spring7 = () => {
 			bg-neutral-200
 			rounded-md"
 		>
-			<animated.a
+			{/* <animated.a
 				href={
 					"https://www.react-spring.dev/docs/components/use-spring-value"
 				}
@@ -27,7 +30,7 @@ const Spring7 = () => {
 				style={{ x: springValue }}
 			>
 				useSpringValue
-			</animated.a>
+			</animated.a> */}
 
 			<button
 				onClick={handleClick}

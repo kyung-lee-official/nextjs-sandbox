@@ -3,6 +3,9 @@
 import { useSpring, useSpringRef, animated } from "@react-spring/web";
 import { Container } from "./Container";
 
+/**
+ * @deprecated
+ */
 const ApiComponent = () => {
 	const api = useSpringRef();
 	const springs = useSpring({
@@ -20,13 +23,13 @@ const ApiComponent = () => {
 
 	return (
 		<Container>
-			<animated.div
+			{/* <animated.div
 				onClick={handleClick}
 				className={"w-20 h-20 bg-red-500 rounded-2xl"}
 				style={{
 					...springs,
 				}}
-			/>
+			/> */}
 			<span>Render ID - {Math.random()}</span>
 		</Container>
 	);

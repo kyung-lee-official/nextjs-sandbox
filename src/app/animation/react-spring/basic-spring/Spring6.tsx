@@ -2,6 +2,9 @@
 
 import { animated, useSpring } from "@react-spring/web";
 
+/**
+ * @deprecated
+ */
 const Spring6 = () => {
 	const [props, api] = useSpring(() => ({
 		from: { x: 0 },
@@ -16,7 +19,7 @@ const Spring6 = () => {
 			bg-neutral-200
 			rounded-md"
 		>
-			<animated.a
+			{/* <animated.a
 				href={
 					"https://www.react-spring.dev/docs/advanced/async-animations"
 				}
@@ -24,7 +27,7 @@ const Spring6 = () => {
 				style={{ x: interpolate }}
 			>
 				Async Animations with Interpolation
-			</animated.a>
+			</animated.a> */}
 
 			<button
 				onClick={() => {

@@ -2,6 +2,9 @@
 
 import { animated, useSpring } from "@react-spring/web";
 
+/**
+ * @deprecated
+ */
 const Spring5 = () => {
 	const [props, api] = useSpring(
 		() => ({
@@ -15,7 +18,7 @@ const Spring5 = () => {
 			bg-neutral-200
 			rounded-md"
 		>
-			<animated.a
+			{/* <animated.a
 				href={
 					"https://www.react-spring.dev/docs/advanced/async-animations"
 				}
@@ -23,7 +26,7 @@ const Spring5 = () => {
 				style={props}
 			>
 				Async Animations (Array Value Animation)
-			</animated.a>
+			</animated.a> */}
 			<button
 				onClick={() => {
 					api.start({

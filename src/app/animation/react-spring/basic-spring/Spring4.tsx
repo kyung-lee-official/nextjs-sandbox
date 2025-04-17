@@ -2,6 +2,9 @@
 
 import { animated, useSpring } from "@react-spring/web";
 
+/**
+ * @deprecated
+ */
 const Spring4 = () => {
 	const [props, api] = useSpring(
 		() => ({
@@ -25,7 +28,7 @@ const Spring4 = () => {
 				Interpolation (value mapping)
 			</a>
 			<div>This case we map x transition to a rotation</div>
-			<animated.a
+			{/* <animated.a
 				className={"underline"}
 				style={{
 					transform: props.x.to(
@@ -34,7 +37,7 @@ const Spring4 = () => {
 				}}
 			>
 				Text
-			</animated.a>
+			</animated.a> */}
 		</div>
 	);
 };

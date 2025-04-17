@@ -4,6 +4,9 @@ import { animated, useSpring } from "@react-spring/web";
 import { useState } from "react";
 import { Container } from "./Container";
 
+/**
+ * @deprecated
+ */
 const StateComponent = () => {
 	const [forward, setForward] = useState(false);
 
@@ -17,13 +20,13 @@ const StateComponent = () => {
 
 	return (
 		<Container>
-			<animated.div
+			{/* <animated.div
 				onClick={handleClick}
 				className={"w-20 h-20 bg-red-500 rounded-2xl"}
 				style={{
 					...springs,
 				}}
-			/>
+			/> */}
 			<span>Render ID - {Math.random()}</span>
 		</Container>
 	);

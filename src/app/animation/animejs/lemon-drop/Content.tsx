@@ -26,7 +26,7 @@ const Content: React.FC<any> = () => {
 	const [width, setWidth] = useState(SVG_WIDTH);
 	const widthRef = useRef(width);
 	const [springs, setSprings] = useState<Spring[]>(waveTank.springs);
-	const requestIdRef = useRef<number>();
+	const requestIdRef = useRef<number>(0);
 	const grid = SVG_WIDTH / waveTank.waveLength;
 
 	const points = [

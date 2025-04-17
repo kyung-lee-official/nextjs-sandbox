@@ -3,6 +3,9 @@
 import { animated, useSpring } from "@react-spring/web";
 import { useState } from "react";
 
+/**
+ * @deprecated
+ */
 const Spring2 = () => {
 	const [props, api] = useSpring(() => {
 		return {
@@ -17,9 +20,9 @@ const Spring2 = () => {
 			bg-neutral-200
 			rounded-md"
 		>
-			<animated.div style={props}>
+			{/* <animated.div style={props}>
 				<h1>Basic useSpring & api.start()</h1>
-			</animated.div>
+			</animated.div> */}
 			<button
 				onClick={() => {
 					setToggle(!toggle);

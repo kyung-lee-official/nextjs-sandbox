@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { EditId, EditPanel, EditProps } from "./EditPanel";
 
-const Content = () => {
+export const Content = () => {
 	const [edit, setEdit] = useState<EditProps>({
 		show: false,
 		id: EditId.NAME,
 	});
+
+	const [isClient, setIsClient] = useState(false);
+	/* ensure this runs only on the client */
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
 
 	return (
 		<div className="flex flex-col justify-center items-center gap-6 p-10">
@@ -40,12 +46,11 @@ const Content = () => {
 				dialogs to overlay on top of each other, and you will only be
 				able to see the last one.
 			</p>
-			{createPortal(
-				<EditPanel edit={edit} setEdit={setEdit} />,
-				document.body
-			)}
+			{isClient &&
+				createPortal(
+					<EditPanel edit={edit} setEdit={setEdit} />,
+					document.body
+				)}
 		</div>
 	);
 };
-
-export default Content;

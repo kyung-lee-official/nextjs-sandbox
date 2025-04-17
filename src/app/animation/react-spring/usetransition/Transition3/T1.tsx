@@ -1,6 +1,9 @@
 import { animated, useTransition } from "@react-spring/web";
 import { useState } from "react";
 
+/**
+ * @deprecated
+ */
 const T1 = () => {
 	const [data, setData] = useState<"A" | "B" | "C">("A");
 
@@ -22,13 +25,13 @@ const T1 = () => {
 	return (
 		<div className="flex flex-col items-center gap-2">
 			With useState
-			{transition((style, i) => {
+			{/* {transition((style, i) => {
 				return (
 					<animated.div style={style} className="text-5xl">
 						{i}
 					</animated.div>
 				);
-			})}
+			})} */}
 			<div className="flex items-center gap-2">
 				{["A", "B", "C"].map((item) => {
 					return (

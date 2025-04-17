@@ -10,6 +10,9 @@ import {
 
 const data = ["hi", "there!"];
 
+/**
+ * @deprecated
+ */
 const Chain2 = () => {
 	const springRef = useSpringRef();
 	const springs = useSpring({
@@ -54,7 +57,7 @@ const Chain2 = () => {
 				and 500ms respectively.
 			</div>
 
-			<animated.div
+			{/* <animated.div
 				className={"bg-cyan-300"}
 				style={{
 					width: springs.size,
@@ -72,7 +75,7 @@ const Chain2 = () => {
 						{item}
 					</animated.div>
 				))}
-			</animated.div>
+			</animated.div> */}
 		</div>
 	);
 };

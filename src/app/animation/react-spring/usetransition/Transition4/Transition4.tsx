@@ -44,6 +44,9 @@ const Item = (props: any) => {
 	);
 };
 
+/**
+ * @deprecated
+ */
 const Transition4 = () => {
 	const [items, setItems] = useState<any[]>([]);
 
@@ -83,9 +86,9 @@ const Transition4 = () => {
 			>
 				Push
 			</button>
-			{transitions((style, item) => {
+			{/* {transitions((style, item) => {
 				return <animated.div style={style}>{item}</animated.div>;
-			})}
+			})} */}
 		</div>
 	);
 };

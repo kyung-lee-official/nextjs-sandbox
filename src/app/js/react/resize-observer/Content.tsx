@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { RefObject, useRef } from "react";
 import useResizeObserver from "./useResizeObserver";
 
 export const Content = () => {
 	const ref = useRef<HTMLDivElement>(null);
-	const size = useResizeObserver(ref);
+	const size = useResizeObserver(ref as RefObject<HTMLDivElement>);
 
 	return (
 		<div

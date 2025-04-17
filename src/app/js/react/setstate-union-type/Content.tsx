@@ -62,6 +62,7 @@ const Child = ({
 
 export const Content = () => {
 	const [n, setN] = useState<number>(0);
+	const [n3, setN3] = useState<number | undefined>(0);
 
 	return (
 		<div>
@@ -71,7 +72,7 @@ export const Content = () => {
 				n2={n}
 				setN2={setN}
 				n3={n}
-				setN3={setN}
+				setN3={setN3}
 			/>
 		</div>
 	);

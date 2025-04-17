@@ -6,7 +6,7 @@ const Block = ({
 	list,
 	children,
 }: {
-	title: string;
+	title: string | ReactNode;
 	list: { link: string; text: string }[];
 	children?: ReactNode;
 }) => {
@@ -165,7 +165,7 @@ export default function Home() {
 				]}
 			/>
 			<Block
-				title="Animation | React Spring"
+				title={<del>Animation | React Spring</del>}
 				list={[
 					{
 						link: "/animation/react-spring/basic-spring",

@@ -3,6 +3,9 @@
 import { animated, useSpring } from "@react-spring/web";
 import Link from "next/link";
 
+/**
+ * @deprecated
+ */
 const Spring1 = () => {
 	const [props, api] = useSpring(
 		() => ({
@@ -24,7 +27,7 @@ const Spring1 = () => {
 			>
 				Basic useSpring
 			</Link>
-			<animated.div style={props}>text</animated.div>
+			{/* <animated.div style={props}>text</animated.div> */}
 		</div>
 	);
 };

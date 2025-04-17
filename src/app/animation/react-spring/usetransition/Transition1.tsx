@@ -14,15 +14,18 @@ const Animation = () => {
 		},
 	});
 
-	return transitions((style, item) => {
-		return (
-			<animated.div style={style} className="text-3xl">
-				{item}
-			</animated.div>
-		);
-	});
+	// return transitions((style, item) => {
+	// 	return (
+	// 		<animated.div style={style} className="text-3xl">
+	// 			{item}
+	// 		</animated.div>
+	// 	);
+	// });
 };
 
+/**
+ * @deprecated
+ */
 const Transition1 = () => {
 	return (
 		<div
@@ -36,7 +39,7 @@ const Transition1 = () => {
 			>
 				useTransition with a config object
 			</a>
-			<Animation />
+			{/* <Animation /> */}
 		</div>
 	);
 };

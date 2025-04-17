@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Content = () => {
 	const zero = 0;
-	const emptyArray: unknown[] = [];
+	const emptyArray: any[] = [];
 	const falseValue = false;
 	const nullValue = null;
 	const undefinedValue = undefined;

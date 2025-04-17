@@ -2,6 +2,9 @@
 
 import { animated, useTrail } from "@react-spring/web";
 
+/**
+ * @deprecated
+ */
 const Trail1 = () => {
 	const [trails, api] = useTrail(
 		3,
@@ -26,13 +29,13 @@ const Trail1 = () => {
 				useTrail (stagger) with a function & deps
 			</a>
 			<div>Auto start</div>
-			{trails.map((props, i) => {
+			{/* {trails.map((props, i) => {
 				return (
 					<animated.div key={i} style={props}>
 						Hello World
 					</animated.div>
 				);
-			})}
+			})} */}
 		</div>
 	);
 };

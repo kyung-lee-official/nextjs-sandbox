@@ -3,6 +3,9 @@
 import { animated, useTransition } from "@react-spring/web";
 import { useState } from "react";
 
+/**
+ * @deprecated
+ */
 const Transition2 = () => {
 	const [data, setData] = useState<number>(0);
 
@@ -28,13 +31,13 @@ const Transition2 = () => {
 			>
 				useTransition with a config object & useState()
 			</a>
-			{transition((style, item) => {
+			{/* {transition((style, item) => {
 				return (
 					<animated.div style={style} className="text-5xl">
 						{item}
 					</animated.div>
 				);
-			})}
+			})} */}
 			<button
 				className="px-2 py-1
 				text-white

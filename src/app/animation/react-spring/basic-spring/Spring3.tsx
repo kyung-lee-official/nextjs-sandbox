@@ -3,6 +3,9 @@
 import { animated, useSprings } from "@react-spring/web";
 import Link from "next/link";
 
+/**
+ * @deprecated
+ */
 const Spring3 = () => {
 	const [springs, api] = useSprings(
 		3,
@@ -26,7 +29,7 @@ const Spring3 = () => {
 			>
 				Basic useSprings
 			</Link>
-			{springs.map((props, i) => {
+			{/* {springs.map((props, i) => {
 				return (
 					<animated.a
 						key={i}
@@ -39,7 +42,7 @@ const Spring3 = () => {
 						text
 					</animated.a>
 				);
-			})}
+			})} */}
 		</div>
 	);
 };
