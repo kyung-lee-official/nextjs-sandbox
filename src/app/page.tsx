@@ -448,6 +448,10 @@ export default function Home() {
 						text: "hover dropdown",
 					},
 					{
+						link: "/styles/dropdown/online-dropdown",
+						text: "online dropdown",
+					},
+					{
 						link: "/styles/dropdown/universal-dropdown",
 						text: "universal dropdown",
 					},
