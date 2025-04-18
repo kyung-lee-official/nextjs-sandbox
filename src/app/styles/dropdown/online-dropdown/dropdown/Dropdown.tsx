@@ -26,13 +26,17 @@ export const Dropdown = <T extends Record<string, any>>({
 
 	/* Fetch options from the backend */
 	useEffect(() => {
-		if (!isOpen || searchTerm === "") return;
+		if (!isOpen || searchTerm === "") {
+			setOptions([]);
+			return;
+		}
 
 		const fetchOptions = async () => {
 			setLoading(true);
 			try {
-				const response = await axios.get(`${endpoint}/${searchTerm}`);
-				setOptions(response.data);
+				const res = await axios.get(`${endpoint}/${searchTerm}`);
+				console.log(res.data);
+				setOptions(res.data);
 			} catch (error) {
 				console.error("Error fetching options:", error);
 			} finally {
