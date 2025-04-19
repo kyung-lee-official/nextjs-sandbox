@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import axios from "axios";
 
 type DropdownProps<T> = {
 	placeholder?: string;
-	selected: T | null;
-	setSelected: (value: T | null) => void;
+	selected: T | T[] | null /* support single or multiple selected items */;
+	setSelected: Dispatch<SetStateAction<T | T[] | null>>;
 	endpoint: string /* API endpoint for fetching options */;
-	labelKey: keyof T /* Key to use for the display label */;
+	labelKey: keyof T /* key to use for the display label */;
+	multiple?: boolean /* enable multi-selection */;
 };
 
 export const Dropdown = <T extends Record<string, any>>({
@@ -17,6 +18,7 @@ export const Dropdown = <T extends Record<string, any>>({
 	setSelected,
 	endpoint,
 	labelKey,
+	multiple = false,
 }: DropdownProps<T>) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +37,6 @@ export const Dropdown = <T extends Record<string, any>>({
 			setLoading(true);
 			try {
 				const res = await axios.get(`${endpoint}/${searchTerm}`);
-				console.log(res.data);
 				setOptions(res.data);
 			} catch (error) {
 				console.error("Error fetching options:", error);
@@ -61,27 +62,67 @@ export const Dropdown = <T extends Record<string, any>>({
 			document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
+	const handleSelect = (option: T) => {
+		if (multiple) {
+			/* handle multi-selection */
+			const selectedArray = Array.isArray(selected) ? selected : [];
+			if (selectedArray.some((item) => item.id === option.id)) {
+				/* unselect the option if already selected */
+				setSelected(
+					selectedArray.filter((item) => item.id !== option.id)
+				);
+			} else {
+				/* add the option to the selected list */
+				setSelected([...selectedArray, option]);
+			}
+		} else {
+			/* handle single selection */
+			setSelected(option);
+			setIsOpen(false);
+		}
+	};
+
+	const isSelected = (option: T) => {
+		if (!multiple) return false;
+		const selectedArray = Array.isArray(selected) ? selected : [];
+		return selectedArray.some((item) => item.id === option.id);
+	};
+
 	return (
-		<div ref={dropdownRef} className="relative w-full max-w-xs text-sm">
+		<div
+			ref={dropdownRef}
+			className="relative w-full max-w-xs
+			text-sm"
+		>
 			<div
-				className="flex items-center px-2 py-1 bg-neutral-800 border border-neutral-700 rounded-md cursor-pointer"
+				className="flex items-center px-2 py-1
+				bg-neutral-800
+				border border-neutral-700 rounded-md cursor-pointer"
 				onClick={() => setIsOpen(!isOpen)}
 			>
 				<span className="text-white/60">
-					{selected ? selected[labelKey] : placeholder}
+					{multiple
+						? placeholder
+						: selected
+						? !Array.isArray(selected) && selected[labelKey]
+						: placeholder}
 				</span>
 			</div>
 
 			{isOpen && (
-				<div className="absolute z-10 w-full mt-1 bg-neutral-800 border border-neutral-700 rounded-md overflow-auto">
+				<div
+					className="absolute z-10 w-full mt-1 
+					bg-neutral-800 
+					border border-neutral-700 rounded-md overflow-auto"
+				>
 					<input
 						type="text"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 						placeholder="Search..."
 						className="w-full p-2
-                        text-neutral-400
-                        border-neutral-700 border-b outline-none"
+						text-neutral-400
+						border-neutral-700 border-b outline-none"
 					/>
 					{loading ? (
 						<div className="p-2 text-center text-white/60">
@@ -91,15 +132,16 @@ export const Dropdown = <T extends Record<string, any>>({
 						options.map((option) => (
 							<div
 								key={option.id}
-								className="px-2 py-1 
+								className="flex justify-between items-center px-2 py-1
 								text-neutral-400
-								hover:bg-neutral-700 cursor-pointer"
-								onClick={() => {
-									setSelected(option);
-									setIsOpen(false);
-								}}
+								hover:bg-neutral-700
+								cursor-pointer"
+								onClick={() => handleSelect(option)}
 							>
-								{option[labelKey]}
+								<span>{option[labelKey]}</span>
+								{isSelected(option) && (
+									<span className="text-green-500">✔️</span>
+								)}
 							</div>
 						))
 					) : (
