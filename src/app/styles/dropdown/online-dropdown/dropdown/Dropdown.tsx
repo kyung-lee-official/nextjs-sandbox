@@ -9,6 +9,9 @@ type DropdownProps<T> = {
 	) => Promise<T[]> /* function to fetch options */;
 	labelKey: keyof T /* key to use for the display label */;
 	multiple?: boolean /* enable multi-selection */;
+	renderOption?: (
+		option: T
+	) => React.ReactNode /* custom render function for options */;
 };
 
 export const Dropdown = <T extends Record<string, any>>({
@@ -18,6 +21,7 @@ export const Dropdown = <T extends Record<string, any>>({
 	fetchOptions,
 	labelKey,
 	multiple = false,
+	renderOption,
 }: DropdownProps<T>) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -137,7 +141,11 @@ export const Dropdown = <T extends Record<string, any>>({
 								cursor-pointer"
 								onClick={() => handleSelect(option)}
 							>
-								<span>{option[labelKey]}</span>
+								{renderOption ? (
+									renderOption(option)
+								) : (
+									<span>{option[labelKey]}</span>
+								)}
 								{isSelected(option) && (
 									<span className="text-green-500">✔️</span>
 								)}

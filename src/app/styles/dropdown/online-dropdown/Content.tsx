@@ -7,7 +7,6 @@ import axios from "axios";
 type OptionType = {
 	id: string;
 	name: string;
-	label: string;
 };
 
 export const Content = () => {
@@ -63,6 +62,14 @@ export const Content = () => {
 					setSelected={setSelectedMulti}
 					fetchOptions={fetchOptions}
 					labelKey="name"
+					renderOption={(option) => {
+						return (
+							<div className="flex items-center gap-x-2">
+								<div>{option.id}</div>
+								<span>{option.name}</span>
+							</div>
+						);
+					}}
 					multiple={true}
 				/>
 			</div>
