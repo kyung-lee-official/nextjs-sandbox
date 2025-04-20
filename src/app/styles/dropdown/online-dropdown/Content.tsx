@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Dropdown } from "./dropdown/Dropdown";
+import axios from "axios";
 
 type OptionType = {
 	id: string;
@@ -27,6 +28,20 @@ export const Content = () => {
 		}
 	};
 
+	async function fetchOptions(searchTerm: string) {
+		const response = await axios.get(
+			`/mock-data/online-dropdown/${searchTerm}`,
+			{
+				baseURL: process.env.NEXT_PUBLIC_NESTJS,
+				headers: {
+					"Content-Type": "application/json",
+					// Authorization: jwt
+				},
+			}
+		);
+		return response.data;
+	}
+
 	return (
 		<div
 			className="flex gap-x-5
@@ -37,7 +52,7 @@ export const Content = () => {
 					placeholder="Search for an option..."
 					selected={selected}
 					setSelected={setSelected}
-					endpoint={`${process.env.NEXT_PUBLIC_NESTJS}/mock-data/online-dropdown`}
+					fetchOptions={fetchOptions}
 					labelKey="name"
 				/>
 			</div>
@@ -46,7 +61,7 @@ export const Content = () => {
 					placeholder="Search for options..."
 					selected={selectedMulti}
 					setSelected={setSelectedMulti}
-					endpoint={`${process.env.NEXT_PUBLIC_NESTJS}/mock-data/online-dropdown`}
+					fetchOptions={fetchOptions}
 					labelKey="name"
 					multiple={true}
 				/>

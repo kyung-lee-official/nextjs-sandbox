@@ -1,13 +1,12 @@
-"use client";
-
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import axios from "axios";
 
 type DropdownProps<T> = {
 	placeholder?: string;
 	selected: T | T[] | null /* support single or multiple selected items */;
 	setSelected: Dispatch<SetStateAction<T | T[] | null>>;
-	endpoint: string /* API endpoint for fetching options */;
+	fetchOptions: (
+		query: string
+	) => Promise<T[]> /* function to fetch options */;
 	labelKey: keyof T /* key to use for the display label */;
 	multiple?: boolean /* enable multi-selection */;
 };
@@ -16,7 +15,7 @@ export const Dropdown = <T extends Record<string, any>>({
 	placeholder = "Select an option",
 	selected,
 	setSelected,
-	endpoint,
+	fetchOptions,
 	labelKey,
 	multiple = false,
 }: DropdownProps<T>) => {
@@ -26,26 +25,26 @@ export const Dropdown = <T extends Record<string, any>>({
 	const [loading, setLoading] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
-	/* Fetch options from the backend */
+	/* fetch options using the provided function */
 	useEffect(() => {
 		if (!isOpen || searchTerm === "") {
 			setOptions([]);
 			return;
 		}
 
-		const fetchOptions = async () => {
+		const fetchData = async () => {
 			setLoading(true);
 			try {
-				const res = await axios.get(`${endpoint}/${searchTerm}`);
-				setOptions(res.data);
+				const data = await fetchOptions(searchTerm);
+				setOptions(data);
 			} catch (error) {
 				console.error("Error fetching options:", error);
 			} finally {
 				setLoading(false);
 			}
 		};
-		fetchOptions();
-	}, [searchTerm, isOpen, endpoint]);
+		fetchData();
+	}, [searchTerm, isOpen, fetchOptions]);
 
 	/* Close dropdown when clicking outside */
 	useEffect(() => {
