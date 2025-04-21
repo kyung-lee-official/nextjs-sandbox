@@ -148,6 +148,10 @@ export default function Home() {
 						link: "/animation/framer-motion/variants",
 						text: "variants",
 					},
+					{
+						link: "/animation/motion/use-in-view",
+						text: "useInView",
+					},
 				]}
 			/>
 			<Block
