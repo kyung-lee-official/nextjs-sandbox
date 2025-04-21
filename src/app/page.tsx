@@ -207,6 +207,10 @@ export default function Home() {
 				list={[{ link: "/casl/basic", text: "basic" }]}
 			/>
 			<Block
+				title="Chart | Visx"
+				list={[{ link: "/chart/visx/barstack", text: "barstack" }]}
+			/>
+			<Block
 				title="Data Fetching"
 				list={[
 					{
