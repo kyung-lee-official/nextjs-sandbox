@@ -137,6 +137,10 @@ export default function Home() {
 						text: "theme switch",
 					},
 					{
+						link: "/animation/motion/use-scroll",
+						text: "useScroll",
+					},
+					{
 						link: "/animation/framer-motion/variants",
 						text: "variants",
 					},
