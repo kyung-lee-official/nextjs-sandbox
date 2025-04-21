@@ -449,6 +449,10 @@ export default function Home() {
 						link: "/styles/modal/dialog",
 						text: "html <dialog>",
 					},
+					{
+						link: "/styles/modal/click-listener-in-a-modal",
+						text: "click listener in a modal",
+					},
 				]}
 			/>
 			<Block
