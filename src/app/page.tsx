@@ -141,6 +141,10 @@ export default function Home() {
 						text: "useScroll",
 					},
 					{
+						link: "/animation/motion/use-scroll-page",
+						text: "useScroll page",
+					},
+					{
 						link: "/animation/framer-motion/variants",
 						text: "variants",
 					},
