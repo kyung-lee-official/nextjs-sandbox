@@ -208,7 +208,10 @@ export default function Home() {
 			/>
 			<Block
 				title="Chart | Visx"
-				list={[{ link: "/chart/visx/barstack", text: "barstack" }]}
+				list={[
+					{ link: "/chart/visx/bars", text: "bars" },
+					{ link: "/chart/visx/barstack", text: "barstack" },
+				]}
 			/>
 			<Block
 				title="Data Fetching"
