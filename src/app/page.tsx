@@ -446,6 +446,10 @@ export default function Home() {
 						text: "traditional modal dialog example",
 					},
 					{
+						link: "/styles/modal/confirm-dialog",
+						text: "confirm dialog",
+					},
+					{
 						link: "/styles/modal/dialog",
 						text: "html <dialog>",
 					},
