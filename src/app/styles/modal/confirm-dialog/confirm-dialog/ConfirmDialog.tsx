@@ -7,8 +7,8 @@ export const ConfirmDialog = <T,>(props: {
 	question: string;
 	description?: string;
 	confirmText?: string;
-	data: T;
-	onOk: (data: T) => void;
+	data?: T;
+	onOk: (data: T | undefined) => void;
 }) => {
 	const {
 		show,

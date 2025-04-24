@@ -23,7 +23,9 @@ type User = { id: number; user: string };
 
 export const Content = () => {
 	const [show, setShow] = useState<boolean>(false);
-	const [userToDelete, setUserToDelete] = useState<number | null>(null);
+	const [userToDelete, setUserToDelete] = useState<number | undefined>(
+		undefined
+	);
 
 	const [mockData, setMockData] = useState<User[]>([
 		{
@@ -82,7 +84,7 @@ export const Content = () => {
 					description={"Are you sure you want to delete this user?"}
 					confirmText="Delete"
 					data={userToDelete}
-					onOk={(id: number | null) => {
+					onOk={(id: number | undefined) => {
 						/* typically, you would call an API to delete the user here */
 						setMockData((prev) => prev.filter((i) => i.id !== id));
 					}}
@@ -108,10 +110,9 @@ export const Content = () => {
 							}
 							confirmText="Delete"
 							data={item.id}
-							onOk={(id: number | null) => {
+							onOk={(id: number | undefined) => {
 								/* typically, you would call an API to delete the user here */
 								setMockData((prev) => {
-									console.log("click", id);
 									return prev.filter((i) => i.id !== id);
 								});
 							}}
