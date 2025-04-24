@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ConfirmDialog } from "./confirm-dialog/ConfirmDialog";
+import { ConfirmDialogWithButton } from "./confirm-dialog/ConfirmDialogWithButton";
 
 const DeleteOutlineOutlined = (props: { size: number }) => {
 	const { size } = props;
@@ -45,14 +46,19 @@ export const Content = () => {
 
 	return (
 		<div
-			className="p-8 h-svh
+			className="flex p-8 h-svh gap-24
 			bg-neutral-950"
 		>
-			<div className="text-neutral-400">
+			<div className="w-96 text-neutral-400">
+				<h1>ConfirmDialog</h1>
+				<span>
+					this way, you could only use one dialog in this page, and
+					use a state to store which user to delete
+				</span>
 				{mockData.map((item) => (
 					<div
 						key={item.id}
-						className="flex justify-between items-center w-96 p-4 gap-4
+						className="flex justify-between items-center p-4 gap-4
 						border-b border-neutral-700"
 					>
 						<div>{item.user}</div>
@@ -81,6 +87,45 @@ export const Content = () => {
 						setMockData((prev) => prev.filter((i) => i.id !== id));
 					}}
 				/>
+			</div>
+			<div className="w-96 text-neutral-400">
+				<h1>ConfirmDialogWithButton</h1>
+				<span>
+					this way, you could use multiple dialogs in this page, pass
+					in id directly in the map function
+				</span>
+				{mockData.map((item) => (
+					<div
+						key={item.id}
+						className="flex justify-between items-center p-4 gap-4
+						border-b border-neutral-700"
+					>
+						<div>{item.user}</div>
+						<ConfirmDialogWithButton
+							question={"Delete this user?"}
+							description={
+								"Are you sure you want to delete this user?"
+							}
+							confirmText="Delete"
+							data={item.id}
+							onOk={(id: number | null) => {
+								/* typically, you would call an API to delete the user here */
+								setMockData((prev) => {
+									console.log("click", id);
+									return prev.filter((i) => i.id !== id);
+								});
+							}}
+						>
+							<button
+								className="flex cursor-pointer
+								bg-neutral-800 hover:bg-neutral-700
+								rounded"
+							>
+								<DeleteOutlineOutlined size={24} />
+							</button>
+						</ConfirmDialogWithButton>
+					</div>
+				))}
 			</div>
 		</div>
 	);
