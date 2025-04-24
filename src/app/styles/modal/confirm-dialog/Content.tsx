@@ -21,6 +21,9 @@ const DeleteOutlineOutlined = (props: { size: number }) => {
 type User = { id: number; user: string };
 
 export const Content = () => {
+	const [show, setShow] = useState<boolean>(false);
+	const [userToDelete, setUserToDelete] = useState<number | null>(null);
+
 	const [mockData, setMockData] = useState<User[]>([
 		{
 			id: 1,
@@ -49,35 +52,35 @@ export const Content = () => {
 				{mockData.map((item) => (
 					<div
 						key={item.id}
-						className="flex items-center p-4 gap-4
+						className="flex justify-between items-center w-96 p-4 gap-4
 						border-b border-neutral-700"
 					>
 						<div>{item.user}</div>
-						<ConfirmDialog
-							entryButton={
-								<div
-									className="flex cursor-pointer
-									bg-neutral-800 hover:bg-neutral-700
-									rounded"
-								>
-									<DeleteOutlineOutlined size={24} />
-								</div>
-							}
-							confirmText="Delete"
-							data={item.id}
-							onOk={(id: typeof item.id) => {
-								/* typically, you would call an API to delete the user here */
-								setMockData((prev) =>
-									prev.filter((i) => i.id !== id)
-								);
+						<button
+							className="flex cursor-pointer
+							bg-neutral-800 hover:bg-neutral-700
+							rounded"
+							onClick={() => {
+								setUserToDelete(item.id);
+								setShow(true);
 							}}
-							question={"Delete this user?"}
-							description={
-								"Are you sure you want to delete this user?"
-							}
-						/>
+						>
+							<DeleteOutlineOutlined size={24} />
+						</button>
 					</div>
 				))}
+				<ConfirmDialog
+					show={show}
+					setShow={setShow}
+					question={"Delete this user?"}
+					description={"Are you sure you want to delete this user?"}
+					confirmText="Delete"
+					data={userToDelete}
+					onOk={(id: number | null) => {
+						/* typically, you would call an API to delete the user here */
+						setMockData((prev) => prev.filter((i) => i.id !== id));
+					}}
+				/>
 			</div>
 		</div>
 	);
