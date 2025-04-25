@@ -423,6 +423,10 @@ export default function Home() {
 						link: "/styles/basic/turing-fonts",
 						text: "turing fonts",
 					},
+					{
+						link: "/styles/basic/table",
+						text: "table",
+					},
 				]}
 			/>
 			<Block
