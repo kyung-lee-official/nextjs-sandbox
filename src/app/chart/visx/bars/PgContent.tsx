@@ -11,9 +11,9 @@ const dateSalesVolume = [
 	{ date: "Apr 04, 2025", salesVolume: 200 },
 ];
 const inStock = [
-	{ date: "Shanghai", salesVolume: 190 },
-	{ date: "Shenzhen", salesVolume: 50 },
-	{ date: "Guangzhou", salesVolume: 200 },
+	{ repo: "Shanghai", salesVolume: 190 },
+	{ repo: "Shenzhen", salesVolume: 50 },
+	{ repo: "Guangzhou", salesVolume: 200 },
 ];
 const dateGmv = [
 	{ date: "Apr 01, 2025", Gmv: 41906600 },
