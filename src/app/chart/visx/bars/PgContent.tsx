@@ -1,5 +1,6 @@
 "use client";
 
+import { AxisBottom, AxisLeft } from "@visx/axis";
 import { Grid } from "@visx/grid";
 import { Group } from "@visx/group";
 import { scaleBand, scaleLinear } from "@visx/scale";
@@ -105,15 +106,66 @@ export const PgContent = () => {
 								<Text
 									x={textX}
 									y={textY}
-									textAnchor="middle" // Center the text horizontally
-									fill="white" // Text color
-									fontSize={12} // Adjust font size as needed
+									/* center the text horizontally */
+									textAnchor="middle"
+									/* text color */
+									fill="white"
+									/* adjust font size as needed */
+									fontSize={12}
 								>
 									{d.salesVolume}
 								</Text>
 							</g>
 						);
 					})}
+					<AxisLeft
+						left={0} /* it's already inside the Group */
+						/* use the salesVolumeScale for the y-axis */
+						scale={salesVolumeScale}
+						/* axis line color */
+						stroke="white"
+						/* tick color */
+						tickStroke="white"
+						/* format the tick values */
+						tickFormat={(d) => d.toString()}
+						tickLabelProps={() => ({
+							/* tick label color */
+							fill: "white",
+							/* font size for tick labels */
+							fontSize: 12,
+							/* align the labels to the right */
+							textAnchor: "end",
+							/* move the labels slightly to the left */
+							dx: -5,
+						})}
+					/>
+					<AxisBottom
+						/* position the axis at the bottom of the chart */
+						top={salesVolumeScale(
+							Math.min(...data.map((d) => d.salesVolume))
+						)}
+						left={0} /* it's already inside the Group */
+						/* use the dateScale for the x-axis */
+						scale={dateScale}
+						/* axis line color */
+						stroke="white"
+						/* tick color */
+						tickStroke="white"
+						/* map the date to desired format */
+						tickFormat={(d) => {
+							return dayjs(d).format("MMM DD, YYYY");
+						}}
+						tickLabelProps={() => ({
+							/* tick label color */
+							fill: "white",
+							/* font size for tick labels */
+							fontSize: 12,
+							/* center the labels */
+							textAnchor: "middle",
+							/* move the labels down */
+							dy: 10,
+						})}
+					/>
 				</Group>
 			</svg>
 		</div>
