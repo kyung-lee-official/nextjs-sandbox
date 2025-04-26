@@ -234,6 +234,10 @@ export default function Home() {
 						link: "/chart/visx/barstack",
 						text: "barstack",
 					},
+					{
+						link: "/chart/visx/treemap/treemap-squarify",
+						text: "treemap-squarify",
+					},
 				]}
 			/>
 			<Block
