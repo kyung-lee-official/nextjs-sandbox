@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { Airbnb } from "./chart/visx/Icons";
 
 const Block = ({
 	title,
@@ -7,7 +8,7 @@ const Block = ({
 	children,
 }: {
 	title: string | ReactNode;
-	list: { link: string; text: string }[];
+	list: { link: string; text: string | ReactNode }[];
 	children?: ReactNode;
 }) => {
 	return (
@@ -219,10 +220,20 @@ export default function Home() {
 				list={[{ link: "/casl/basic", text: "basic" }]}
 			/>
 			<Block
-				title="Chart | Visx"
+				title={
+					<div className="flex items-center gap-2">
+						<div>Chart |</div> <Airbnb size={20} /> <div>Visx</div>
+					</div>
+				}
 				list={[
-					{ link: "/chart/visx/bars", text: "bars" },
-					{ link: "/chart/visx/barstack", text: "barstack" },
+					{
+						link: "/chart/visx/bars",
+						text: "bars",
+					},
+					{
+						link: "/chart/visx/barstack",
+						text: "barstack",
+					},
 				]}
 			/>
 			<Block

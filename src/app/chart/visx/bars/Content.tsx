@@ -10,7 +10,6 @@ import letterFrequency, {
 import { scaleBand, scaleLinear } from "@visx/scale";
 
 const data = letterFrequency.slice(5);
-console.log(data);
 const verticalMargin = 120;
 
 /* accessors */
@@ -48,39 +47,40 @@ export function Content() {
 	);
 
 	return width < 10 ? null : (
-		<svg width={width} height={height}>
-			<GradientTealBlue id="teal" />
-			<rect width={width} height={height} fill="url(#teal)" rx={14} />
-			<Group top={verticalMargin / 2}>
-				{data.map((d) => {
-					const letter = getLetter(d);
-					const barWidth = xScale.bandwidth();
-					const barHeight =
-						yMax - (yScale(getLetterFrequency(d)) ?? 0);
-					const barX = xScale(letter);
-					console.log(barX, letter);
-
-					const barY = yMax - barHeight;
-					return (
-						<Bar
-							key={`bar-${letter}`}
-							x={barX}
-							y={barY}
-							width={barWidth}
-							height={barHeight}
-							fill="rgba(23, 233, 217, .5)"
-							onClick={() => {
-								if (events)
-									alert(
-										`clicked: ${JSON.stringify(
-											Object.values(d)
-										)}`
-									);
-							}}
-						/>
-					);
-				})}
-			</Group>
-		</svg>
+		<div className="p-10">
+			https://airbnb.io/visx/bars
+			<svg width={width} height={height}>
+				<GradientTealBlue id="teal" />
+				<rect width={width} height={height} fill="url(#teal)" rx={14} />
+				<Group top={verticalMargin / 2}>
+					{data.map((d) => {
+						const letter = getLetter(d);
+						const barWidth = xScale.bandwidth();
+						const barHeight =
+							yMax - (yScale(getLetterFrequency(d)) ?? 0);
+						const barX = xScale(letter);
+						const barY = yMax - barHeight;
+						return (
+							<Bar
+								key={`bar-${letter}`}
+								x={barX}
+								y={barY}
+								width={barWidth}
+								height={barHeight}
+								fill="rgba(23, 233, 217, .5)"
+								onClick={() => {
+									if (events)
+										alert(
+											`clicked: ${JSON.stringify(
+												Object.values(d)
+											)}`
+										);
+								}}
+							/>
+						);
+					})}
+				</Group>
+			</svg>
+		</div>
 	);
 }

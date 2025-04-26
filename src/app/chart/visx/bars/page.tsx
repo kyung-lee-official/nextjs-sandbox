@@ -1,7 +1,13 @@
 import { Content } from "./Content";
+import { PgContent } from "./PgContent";
 
 const Page = () => {
-	return <Content />;
+	return (
+		<div>
+			<Content />
+			<PgContent />
+		</div>
+	);
 };
 
 export default Page;

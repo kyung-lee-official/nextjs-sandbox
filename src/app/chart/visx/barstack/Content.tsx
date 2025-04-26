@@ -114,7 +114,8 @@ export function Content({
 	temperatureScale.range([yMax, 0]);
 
 	return width < 10 ? null : (
-		<div className="relative">
+		<div className="relative p-10">
+			https://airbnb.io/visx/barstack
 			<svg ref={containerRef} width={width} height={height}>
 				<rect
 					x={0}
