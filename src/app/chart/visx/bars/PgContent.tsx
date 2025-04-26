@@ -8,6 +8,7 @@ import { Bar } from "@visx/shape";
 import { Text } from "@visx/text";
 import dayjs from "dayjs";
 
+/* data order matters, it determines the order of the bars */
 const data = [
 	{ date: "Apr 01, 2025", salesVolume: 190 },
 	{ date: "Apr 02, 2025", salesVolume: -50 },
