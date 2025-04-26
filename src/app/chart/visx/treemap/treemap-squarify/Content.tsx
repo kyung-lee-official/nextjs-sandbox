@@ -48,6 +48,7 @@ export function Content() {
 
 	return width < 10 ? null : (
 		<div className="p-10">
+			https://airbnb.io/visx/treemap
 			<svg width={width} height={height}>
 				<rect width={width} height={height} rx={14} fill={background} />
 				<Treemap<typeof stratifiedData>
