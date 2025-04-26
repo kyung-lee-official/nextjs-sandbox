@@ -1,6 +1,7 @@
 "use client";
 
 import { BarChart } from "./barchart/BarChart";
+import { convertNumberToHumanReadable } from "num-guru";
 
 /* data order matters, it determines the order of the bars */
 const dateSalesVolume = [
@@ -13,6 +14,12 @@ const inStock = [
 	{ date: "Shanghai", salesVolume: 190 },
 	{ date: "Shenzhen", salesVolume: 50 },
 	{ date: "Guangzhou", salesVolume: 200 },
+];
+const dateGmv = [
+	{ date: "Apr 01, 2025", Gmv: 41906600 },
+	{ date: "Apr 02, 2025", Gmv: 30040600 },
+	{ date: "Apr 03, 2025", Gmv: 50000880 },
+	{ date: "Apr 04, 2025", Gmv: 20005400 },
 ];
 
 const svgWidth = 900;
@@ -33,6 +40,18 @@ export const PgContent = () => {
 				svgWidth={svgWidth}
 				svgHeight={svgHeight}
 				margin={margin}
+			/>
+			<BarChart
+				data={dateGmv}
+				svgWidth={svgWidth}
+				svgHeight={svgHeight}
+				margin={margin}
+				textFormatter={(v) => {
+					return `¥ ${convertNumberToHumanReadable(v)}`;
+				}}
+				axisLeftTickFormatter={(v) => {
+					return `¥ ${convertNumberToHumanReadable(v)}`;
+				}}
 			/>
 		</div>
 	);
