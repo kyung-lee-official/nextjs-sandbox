@@ -143,9 +143,7 @@ export const BarChart = ({
 				/>
 				<AxisBottom
 					/* position the axis at the bottom of the chart */
-					top={yScale(
-						Math.min(...data.map((d) => d[numberKey] as number))
-					)}
+					top={svgHeight - margin.bottom - margin.top}
 					left={0} /* it's already inside the Group */
 					/* use the xScale for the x-axis */
 					scale={xScale}
