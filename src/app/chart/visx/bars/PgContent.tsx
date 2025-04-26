@@ -6,7 +6,6 @@ import { Group } from "@visx/group";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import { Text } from "@visx/text";
-import dayjs from "dayjs";
 
 /* data order matters, it determines the order of the bars */
 const data = [
@@ -25,7 +24,7 @@ const margin = { top: 80, right: 80, bottom: 80, left: 80 };
  * https://d3js.org/d3-scale/band
  */
 const dateScale = scaleBand({
-	domain: data.map((d) => dayjs(d.date).toDate()),
+	domain: data.map((d) => d.date),
 	range: [0, svgWidth - margin.left - margin.right],
 	padding: 0.6,
 });
@@ -62,7 +61,7 @@ export const PgContent = () => {
 					/>
 					{data.map((d) => {
 						const barWidth = dateScale.bandwidth();
-						const barX = dateScale(dayjs(d.date).toDate()) ?? 0;
+						const barX = dateScale(d.date) ?? 0;
 
 						/* calculate the y position and height dynamically based on whether the value is positive or negative. */
 						const barY0 = salesVolumeScale(0);
@@ -92,7 +91,7 @@ export const PgContent = () => {
 						const textX = barX + barWidth / 2;
 
 						return (
-							<g key={`bar-group-${dayjs(d.date).toDate()}`}>
+							<g key={`bar-group-${d.date}`}>
 								<Bar
 									x={barX}
 									width={barWidth}
@@ -154,7 +153,7 @@ export const PgContent = () => {
 						tickStroke="white"
 						/* map the date to desired format */
 						tickFormat={(d) => {
-							return dayjs(d).format("MMM DD, YYYY");
+							return d;
 						}}
 						tickLabelProps={() => ({
 							/* tick label color */
