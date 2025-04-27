@@ -170,38 +170,33 @@ export const PieChart = ({
 			</Group>
 			{/* Legend */}
 			{hoveredIndex !== null && (
-				<g
-					transform={`translate(${svgWidth - margin.right - 200}, ${
-						margin.top
-					})`}
+				<foreignObject
+					x={svgWidth - margin.right - 200} // Position the legend
+					y={margin.top}
+					width={180} // Width of the legend
+					height={100} // Height of the legend
 				>
-					<rect
-						width={180}
-						height={100}
-						fill="rgba(0, 0, 0, 0.8)"
-						rx={10}
-					/>
-					<text
-						x={10}
-						y={20}
-						fill="white"
-						fontSize={14}
-						fontWeight="bold"
+					<div
+						className="p-3
+						text-white text-sm
+						bg-black bg-opacity-80 rounded-lg"
 					>
-						{data[hoveredIndex].label}
-					</text>
-					<text x={10} y={40} fill="white" fontSize={12}>
-						Value: {data[hoveredIndex].value}
-					</text>
-					<text x={10} y={60} fill="white" fontSize={12}>
-						Percentage:{" "}
-						{(
-							(data[hoveredIndex].value / totalValue) *
-							100
-						).toFixed(2)}
-						%
-					</text>
-				</g>
+						<p className="text-base font-bold m-0">
+							{data[hoveredIndex].label}
+						</p>
+						<p className="my-1">
+							Value: {data[hoveredIndex].value}
+						</p>
+						<p className="m-0">
+							Percentage:{" "}
+							{(
+								(data[hoveredIndex].value / totalValue) *
+								100
+							).toFixed(2)}
+							%
+						</p>
+					</div>
+				</foreignObject>
 			)}
 		</svg>
 	);
