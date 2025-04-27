@@ -57,6 +57,7 @@ export const PieChart = ({
 	const [isClient, setIsClient] = useState(false);
 
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+	const totalValue = data.reduce((sum, d) => sum + d.value, 0);
 
 	useEffect(() => {
 		/**
@@ -149,6 +150,13 @@ export const PieChart = ({
 										x={labelX}
 										y={labelY}
 										fill="white"
+										style={{
+											opacity:
+												hoveredIndex === index
+													? 1
+													: 0.4,
+											transition: "0.2s ease",
+										}}
 										fontSize={12}
 										textAnchor="middle"
 									>
@@ -160,6 +168,41 @@ export const PieChart = ({
 					}
 				</Pie>
 			</Group>
+			{/* Legend */}
+			{hoveredIndex !== null && (
+				<g
+					transform={`translate(${svgWidth - margin.right - 200}, ${
+						margin.top
+					})`}
+				>
+					<rect
+						width={180}
+						height={100}
+						fill="rgba(0, 0, 0, 0.8)"
+						rx={10}
+					/>
+					<text
+						x={10}
+						y={20}
+						fill="white"
+						fontSize={14}
+						fontWeight="bold"
+					>
+						{data[hoveredIndex].label}
+					</text>
+					<text x={10} y={40} fill="white" fontSize={12}>
+						Value: {data[hoveredIndex].value}
+					</text>
+					<text x={10} y={60} fill="white" fontSize={12}>
+						Percentage:{" "}
+						{(
+							(data[hoveredIndex].value / totalValue) *
+							100
+						).toFixed(2)}
+						%
+					</text>
+				</g>
+			)}
 		</svg>
 	);
 };
