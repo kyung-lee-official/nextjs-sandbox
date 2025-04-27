@@ -131,18 +131,18 @@ export const PieChart = ({
 											onMouseOut(index, arc.data);
 										}
 									}}
+									style={{
+										transform:
+											hoveredIndex === index
+												? "scale(1.02)"
+												: "scale(1)",
+										transformOrigin: "0 0",
+										transition: "0.2s ease",
+									}}
 								>
 									<path
 										d={path || ""}
 										fill={getColor(index)}
-										style={{
-											transform:
-												hoveredIndex === index
-													? "scale(1.02)"
-													: "scale(1)",
-											transformOrigin: "0 0",
-											transition: "0.2s ease",
-										}}
 										className="opacity-40 hover:opacity-100 transition-opacity duration-200"
 									/>
 									<text
