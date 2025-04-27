@@ -235,6 +235,10 @@ export default function Home() {
 						text: "barstack",
 					},
 					{
+						link: "/chart/visx/pies",
+						text: "pies",
+					},
+					{
 						link: "/chart/visx/treemap/treemap-squarify",
 						text: "treemap-squarify",
 					},
