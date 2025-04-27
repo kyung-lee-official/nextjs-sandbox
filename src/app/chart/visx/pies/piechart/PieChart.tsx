@@ -40,6 +40,9 @@ type PieChartProps = {
 	onMouseEnter?: (index: number, data: Datum) => void;
 	/* callback for mouse leave */
 	onMouseOut?: (index: number, data: Datum) => void;
+	/* optional custom mapping functions */
+	textFormatter?: (value: string, data: any) => string;
+	valueFormatter?: (value: number, data: any) => string;
 };
 
 export const PieChart = ({
@@ -50,6 +53,8 @@ export const PieChart = ({
 	padAngle = 0.015,
 	onMouseEnter,
 	onMouseOut,
+	textFormatter,
+	valueFormatter,
 }: PieChartProps) => {
 	/* dynamically determine the keys */
 	const [stringKey, numberKey] = Object.keys(data[0]);
@@ -169,7 +174,14 @@ export const PieChart = ({
 										fontSize={12}
 										textAnchor="middle"
 									>
-										{arc.data[stringKey]}
+										{textFormatter
+											? textFormatter(
+													arc.data[
+														stringKey
+													] as string,
+													arc.data
+											  )
+											: arc.data[stringKey]}
 									</text>
 								</g>
 							);
@@ -191,10 +203,21 @@ export const PieChart = ({
 						bg-black bg-opacity-80 rounded-lg"
 					>
 						<p className="text-base font-bold m-0">
-							{data[hoveredIndex][stringKey]}
+							{textFormatter
+								? textFormatter(
+										data[hoveredIndex][stringKey] as string,
+										data[hoveredIndex]
+								  )
+								: data[hoveredIndex][stringKey]}
 						</p>
 						<p className="my-1">
-							Value: {data[hoveredIndex][numberKey]}
+							Value:{" "}
+							{valueFormatter
+								? valueFormatter(
+										data[hoveredIndex][numberKey] as number,
+										data[hoveredIndex]
+								  )
+								: data[hoveredIndex][numberKey]}
 						</p>
 						<p className="m-0">
 							Percentage:{" "}

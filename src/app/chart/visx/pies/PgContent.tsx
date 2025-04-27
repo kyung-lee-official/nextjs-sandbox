@@ -1,15 +1,16 @@
 "use client";
 
+import { convertNumberToHumanReadable } from "num-guru";
 import { PieChart } from "./piechart/PieChart";
 
 const inStock = [
-	{ city: "Zhuhai", inStock: 1 },
-	{ city: "Zhongshan", inStock: 2 },
-	{ city: "Macao", inStock: 20 },
-	{ city: "Guangzhou", inStock: 50 },
-	{ city: "Shenzhen", inStock: 70 },
-	{ city: "Shanghai", inStock: 100 },
-	{ city: "Hongkong", inStock: 120 },
+	{ city: "Zhuhai", inStock: 10 },
+	{ city: "Zhongshan", inStock: 20 },
+	{ city: "Macao", inStock: 200 },
+	{ city: "Guangzhou", inStock: 500 },
+	{ city: "Shenzhen", inStock: 700 },
+	{ city: "Shanghai", inStock: 1000 },
+	{ city: "Hongkong", inStock: 1200 },
 ];
 
 const svgWidth = 1200;
@@ -30,6 +31,11 @@ export const PgContent = () => {
 				}}
 				onMouseOut={(index, data) => {
 					console.log(`Mouse left arc ${index}:`, data);
+				}}
+				valueFormatter={(value, data) => {
+					return convertNumberToHumanReadable(Number(value), {
+						useComma: true,
+					});
 				}}
 			/>
 		</div>
