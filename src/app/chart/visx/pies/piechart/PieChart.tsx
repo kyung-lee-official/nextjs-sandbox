@@ -71,8 +71,23 @@ export const PieChart = ({
 					{(pie) =>
 						pie.arcs.map((arc, index) => {
 							const { startAngle, endAngle } = arc;
+
+							/* align the arc's angle system with Math's angle system */
+							const adjustedStartAngle = startAngle - Math.PI / 2;
+							const adjustedEndAngle = endAngle - Math.PI / 2;
+							const midAngle =
+								(adjustedStartAngle + adjustedEndAngle) / 2;
+
+							/* for debugging */
+							// console.log(
+							// 	arc.data.label,
+							// 	radToDeg(startAngle),
+							// 	radToDeg(endAngle)
+							// );
+
 							const path = pie.path(arc);
-							const midAngle = (startAngle + endAngle) / 2;
+
+							/* calculate label positions relative to the pie chart's center */
 							const labelX =
 								Math.cos(midAngle) * (radius + labelOffset);
 							const labelY =
@@ -102,3 +117,5 @@ export const PieChart = ({
 		</svg>
 	);
 };
+
+const radToDeg = (rad: number): number => (rad * 180) / Math.PI;

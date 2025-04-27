@@ -3,9 +3,10 @@
 import { PieChart } from "./piechart/PieChart";
 
 const inStock = [
-	{ label: "Shanghai", value: 190 },
-	{ label: "Shenzhen", value: 50 },
-	{ label: "Guangzhou", value: 200 },
+	{ label: "Zhuhai", value: 1 },
+	{ label: "Guangzhou", value: 50 },
+	{ label: "Shenzhen", value: 70 },
+	{ label: "Shanghai", value: 100 },
 ];
 
 const svgWidth = 1200;
