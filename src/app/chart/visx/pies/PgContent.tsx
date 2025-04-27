@@ -3,12 +3,13 @@
 import { PieChart } from "./piechart/PieChart";
 
 const inStock = [
-	{ label: "Zhuhai", value: 1 },
-	{ label: "Zhongshan", value: 1 },
-	{ label: "Guangzhou", value: 50 },
-	{ label: "Shenzhen", value: 70 },
-	{ label: "Shanghai", value: 100 },
-	{ label: "Hongkong", value: 120 },
+	{ city: "Zhuhai", inStock: 1 },
+	{ city: "Zhongshan", inStock: 2 },
+	{ city: "Macao", inStock: 20 },
+	{ city: "Guangzhou", inStock: 50 },
+	{ city: "Shenzhen", inStock: 70 },
+	{ city: "Shanghai", inStock: 100 },
+	{ city: "Hongkong", inStock: 120 },
 ];
 
 const svgWidth = 1200;

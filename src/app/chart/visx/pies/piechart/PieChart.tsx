@@ -21,23 +21,23 @@ const getColor = (index: number): string => {
 	return colors[adjustedIndex];
 };
 
+type Datum = {
+	[key: string]: string | number;
+};
+
 type PieChartProps = {
-	/* data array with label and value */
-	data: { label: string; value: number }[];
+	/* data array with dynamic keys */
+	data: Datum[];
 	/* width of the SVG */
 	svgWidth: number;
 	/* height of the SVG */
 	svgHeight: number;
 	/* margins */
 	margin: { top: number; right: number; bottom: number; left: number };
-	onMouseEnter?: (
-		index: number,
-		data: { label: string; value: number }
-	) => void /* callback for hover */;
-	onMouseOut?: (
-		index: number,
-		data: { label: string; value: number }
-	) => void /* callback for mouse leave */;
+	/* callback for hover */
+	onMouseEnter?: (index: number, data: Datum) => void;
+	/* callback for mouse leave */
+	onMouseOut?: (index: number, data: Datum) => void;
 };
 
 export const PieChart = ({
@@ -48,6 +48,9 @@ export const PieChart = ({
 	onMouseEnter,
 	onMouseOut,
 }: PieChartProps) => {
+	/* dynamically determine the keys */
+	const [stringKey, numberKey] = Object.keys(data[0]);
+
 	const innerWidth = svgWidth - margin.left - margin.right;
 	const innerHeight = svgHeight - margin.top - margin.bottom;
 	const radius = Math.min(innerWidth, innerHeight) / 2;
@@ -57,7 +60,10 @@ export const PieChart = ({
 	const [isClient, setIsClient] = useState(false);
 
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-	const totalValue = data.reduce((sum, d) => sum + d.value, 0);
+	const totalValue = data.reduce(
+		(sum, d) => sum + (d[numberKey] as number),
+		0
+	);
 
 	useEffect(() => {
 		/**
@@ -84,7 +90,7 @@ export const PieChart = ({
 			<Group top={svgHeight / 2} left={svgWidth / 4}>
 				<Pie
 					data={data}
-					pieValue={(d) => d.value}
+					pieValue={(d) => d[numberKey] as number}
 					outerRadius={radius}
 					innerRadius={
 						radius * 0.7
@@ -160,7 +166,7 @@ export const PieChart = ({
 										fontSize={12}
 										textAnchor="middle"
 									>
-										{arc.data.label}
+										{arc.data[stringKey]}
 									</text>
 								</g>
 							);
@@ -182,7 +188,7 @@ export const PieChart = ({
 						bg-black bg-opacity-80 rounded-lg"
 					>
 						<p className="text-base font-bold m-0">
-							{data[hoveredIndex].label}
+							{data[hoveredIndex][stringKey]}
 						</p>
 						<p className="my-1">
 							Value: {data[hoveredIndex].value}
@@ -190,7 +196,8 @@ export const PieChart = ({
 						<p className="m-0">
 							Percentage:{" "}
 							{(
-								(data[hoveredIndex].value / totalValue) *
+								((data[hoveredIndex][numberKey] as number) /
+									totalValue) *
 								100
 							).toFixed(2)}
 							%
