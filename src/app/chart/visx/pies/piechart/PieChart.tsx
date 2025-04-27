@@ -34,6 +34,8 @@ type PieChartProps = {
 	svgHeight: number;
 	/* margins */
 	margin: { top: number; right: number; bottom: number; left: number };
+	/* space between slices */
+	padAngle?: number;
 	/* callback for hover */
 	onMouseEnter?: (index: number, data: Datum) => void;
 	/* callback for mouse leave */
@@ -45,6 +47,7 @@ export const PieChart = ({
 	svgWidth,
 	svgHeight,
 	margin,
+	padAngle = 0.015,
 	onMouseEnter,
 	onMouseOut,
 }: PieChartProps) => {
@@ -87,7 +90,7 @@ export const PieChart = ({
 				className="fill-neutral-900"
 				rx={10}
 			/>
-			<Group top={svgHeight / 2} left={svgWidth / 4}>
+			<Group top={svgHeight / 2} left={margin.left + radius}>
 				<Pie
 					data={data}
 					pieValue={(d) => d[numberKey] as number}
@@ -96,7 +99,7 @@ export const PieChart = ({
 						radius * 0.7
 					} /* set to 0 for a full pie chart */
 					cornerRadius={3}
-					padAngle={0.015} /* space between slices */
+					padAngle={padAngle} /* space between slices */
 				>
 					{(pie) =>
 						pie.arcs.map((arc, index) => {

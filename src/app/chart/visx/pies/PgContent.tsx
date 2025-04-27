@@ -24,6 +24,7 @@ export const PgContent = () => {
 				svgWidth={svgWidth}
 				svgHeight={svgHeight}
 				margin={margin}
+				padAngle={0.005}
 				onMouseEnter={(index, data) => {
 					console.log(`Hovered on arc ${index}:`, data);
 				}}
