@@ -5,9 +5,20 @@ import { Pie } from "@visx/shape";
 import { useEffect, useState } from "react";
 
 /* helper function to generate colors */
-const getColor = (index: number) => {
-	const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"];
-	return colors[index % colors.length];
+const getColor = (index: number): string => {
+	const colors = [
+		// "#36A2EB",
+		// "#FFCE56",
+		// "#4BC0C0",
+		// "#9966FF",
+		// "#FF6384",
+		// "#FF9F40",
+		"white",
+	];
+	const colorCount = colors.length;
+	/* ensure adjacent arcs don't use the same color */
+	const adjustedIndex = (index + Math.floor(index / colorCount)) % colorCount;
+	return colors[adjustedIndex];
 };
 
 type PieChartProps = {
@@ -19,6 +30,14 @@ type PieChartProps = {
 	svgHeight: number;
 	/* margins */
 	margin: { top: number; right: number; bottom: number; left: number };
+	onMouseEnter?: (
+		index: number,
+		data: { label: string; value: number }
+	) => void /* callback for hover */;
+	onMouseOut?: (
+		index: number,
+		data: { label: string; value: number }
+	) => void /* callback for mouse leave */;
 };
 
 export const PieChart = ({
@@ -26,6 +45,8 @@ export const PieChart = ({
 	svgWidth,
 	svgHeight,
 	margin,
+	onMouseEnter,
+	onMouseOut,
 }: PieChartProps) => {
 	const innerWidth = svgWidth - margin.left - margin.right;
 	const innerHeight = svgHeight - margin.top - margin.bottom;
@@ -34,6 +55,8 @@ export const PieChart = ({
 
 	/* state to control client-side rendering */
 	const [isClient, setIsClient] = useState(false);
+
+	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		/**
@@ -66,7 +89,7 @@ export const PieChart = ({
 						radius * 0.7
 					} /* set to 0 for a full pie chart */
 					cornerRadius={3}
-					padAngle={0.02} /* space between slices */
+					padAngle={0.015} /* space between slices */
 				>
 					{(pie) =>
 						pie.arcs.map((arc, index) => {
@@ -94,10 +117,33 @@ export const PieChart = ({
 								Math.sin(midAngle) * (radius + labelOffset);
 
 							return (
-								<g key={`arc-${index}`}>
+								<g
+									key={`arc-${index}`}
+									onMouseEnter={() => {
+										setHoveredIndex(index);
+										if (onMouseEnter) {
+											onMouseEnter(index, arc.data);
+										}
+									}}
+									onMouseLeave={() => {
+										setHoveredIndex(null);
+										if (onMouseOut) {
+											onMouseOut(index, arc.data);
+										}
+									}}
+								>
 									<path
 										d={path || ""}
 										fill={getColor(index)}
+										style={{
+											transform:
+												hoveredIndex === index
+													? "scale(1.02)"
+													: "scale(1)",
+											transformOrigin: "0 0",
+											transition: "0.2s ease",
+										}}
+										className="opacity-40 hover:opacity-100 transition-opacity duration-200"
 									/>
 									<text
 										x={labelX}
