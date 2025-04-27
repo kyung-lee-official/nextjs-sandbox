@@ -194,7 +194,7 @@ export const PieChart = ({
 							{data[hoveredIndex][stringKey]}
 						</p>
 						<p className="my-1">
-							Value: {data[hoveredIndex].value}
+							Value: {data[hoveredIndex][numberKey]}
 						</p>
 						<p className="m-0">
 							Percentage:{" "}
