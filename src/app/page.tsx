@@ -621,8 +621,12 @@ export default function Home() {
 				title="WebSocket"
 				list={[
 					{
-						link: "/websocket/socket.io",
-						text: "socket.io",
+						link: "/websocket/socket.io/chat",
+						text: "socket.io - chat",
+					},
+					{
+						link: "/websocket/socket.io/dashboard",
+						text: "socket.io - chat",
 					},
 					{
 						link: "/websocket/upload-large-json",
