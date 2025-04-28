@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { getSocket } from "./socket";
 
 const Content = () => {
 	const [isConnected, setIsConnected] = useState(false);
 	const [progress, setProgress] = useState(0);
 
-	/* use useRef to persist the socket instance across renders */
-	const socketRef = useRef<Socket | null>(null);
-
 	useEffect(() => {
-		/* initialize the socket connection */
-		const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || "", {
-			autoConnect: false,
-		});
-		socketRef.current = socket;
+		/**
+		 * Get the singleton socket instance
+		 * the best practice is to use a singleton pattern for the socket instance
+		 * to avoid creating multiple instances of the socket connection
+		 *
+		 * but if you prefer to use a page-level socket instance, you should
+		 * use useRef to persist the socket instance across renders
+		 */
+		const socket = getSocket();
 
 		/* event listeners */
 		socket.on("connect", () => {
@@ -28,7 +29,7 @@ const Content = () => {
 		});
 		socket.on("message", (data: any) => {
 			const { message } = data;
-			console.log(message);
+			console.log("Message received:", message);
 		});
 		socket.on("progress", (data: any) => {
 			const { progress } = data;
@@ -36,19 +37,35 @@ const Content = () => {
 		});
 
 		/* cleanup on component unmount */
+		/**
+		 * why `off` not `disconnect`?
+		 * The socket.off method removes specific event listeners that were
+		 * added using socket.on
+		 *
+		 * The socket.disconnect method closes the connection to the server,
+		 * this is a more drastic action and is typically used when you want to stop all communication with the server,
+		 * not just clean up event listeners.
+		 */
 		return () => {
-			socket.disconnect();
-			socketRef.current = null;
+			socket.off("connect");
+			socket.off("disconnect");
+			socket.off("message");
+			socket.off("progress");
 		};
 	}, []);
 
 	const handleStart = () => {
-		if (socketRef.current) {
-			socketRef.current.connect();
-			socketRef.current.emit("message", {
-				message: "Hello from client",
-			});
-		}
+		/* get the singleton socket instance */
+		const socket = getSocket();
+		socket.connect();
+		socket.emit("message", {
+			message: "Hello from client",
+		});
+	};
+
+	const handleDisconnect = () => {
+		const socket = getSocket(); // Get the singleton socket instance
+		socket.disconnect();
 	};
 
 	return (
@@ -71,11 +88,7 @@ const Content = () => {
 					text-white
 					bg-red-500 hover:bg-red-600
 					rounded"
-					onClick={() => {
-						if (socketRef.current) {
-							socketRef.current.disconnect();
-						}
-					}}
+					onClick={handleDisconnect}
 				>
 					Disconnect
 				</button>
