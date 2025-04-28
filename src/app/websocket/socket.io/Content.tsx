@@ -66,6 +66,19 @@ const Content = () => {
 				>
 					Start
 				</button>
+				<button
+					className="px-2 py-1
+					text-white
+					bg-red-500 hover:bg-red-600
+					rounded"
+					onClick={() => {
+						if (socketRef.current) {
+							socketRef.current.disconnect();
+						}
+					}}
+				>
+					Disconnect
+				</button>
 				<div
 					className={`w-3 h-3 
 					${isConnected ? "bg-green-500" : "bg-gray-500"}
