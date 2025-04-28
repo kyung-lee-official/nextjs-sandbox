@@ -1,16 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
 
 const Content = () => {
 	const [isConnected, setIsConnected] = useState(false);
 	const [progress, setProgress] = useState(0);
 
-	const socket = useMemo(() => {
-		const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
+	/* use useRef to persist the socket instance across renders */
+	const socketRef = useRef<Socket | null>(null);
+
+	useEffect(() => {
+		/* initialize the socket connection */
+		const socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || "", {
 			autoConnect: false,
 		});
+		socketRef.current = socket;
+
+		/* event listeners */
 		socket.on("connect", () => {
 			console.log("Connected to server");
 			setIsConnected(true);
@@ -27,8 +34,22 @@ const Content = () => {
 			const { progress } = data;
 			setProgress(progress);
 		});
-		return socket;
+
+		/* cleanup on component unmount */
+		return () => {
+			socket.disconnect();
+			socketRef.current = null;
+		};
 	}, []);
+
+	const handleStart = () => {
+		if (socketRef.current) {
+			socketRef.current.connect();
+			socketRef.current.emit("message", {
+				message: "Hello from client",
+			});
+		}
+	};
 
 	return (
 		<div
@@ -41,12 +62,7 @@ const Content = () => {
 					text-white
 					bg-blue-500 hover:bg-blue-600
 					rounded"
-					onClick={() => {
-						socket.connect();
-						socket.emit("message", {
-							message: "Hello from client",
-						});
-					}}
+					onClick={handleStart}
 				>
 					Start
 				</button>
