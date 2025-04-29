@@ -1,13 +1,27 @@
 import { io, Socket } from "socket.io-client";
 
-let socket: Socket | null = null;
+let chatSocket: Socket | null = null;
+let dashboardSocket: Socket | null = null;
 
-export const getSocket = (): Socket => {
-	if (!socket) {
-		/* initialize the socket instance if it doesn't exist */
-		socket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || "", {
+export const getChatSocket = (): Socket => {
+	if (!chatSocket) {
+		/* initialize the chatSocket instance if it doesn't exist */
+		chatSocket = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat` || "", {
 			autoConnect: false /* prevent auto-connect */,
 		});
 	}
-	return socket;
+	return chatSocket;
+};
+
+export const getDashboardSocket = (): Socket => {
+	if (!dashboardSocket) {
+		/* initialize the dashboardSocket instance if it doesn't exist */
+		dashboardSocket = io(
+			`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/dashboard` || "",
+			{
+				autoConnect: true,
+			}
+		);
+	}
+	return dashboardSocket;
 };

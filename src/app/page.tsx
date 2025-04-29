@@ -626,7 +626,7 @@ export default function Home() {
 					},
 					{
 						link: "/websocket/socket.io/dashboard",
-						text: "socket.io - chat",
+						text: "socket.io - dashboard",
 					},
 					{
 						link: "/websocket/upload-large-json",
