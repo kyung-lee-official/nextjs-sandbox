@@ -458,6 +458,19 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Tables | tanstack-react-table"
+				list={[
+					{
+						link: "/tables/tanstack-react-table/get-started",
+						text: "get started",
+					},
+					{
+						link: "/tables/tanstack-react-table/pivot-table-group-by",
+						text: "pivot table group by",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Modal (Portal)"
 				list={[
 					{
