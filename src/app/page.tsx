@@ -468,6 +468,10 @@ export default function Home() {
 						link: "/tables/tanstack-react-table/pivot-table-group-by",
 						text: "pivot table group by",
 					},
+					{
+						link: "/tables/tanstack-react-table/pivot-table-nested-rows",
+						text: "pivot table nested rows",
+					},
 				]}
 			/>
 			<Block
