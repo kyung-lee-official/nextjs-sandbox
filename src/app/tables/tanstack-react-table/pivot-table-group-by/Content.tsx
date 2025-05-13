@@ -148,7 +148,7 @@ export const Content = () => {
 
 	// Dynamic columns based on selected metrics
 	const columns = useMemo(() => {
-		const cols = [
+		const cols: any = [
 			columnHelper.accessor("group", {
 				header: groupBy.charAt(0).toUpperCase() + groupBy.slice(1),
 				cell: (info) => info.getValue(),

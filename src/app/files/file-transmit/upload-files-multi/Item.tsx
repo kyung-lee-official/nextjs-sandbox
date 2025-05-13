@@ -13,11 +13,11 @@ import {
 	PreviewIcon,
 	UnknownFileTypeIcon,
 } from "./file-to-preview/Icons";
-import { DeleteConfirmDialog } from "@/app/components/delete-confirmation/DeleteConfirmDialog";
 import { Square } from "./Square";
 import { isImageType, isVideoType } from "./types";
 import { useMutation } from "@tanstack/react-query";
 import { getFileBlob } from "./api";
+import { ConfirmDialog } from "@/app/styles/modal/confirm-dialog/confirm-dialog/ConfirmDialog";
 
 type FileProps = {
 	name: string;
@@ -95,11 +95,11 @@ const ThumbnailMask = (props: {
 					</button>
 				</div>
 			)}
-			<DeleteConfirmDialog
+			<ConfirmDialog
 				show={showDelete}
 				setShow={setShowDelete}
 				question={question}
-				onDelete={() => {
+				onOk={() => {
 					setShowDelete(false);
 					onDelete();
 				}}

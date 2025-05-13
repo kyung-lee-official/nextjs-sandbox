@@ -403,6 +403,10 @@ export default function Home() {
 						text: "gradient text",
 					},
 					{
+						link: "/styles/basic/conic-gradient",
+						text: "conic gradient",
+					},
+					{
 						link: "/styles/basic/css-translate",
 						text: "css translate",
 					},

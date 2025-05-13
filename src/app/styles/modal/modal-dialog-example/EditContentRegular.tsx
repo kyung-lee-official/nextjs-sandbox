@@ -9,7 +9,7 @@ import {
 } from "react";
 import { CloseIcon } from "./Icons";
 import { EditId, EditProps } from "./EditPanel";
-import { ConfirmDialog } from "@/app/components/confirm-dialog/ConfirmDialog";
+import { ConfirmDialog } from "../confirm-dialog/confirm-dialog/ConfirmDialog";
 
 export const EditContentRegular = (props: {
 	children: ReactNode;

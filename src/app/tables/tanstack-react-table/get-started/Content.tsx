@@ -16,7 +16,7 @@ const data = [
 
 const columnHelper = createColumnHelper();
 
-const columns = [
+const columns: any = [
 	columnHelper.accessor("name", {
 		header: "Name",
 		cell: (info) => info.getValue(),

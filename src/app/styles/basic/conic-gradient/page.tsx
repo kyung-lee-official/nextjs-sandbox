@@ -1,9 +1,7 @@
-import { PgContent } from "./PgContent";
-
 const Page = () => {
 	return (
 		<div>
-			<PgContent />
+			<div className="w-full h-svh bg-conic from-red-500 to-white"></div>
 		</div>
 	);
 };

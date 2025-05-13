@@ -82,7 +82,7 @@ export const Content = () => {
 									elements.
 								</p>
 								<p>
-									`document.addEventListener("click",
+									`document.addEventListener(&quot;click&quot;,
 									handleClick, true);`
 								</p>
 								<Test1 />

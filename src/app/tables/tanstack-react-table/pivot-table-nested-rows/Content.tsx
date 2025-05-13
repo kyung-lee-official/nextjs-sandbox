@@ -191,7 +191,7 @@ export function Content() {
 
 	// Dynamic columns
 	const columns = useMemo(() => {
-		const cols = [
+		const cols: any = [
 			columnHelper.accessor("groupKeys", {
 				header: "Group",
 				cell: (info) => {
@@ -217,7 +217,7 @@ export function Content() {
 				columnHelper.accessor("avgAge", {
 					header: "Average Age",
 					cell: (info) =>
-						info.getValue() ? info.getValue().toFixed(1) : "",
+						info.getValue() ? info.getValue()?.toFixed(1) : "",
 				})
 			);
 		}
@@ -226,7 +226,7 @@ export function Content() {
 				columnHelper.accessor("avgSalary", {
 					header: "Average Salary",
 					cell: (info) =>
-						info.getValue() ? info.getValue().toFixed(0) : "",
+						info.getValue() ? info.getValue()?.toFixed(0) : "",
 				})
 			);
 		}
