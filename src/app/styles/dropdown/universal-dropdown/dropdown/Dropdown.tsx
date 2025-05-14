@@ -183,7 +183,7 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 						{getDisplayValue(selected as T)}
 					</span>
 				) : (
-					<span className="text-neutral-400">{placeholder}</span>
+					<span className="text-neutral-400 truncate">{placeholder}</span>
 				)}
 			</div>
 
