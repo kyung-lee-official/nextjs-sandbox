@@ -18,7 +18,7 @@ type StringProps<T extends string> = BaseProps<T> & {
 
 type ObjectProps<T extends object> = BaseProps<T> & {
 	kind: "object";
-	sortBy: keyof T;
+	sortBy?: keyof T;
 	label: {
 		primaryKey: keyof T;
 		secondaryKey?: keyof T;
@@ -32,7 +32,7 @@ type DropdownProps<T> = [T] extends [string]
 	: any;
 type RestProps<T> = T extends object
 	? {
-			sortBy: keyof T;
+			sortBy?: keyof T;
 			label: {
 				primaryKey: keyof T;
 				secondaryKey?: keyof T;
@@ -179,7 +179,9 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 						</div>
 					))
 				) : !multiple && selected ? (
-					<span className="text-white/60">{getDisplayValue(selected as T)}</span>
+					<span className="text-white/60">
+						{getDisplayValue(selected as T)}
+					</span>
 				) : (
 					<span className="text-neutral-400">{placeholder}</span>
 				)}
