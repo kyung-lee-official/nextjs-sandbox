@@ -6,6 +6,7 @@ interface IntegerInputProps {
 	value?: number;
 	onChange?: (value: number | null) => void;
 	placeholder?: string;
+	unit?: string;
 }
 
 export const IntegerInput = ({
@@ -14,16 +15,16 @@ export const IntegerInput = ({
 	value,
 	onChange,
 	placeholder = "Enter an integer",
+	unit,
 }: IntegerInputProps) => {
 	const [inputValue, setInputValue] = useState<string>(
 		value?.toString() || ""
 	);
 
 	/* sync inputValue state with value prop */
-    useEffect(() => {
-        setInputValue(value?.toString() || "");
-    }, [value]);
-
+	useEffect(() => {
+		setInputValue(value?.toString() || "");
+	}, [value]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const val = e.target.value;
@@ -73,13 +74,20 @@ export const IntegerInput = ({
 	};
 
 	return (
-		<input
-			type="text"
-			value={inputValue}
-			onChange={handleChange}
-			onBlur={handleBlur}
-			placeholder={placeholder}
-			className="border rounded px-2 py-1"
-		/>
+		<div className="flex items-center">
+			<input
+				type="text"
+				value={inputValue}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				placeholder={placeholder}
+				className="border border-gray-300 rounded-l px-2 py-1 flex-grow"
+			/>
+			{unit && (
+				<span className="border border-gray-300 border-l-0 rounded-r px-2 py-1 bg-gray-100">
+					{unit}
+				</span>
+			)}
+		</div>
 	);
 };
