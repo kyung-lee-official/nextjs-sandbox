@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Dropdown } from "./dropdown/Dropdown";
+import { Dropdown, DropdownOption } from "./dropdown/Dropdown";
 
 type User = {
 	id: string;
@@ -17,11 +17,11 @@ type Fruit =
 
 export const Content = () => {
 	const [stringSelected, setStringSelected] = useState<
-		Fruit | Fruit[] | null
+		DropdownOption | DropdownOption[] | null
 	>(null);
-	const [objectSelected, setObjectSelected] = useState<User | User[] | null>(
-		null
-	);
+	const [objectSelected, setObjectSelected] = useState<
+		DropdownOption | DropdownOption[] | null
+	>(null);
 	const [hovered, setHovered] = useState<any>(null);
 
 	const stringOptions: Fruit[] = [
@@ -30,6 +30,16 @@ export const Content = () => {
 		"Orange",
 		"A very loooooooooooooooooooooooooooooooooooooooooooooooooooooog option",
 	];
+	const identifiedStringOptions = stringOptions.map((option, i) => ({
+		id: i,
+		label: option,
+	}));
+	const stringOptionIds = identifiedStringOptions
+		.sort((a, b) => a.label.localeCompare(b.label))
+		.map((option, i) => ({
+			id: i,
+		})) as DropdownOption[];
+
 	const objectOptions: User[] = [
 		{ id: "1", name: "John", email: "john@example.com" },
 		{ id: "2", name: "Jane", email: "jane@example.com" },
@@ -40,6 +50,11 @@ export const Content = () => {
 			email: "alice@this-is-a-very-loooooooooooooooooooooooooooog-email.com",
 		},
 	];
+	const objectOptionIds = objectOptions
+		.sort((a, b) => a.name.localeCompare(b.name))
+		.map((option) => ({
+			id: option.id,
+		})) as DropdownOption[];
 
 	return (
 		<div
@@ -48,28 +63,86 @@ export const Content = () => {
 		>
 			<div className="w-[500px] p-4 space-y-4">
 				{/* String Dropdown - Single Select */}
-				<Dropdown<Fruit>
-					kind="string"
+				<Dropdown
 					mode="regular"
-					options={stringOptions}
+					options={stringOptionIds}
 					selected={stringSelected}
 					setSelected={setStringSelected}
 					setHover={setHovered}
 					placeholder="Select a fruit"
+					getLabel={(option) => {
+						return identifiedStringOptions.find(
+							(obj) => obj.id === option.id
+						)?.label as string;
+					}}
+					renderOption={(option, { selected, hovered }) => {
+						const found = identifiedStringOptions.find(
+							(obj) => obj.id === option.id
+						);
+						return (
+							<div
+								className={`flex items-center gap-2 ${
+									selected ? "text-blue-500" : ""
+								} ${hovered ? "bg-neutral-700" : ""}
+								truncate`}
+							>
+								<span>{found?.label}</span>
+							</div>
+						);
+					}}
+					renderValue={(option) => {
+						const found = identifiedStringOptions.find(
+							(obj) => obj.id === option.id
+						);
+						return (
+							<div
+								className="flex items-center gap-2
+								min-w-0 max-w-[300px]
+								truncate"
+							>
+								<span>{found?.label}</span>
+							</div>
+						);
+					}}
 				/>
 
 				{/* Object Dropdown - Multiple Select with Search */}
 				<Dropdown
-					kind="object"
 					mode="search"
-					options={objectOptions}
+					placeholder="Select users"
+					options={objectOptionIds}
 					selected={objectSelected}
 					setSelected={setObjectSelected}
 					setHover={setHovered}
-					sortBy="name"
-					label={{ primaryKey: "name", secondaryKey: "email" }}
 					multiple
-					placeholder="Select users"
+					getLabel={(option) => {
+						return objectOptions.find((obj) => obj.id === option.id)
+							?.name as string;
+					}}
+					getSearchString={(option) => {
+						const found = objectOptions.find(
+							(obj) => obj.id === option.id
+						);
+						return found ? found.name + " " + found.email : "";
+					}}
+					renderOption={(option, { selected, hovered }) => {
+						const found = objectOptions.find(
+							(obj) => obj.id === option.id
+						);
+						return (
+							<div
+								className={`flex items-center gap-2 ${
+									selected ? "text-blue-500" : ""
+								} ${hovered ? "bg-neutral-700" : ""}
+								truncate`}
+							>
+								<span>{found?.name}</span>
+								<span className="text-neutral-400">
+									{found?.email}
+								</span>
+							</div>
+						);
+					}}
 				/>
 			</div>
 			{/* Preview hovered item */}

@@ -1,48 +1,39 @@
 "use client";
 
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
+import {
+	useState,
+	useEffect,
+	useRef,
+	Dispatch,
+	SetStateAction,
+	ReactNode,
+} from "react";
 
-type BaseProps<T> = {
+export type DropdownOption = { id: string | number };
+
+type DropdownProps = {
 	mode?: "regular" | "search";
 	placeholder?: string;
-	options: T[];
-	selected: T | T[] | null;
-	setSelected: Dispatch<SetStateAction<T | T[] | null>>;
-	setHover?: Dispatch<SetStateAction<T | T[] | null>>;
+	options: DropdownOption[];
+	selected: DropdownOption | DropdownOption[] | null;
+	setSelected: Dispatch<
+		SetStateAction<DropdownOption | DropdownOption[] | null>
+	>;
+	setHover?: Dispatch<
+		SetStateAction<DropdownOption | DropdownOption[] | null>
+	>;
 	multiple?: boolean;
+	getLabel: (option: DropdownOption) => string;
+	getSearchString?: (option: DropdownOption) => string;
+	renderOption: (
+		option: DropdownOption,
+		state: { selected: boolean | null; hovered: boolean }
+	) => ReactNode;
+	renderValue?: (option: DropdownOption) => ReactNode;
 };
 
-type StringProps<T extends string> = BaseProps<T> & {
-	kind: "string";
-};
-
-type ObjectProps<T extends object> = BaseProps<T> & {
-	kind: "object";
-	sortBy?: keyof T;
-	label: {
-		primaryKey: keyof T;
-		secondaryKey?: keyof T;
-	};
-};
-
-type DropdownProps<T> = [T] extends [string]
-	? StringProps<T>
-	: T extends object
-	? ObjectProps<T>
-	: any;
-type RestProps<T> = T extends object
-	? {
-			sortBy?: keyof T;
-			label: {
-				primaryKey: keyof T;
-				secondaryKey?: keyof T;
-			};
-	  }
-	: never;
-
-export const Dropdown = <T,>(props: DropdownProps<T>) => {
+export const Dropdown = (props: DropdownProps) => {
 	const {
-		kind,
 		mode = "regular",
 		placeholder = "Select an option",
 		options,
@@ -50,16 +41,16 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 		setSelected,
 		setHover,
 		multiple = false,
-		...rest
+		getLabel,
+		getSearchString,
+		renderOption,
+		renderValue,
 	} = props;
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [hoveredId, setHoveredId] = useState<string | number | null>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
-
-	/* type assertions for object-specific props */
-	const objectProps =
-		kind === "object" ? (rest as unknown as RestProps<T>) : null;
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -75,13 +66,11 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 			document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	const handleSelect = (option: T) => {
+	const handleSelect = (option: DropdownOption) => {
 		if (multiple) {
 			const currentSelected = Array.isArray(selected) ? selected : [];
-			const index = currentSelected.findIndex((item) =>
-				kind === "string"
-					? item === option
-					: JSON.stringify(item) === JSON.stringify(option)
+			const index = currentSelected.findIndex(
+				(item) => item.id === option.id
 			);
 
 			if (index > -1) {
@@ -98,50 +87,24 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 		}
 	};
 
-	const handleRemove = (option: T) => {
+	const handleRemove = (option: DropdownOption) => {
 		if (multiple && Array.isArray(selected)) {
-			setSelected(
-				selected.filter((item) =>
-					kind === "string"
-						? item !== option
-						: JSON.stringify(item) !== JSON.stringify(option)
-				)
-			);
+			setSelected(selected.filter((item) => item.id !== option.id));
 		}
 	};
 
-	const filteredOptions = options
-		.filter((option) => {
-			if (mode !== "search" || !searchTerm) return true;
-			if (kind === "string") {
-				return (option as unknown as string)
-					.toLowerCase()
-					.includes(searchTerm.toLowerCase());
-			}
-			const primary = String(
-				(option as any)[objectProps?.label.primaryKey]
-			);
-			const secondary = objectProps?.label.secondaryKey
-				? String((option as any)[objectProps.label.secondaryKey])
-				: "";
-			return (
-				primary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				secondary.toLowerCase().includes(searchTerm.toLowerCase())
-			);
-		})
-		.sort((a, b) => {
-			if (kind === "object" && objectProps?.sortBy) {
-				return String(a[objectProps.sortBy]).localeCompare(
-					String(b[objectProps.sortBy])
-				);
-			}
-			return 0;
-		});
+	const filteredOptions = options.filter((option) => {
+		if (mode !== "search" || !searchTerm) return true;
+		const searchString = getSearchString
+			? getSearchString(option)
+			: getLabel(option);
+		return searchString.toLowerCase().includes(searchTerm.toLowerCase());
+	});
 
-	const getDisplayValue = (option: T) => {
-		if (kind === "string") return option as string;
-		return String((option as any)[objectProps!.label.primaryKey]);
-	};
+	const isSelected = (option: DropdownOption) =>
+		multiple && Array.isArray(selected)
+			? selected.some((item) => item.id === option.id)
+			: selected && (selected as DropdownOption).id === option.id;
 
 	return (
 		<div
@@ -165,7 +128,11 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 							bg-neutral-700
 							border-1 border-neutral-600 rounded"
 						>
-							<span>{getDisplayValue(item)}</span>
+							<span>
+								{renderValue
+									? renderValue(item)
+									: getLabel(item)}
+							</span>
 							<button
 								onClick={(e) => {
 									e.stopPropagation();
@@ -180,10 +147,14 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 					))
 				) : !multiple && selected ? (
 					<span className="text-white/60">
-						{getDisplayValue(selected as T)}
+						{renderValue
+							? renderValue(selected as DropdownOption)
+							: getLabel(selected as DropdownOption)}
 					</span>
 				) : (
-					<span className="text-neutral-400 truncate">{placeholder}</span>
+					<span className="text-neutral-400 truncate">
+						{placeholder}
+					</span>
 				)}
 			</div>
 
@@ -204,57 +175,29 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
 							className="w-full p-2 border-b border-neutral-700 outline-none"
 						/>
 					)}
-					{filteredOptions.map((option, i) => (
-						<div
-							key={i}
-							className="px-2 py-1
-							hover:bg-neutral-700
-							cursor-pointer"
-							onClick={() => handleSelect(option)}
-							onMouseEnter={() => setHover && setHover(option)}
-							onMouseLeave={() => setHover && setHover(null)}
-						>
-							{kind === "string" ? (
-								<div className="truncate" title={option}>
-									{option}
-								</div>
-							) : (
-								<div
-									className="flex gap-1"
-									title={
-										getDisplayValue(option) +
-										" " +
-										(objectProps!.label.secondaryKey
-											? String(
-													(option as any)[
-														objectProps!.label
-															.secondaryKey
-													]
-											  )
-											: "")
-									}
-								>
-									<div className="text-neutral-300">
-										{String(
-											(option as any)[
-												objectProps!.label.primaryKey
-											]
-										)}
-									</div>
-									{objectProps!.label.secondaryKey && (
-										<div className="truncate text-sm text-neutral-400">
-											{String(
-												(option as any)[
-													objectProps!.label
-														.secondaryKey
-												]
-											)}
-										</div>
-									)}
-								</div>
-							)}
-						</div>
-					))}
+					{filteredOptions.map((option) => {
+						const selected = isSelected(option);
+						const hovered = hoveredId === option.id;
+						return (
+							<div
+								key={option.id}
+								className={`px-2 py-1 cursor-pointer ${
+									hovered ? "bg-neutral-700" : ""
+								}`}
+								onClick={() => handleSelect(option)}
+								onMouseEnter={() => {
+									setHoveredId(option.id);
+									setHover && setHover(option);
+								}}
+								onMouseLeave={() => {
+									setHoveredId(null);
+									setHover && setHover(null);
+								}}
+							>
+								{renderOption(option, { selected, hovered })}
+							</div>
+						);
+					})}
 				</div>
 			)}
 		</div>
