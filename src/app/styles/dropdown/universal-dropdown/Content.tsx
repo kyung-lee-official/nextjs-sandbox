@@ -71,9 +71,24 @@ export const Content = () => {
 					setHover={setHovered}
 					placeholder="Select a fruit"
 					getLabel={(option) => {
-						return identifiedStringOptions.find(
+						const found = identifiedStringOptions.find(
 							(obj) => obj.id === option.id
-						)?.label as string;
+						);
+						switch (found?.label) {
+							case "Apple":
+								return <div>🍏 {found.label}</div>;
+							case "Banana":
+								return <div>🍌 {found.label}</div>;
+							case "Orange":
+								return <div>🍊 {found.label}</div>;
+							default:
+								return found?.label;
+						}
+					}}
+					optionWrapperClassName={(option, { selected, hovered }) => {
+						return `px-2 py-1 
+						${hovered ? "bg-neutral-700" : ""}}
+						cursor-pointer truncate`;
 					}}
 					renderOption={(option, { selected, hovered }) => {
 						const found = identifiedStringOptions.find(
@@ -81,29 +96,35 @@ export const Content = () => {
 						);
 						return (
 							<div
-								className={`flex items-center gap-2 ${
+								className={`flex items-center px-2 gap-2 ${
 									selected ? "text-blue-500" : ""
 								} ${hovered ? "bg-neutral-700" : ""}
-								truncate`}
+								rounded truncate`}
 							>
 								<span>{found?.label}</span>
 							</div>
 						);
 					}}
-					renderValue={(option) => {
-						const found = identifiedStringOptions.find(
-							(obj) => obj.id === option.id
-						);
-						return (
-							<div
-								className="flex items-center gap-2
-								min-w-0 max-w-[300px]
-								truncate"
-							>
-								<span>{found?.label}</span>
-							</div>
-						);
+					selectedItemClassName={(option) => {
+						switch (option.id) {
+							case 0:
+								return "text-green-500 truncate";
+							case 1:
+								return "text-yellow-500 truncate";
+							case 2:
+								return "text-orange-500 truncate";
+							default:
+								return "text-white truncate";
+						}
 					}}
+					controlClassName="flex items-center flex-wrap min-h-8 px-2 py-1 gap-2
+					bg-neutral-800
+					border-1 border-neutral-700 rounded-md cursor-pointer"
+					placeholderClassName="text-neutral-400 truncate"
+					menuClassName="absolute z-10 w-full mt-1
+					text-white/60
+					bg-neutral-800
+					border border-neutral-700 rounded-md overflow-auto"
 				/>
 
 				{/* Object Dropdown - Multiple Select with Search */}
@@ -131,10 +152,10 @@ export const Content = () => {
 						);
 						return (
 							<div
-								className={`flex items-center gap-2 ${
+								className={`flex items-center px-2 gap-2 ${
 									selected ? "text-blue-500" : ""
 								} ${hovered ? "bg-neutral-700" : ""}
-								truncate`}
+								rounded truncate`}
 							>
 								<span>{found?.name}</span>
 								<span className="text-neutral-400">
@@ -142,6 +163,27 @@ export const Content = () => {
 								</span>
 							</div>
 						);
+					}}
+					selectedItemClassName={(option) => {
+						return `flex px-1.5 gap-2
+						text-white truncate
+						border-1 border-neutral-500 rounded-md`;
+					}}
+					removeButtonClassName={(option) => {
+						return `text-red-500 cursor-pointer`;
+					}}
+					controlClassName="flex items-center flex-wrap min-h-8 px-2 py-1 gap-2
+					bg-neutral-800
+					border-1 border-neutral-700 rounded-md cursor-pointer"
+					placeholderClassName="text-neutral-400 truncate"
+					menuClassName="absolute z-10 w-full mt-1
+					text-white/60
+					bg-neutral-800
+					border border-neutral-700 rounded-md overflow-auto"
+					searchInputClassName="w-full p-2 border-b border-neutral-700 outline-none"
+					optionWrapperClassName={(option, { selected, hovered }) => {
+						return `px-2 py-1 cursor-pointer
+						${hovered ? "bg-neutral-700" : ""}}`;
 					}}
 				/>
 			</div>
