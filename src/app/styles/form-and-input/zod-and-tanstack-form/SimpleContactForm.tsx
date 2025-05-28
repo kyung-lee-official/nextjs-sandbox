@@ -21,7 +21,7 @@ function SimpleContactForm() {
 			onChange: schema,
 		},
 		onSubmit: async ({ value }) => {
-			console.log("Form submitted with:", value);
+			console.debug("Form submitted with:", value);
 		},
 	});
 
