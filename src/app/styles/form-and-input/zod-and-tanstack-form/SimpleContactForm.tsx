@@ -7,12 +7,14 @@ const schema = z.object({
 		.string()
 		.min(1, "Email is required")
 		.email("Invalid email address"),
+	favoriteColor: z.string().min(1, "Please select a color"),
 });
 
 function SimpleContactForm() {
 	const form = useForm({
 		defaultValues: {
 			email: "",
+			favoriteColor: "",
 		},
 		/* you can either specify the schema here or in the field */
 		validators: {
@@ -57,6 +59,40 @@ function SimpleContactForm() {
 								</span>
 							)}
 						</>
+					)}
+				</form.Field>
+			</div>
+			<div className="mb-4">
+				<label htmlFor="favoriteColor" className="block mb-1">
+					Favorite Color
+				</label>
+				<form.Field
+					name="favoriteColor"
+					validators={{
+						onChange: schema.shape.favoriteColor,
+					}}
+				>
+					{(field) => (
+						<div>
+							<select
+								id="favoriteColor"
+								value={field.state.value}
+								onChange={(e) =>
+									field.handleChange(e.target.value)
+								}
+								className="w-full p-2 border border-gray-300 rounded bg-white"
+							>
+								<option value="">Select a color</option>
+								<option value="red">Red</option>
+								<option value="blue">Blue</option>
+								<option value="green">Green</option>
+							</select>
+							{field.state.meta.errors && (
+								<span className="text-red-500 text-xs mt-1 block">
+									{field.state.meta.errors.join(", ")}
+								</span>
+							)}
+						</div>
 					)}
 				</form.Field>
 			</div>
