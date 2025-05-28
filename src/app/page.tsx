@@ -549,6 +549,10 @@ export default function Home() {
 						text: "zod and react-hook-form",
 					},
 					{
+						link: "/styles/form-and-input/zod-and-react-hook-form-discriminated-union",
+						text: "zod and react-hook-form (discriminated union)",
+					},
+					{
 						link: "/styles/form-and-input/zod-and-tanstack-form",
 						text: "zod and tanstack-form",
 					},
