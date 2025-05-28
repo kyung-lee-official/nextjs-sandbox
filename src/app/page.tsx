@@ -216,6 +216,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="CAPTCHA | Google reCAPTCHA v3"
+				list={[
+					{
+						link: "/captcha/google-recaptcha-v3",
+						text: "google reCAPTCHA v3",
+					},
+				]}
+			/>
+			<Block
 				title="Casl"
 				list={[{ link: "/casl/basic", text: "basic" }]}
 			/>
@@ -538,6 +547,10 @@ export default function Home() {
 					{
 						link: "/styles/form-and-input/zod-and-react-hook-form",
 						text: "zod and react-hook-form",
+					},
+					{
+						link: "/styles/form-and-input/zod-and-tanstack-form",
+						text: "zod and tanstack-form",
 					},
 					{
 						link: "/styles/form-and-input/integer-input",
