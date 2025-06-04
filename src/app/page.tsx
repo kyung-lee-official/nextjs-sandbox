@@ -488,6 +488,15 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Vitualization"
+				list={[
+					{
+						link: "/virtualization/tanstack-virtual",
+						text: "tanstack virtual",
+					},
+				]}
+			/>
+			<Block
 				title="Styles | Modal (Portal)"
 				list={[
 					{
