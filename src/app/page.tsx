@@ -498,6 +498,10 @@ export default function Home() {
 						link: "/virtualization/plain-table",
 						text: "plain table (for comparison)",
 					},
+					{
+						link: "/virtualization/colspan-rowspan",
+						text: "colspan and rowspan",
+					},
 				]}
 			/>
 			<Block
