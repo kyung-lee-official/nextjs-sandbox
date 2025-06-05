@@ -494,6 +494,10 @@ export default function Home() {
 						link: "/virtualization/tanstack-virtual",
 						text: "tanstack virtual",
 					},
+					{
+						link: "/virtualization/plain-table",
+						text: "plain table (for comparison)",
+					},
 				]}
 			/>
 			<Block
