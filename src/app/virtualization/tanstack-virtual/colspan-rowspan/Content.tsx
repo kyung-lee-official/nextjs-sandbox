@@ -9,7 +9,7 @@ import {
 	ColumnDef, // Import ColumnDef for explicit typing
 } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { makeData, Product } from "./data"; // Import your data and type
+import { makeData, Product } from "../data"; // Import your data and type
 
 // Use createColumnHelper for type-safe column definitions
 const columnHelper = createColumnHelper<Product>();
