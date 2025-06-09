@@ -491,15 +491,19 @@ export default function Home() {
 				title="Vitualization"
 				list={[
 					{
+						link: "/virtualization/tanstack-virtual/style-pattern",
+						text: "style pattern",
+					},
+					{
 						link: "/virtualization/tanstack-virtual",
 						text: "tanstack virtual",
 					},
 					{
-						link: "/virtualization/plain-table",
+						link: "/virtualization/tanstack-virtual/plain-table",
 						text: "plain table (for comparison)",
 					},
 					{
-						link: "/virtualization/colspan-rowspan",
+						link: "/virtualization/tanstack-virtual/colspan-rowspan",
 						text: "colspan and rowspan",
 					},
 				]}

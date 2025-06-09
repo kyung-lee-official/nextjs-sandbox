@@ -44,6 +44,31 @@ export function Content() {
 				size: 80,
 				cell: (info) => info.getValue(),
 			}),
+			columnHelper.accessor("manufacturer", {
+				header: "Manufacturer",
+				size: 150,
+				cell: (info) => info.getValue(),
+			}),
+			columnHelper.accessor("rating", {
+				header: "Rating",
+				size: 80,
+				cell: (info) => info.getValue().toFixed(1),
+			}),
+			columnHelper.accessor("releaseDate", {
+				header: "Release Date",
+				size: 120,
+				cell: (info) => info.getValue(),
+			}),
+			columnHelper.accessor("extraInfo", {
+				header: "Extra Info",
+				size: 200,
+				cell: (info) => info.getValue(),
+			}),
+			columnHelper.accessor("longDescription", {
+				header: "Long Description",
+				size: 350,
+				cell: (info) => info.getValue(),
+			}),
 		],
 		[]
 	);
@@ -67,7 +92,7 @@ export function Content() {
 				// Type the index
 				const row = rows[index];
 				// Assuming summary rows are slightly taller for demonstration
-				return row.original.type === "categorySummary" ? 60 : 40;
+				return row.original.type === "categorySummary" ? 60 : 48;
 			},
 			[rows]
 		),
@@ -79,7 +104,14 @@ export function Content() {
 
 	// Calculate the grid template columns string dynamically based on column sizes
 	const gridTemplateColumns = useMemo(() => {
-		return columns.map((col) => `${col.size || 0}px`).join(" ");
+		if (columns.length === 0) return "";
+		const minLastColWidth = 350; // set your desired min width here
+		return (
+			columns
+				.slice(0, -1)
+				.map((col) => `${col.size || 0}px`)
+				.join(" ") + ` minmax(${minLastColWidth}px, 1fr)`
+		);
 	}, [columns]);
 
 	return (
@@ -98,8 +130,7 @@ export function Content() {
 			>
 				{/* Header */}
 				<div
-					className="sticky top-0 z-10 grid
-					bg-neutral-100 border-b"
+					className="sticky top-0 z-10 grid"
 					style={{ gridTemplateColumns }}
 					role="row"
 				>
@@ -108,7 +139,9 @@ export function Content() {
 							<div
 								key={header.id}
 								className="p-3
-								text-left border"
+								text-left 
+								bg-neutral-100
+								border-b border-r last:border-r-0"
 								role="columnheader"
 								style={{
 									gridColumn: `span ${header.colSpan} / span ${header.colSpan}`,
@@ -149,8 +182,11 @@ export function Content() {
 									border-b border-neutral-200 `}
 								style={{
 									transform: `translateY(${virtualRow.start}px)`,
-									height: virtualRow.size,
+									/* don't set height here if you don't want to
+									use fixed row heights, it will be set by the virtualizer */
+									// height: virtualRow.size,
 									gridTemplateColumns,
+									minWidth: "fit-content",
 								}}
 								role="row"
 							>
@@ -166,8 +202,8 @@ export function Content() {
 									row.getVisibleCells().map((cell) => (
 										<div
 											key={cell.id}
-											className="flex items-center p-3
-											border-r border-neutral-100 last:border-r-0 "
+											className="max-h-[150px] p-3 overflow-auto
+											border-r border-neutral-100 last:border-r-0"
 											role="cell"
 										>
 											{flexRender(
