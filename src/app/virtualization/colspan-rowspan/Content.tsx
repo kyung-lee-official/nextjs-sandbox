@@ -112,39 +112,53 @@ export function Content() {
 
 			<div
 				ref={tableContainerRef}
-				className="h-[600px] overflow-y-auto relative border border-gray-300 rounded-lg shadow-md bg-white" // Tailwind styling
+				className="relative overflow-y-auto h-[600px]
+				bg-white
+				border border-gray-300
+				rounded-lg shadow-md"
 			>
 				<table className="w-full border-collapse">
 					{/* Header */}
-					<thead className="sticky top-0 bg-gray-100 z-10 shadow-sm">
-						{table.getHeaderGroups().map((headerGroup) => (
-							<tr
-								key={headerGroup.id}
-								className="grid" // Use grid for header row
-								style={{ gridTemplateColumns }} // Apply dynamic column widths
-							>
-								{headerGroup.headers.map((header) => (
-									<th
-										key={header.id}
-										colSpan={header.colSpan}
-										className="p-3 text-left font-semibold text-gray-700 border-b border-gray-200"
-										// Tailwind does not directly support colSpan on grid items,
-										// but since the header is not virtualized in this specific approach,
-										// we can rely on standard table header colSpan here.
-										// For more complex header colSpan with absolute positioning,
-										// you might need `grid-column: span X;`
-									>
-										{header.isPlaceholder
-											? null
-											: flexRender(
-													header.column.columnDef
-														.header,
-													header.getContext()
-											  )}
-									</th>
-								))}
-							</tr>
-						))}
+					<thead
+						className="sticky top-0
+						bg-gray-100
+						z-10 shadow-sm"
+					>
+						{table.getHeaderGroups().map((headerGroup) => {
+							// console.log(headerGroup);
+							return (
+								<tr
+									key={headerGroup.id}
+									className="grid" // Use grid for header row
+									style={{ gridTemplateColumns }} // Apply dynamic column widths
+								>
+									{headerGroup.headers.map((header) => {
+										// console.log(header);
+										return (
+											<th
+												key={header.id}
+												colSpan={header.colSpan}
+												className="p-3 text-left font-semibold text-gray-700 border-b border-gray-200"
+												// Tailwind does not directly support colSpan on grid items,
+												// but since the header is not virtualized in this specific approach,
+												// we can rely on standard table header colSpan here.
+												// For more complex header colSpan with absolute positioning,
+												// you might need `grid-column: span X;`
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+															header.column
+																.columnDef
+																.header,
+															header.getContext()
+													  )}
+											</th>
+										);
+									})}
+								</tr>
+							);
+						})}
 					</thead>
 
 					{/* Body */}
