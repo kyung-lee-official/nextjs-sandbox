@@ -1,4 +1,4 @@
-import { Title } from "../tanstack-virtual/Title";
+import { Title } from "../Title";
 
 const NUM_ROWS = 400;
 const NUM_COLS = 15;
