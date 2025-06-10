@@ -125,7 +125,7 @@ export function Content() {
 
 			<div
 				ref={tableContainerRef}
-				className="relative overflow-auto h-[600px] 
+				className="relative overflow-auto h-[600px] scrollbar
 				border rounded"
 			>
 				{/* Header */}
@@ -139,7 +139,7 @@ export function Content() {
 							<div
 								key={header.id}
 								className="p-3
-								text-left 
+								text-left
 								bg-neutral-100
 								border-b border-r last:border-r-0"
 								role="columnheader"
