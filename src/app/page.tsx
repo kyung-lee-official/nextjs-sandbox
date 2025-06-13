@@ -499,6 +499,10 @@ export default function Home() {
 						text: "style pattern",
 					},
 					{
+						link: "/virtualization/tanstack-virtual/style-pattern-frozen-columns",
+						text: "style pattern frozen columns",
+					},
+					{
 						link: "/virtualization/tanstack-virtual",
 						text: "tanstack virtual",
 					},
