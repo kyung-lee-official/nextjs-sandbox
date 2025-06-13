@@ -485,10 +485,14 @@ export default function Home() {
 						link: "/tables/tanstack-react-table/pivot-table-nested-rows",
 						text: "pivot table nested rows",
 					},
+					{
+						link: "/tables/tanstack-react-table/frozen-columns",
+						text: "frozen columns",
+					},
 				]}
 			/>
 			<Block
-				title="Vitualization"
+				title="Virtualization"
 				list={[
 					{
 						link: "/virtualization/tanstack-virtual/style-pattern",
