@@ -574,6 +574,10 @@ export default function Home() {
 				title="Styles | Form and Input"
 				list={[
 					{
+						link: "/styles/form-and-input/react-hook-form-submit",
+						text: "react-hook-form submit",
+					},
+					{
 						link: "/styles/form-and-input/zod-and-react-hook-form",
 						text: "zod and react-hook-form",
 					},
