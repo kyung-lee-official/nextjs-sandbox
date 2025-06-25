@@ -29,7 +29,7 @@ const Content = () => {
 			/>
 			<button
 				type="submit"
-				className="px-1
+				className="px-1.5
 				text-white
 				bg-blue-500
 				rounded"
