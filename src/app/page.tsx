@@ -275,6 +275,10 @@ export default function Home() {
 						text: "upload files (one by one in a loop)",
 					},
 					{ link: "/files/tencent-cos", text: "tencent cos" },
+					{
+						link: "/files/aliyun-oss",
+						text: "upload files to aliyun oss",
+					},
 				]}
 			/>
 			<Block
