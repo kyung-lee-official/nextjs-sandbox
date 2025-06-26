@@ -1,7 +1,7 @@
-import Content from "./Content";
+import { QueryClientWrapper } from "./QueryClientWrapper";
 
 const Page = () => {
-	return <Content />;
+	return <QueryClientWrapper />;
 };
 
 export default Page;
