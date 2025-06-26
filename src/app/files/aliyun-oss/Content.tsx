@@ -9,13 +9,6 @@ type FormValues = {
 	files: FileList;
 };
 
-const uploadFiles = async (files: FileList) => {
-	// Replace this with your actual upload logic (e.g., to Aliyun OSS)
-	// Here we just simulate a delay and log the files
-	await new Promise((res) => setTimeout(res, 1000));
-	return Array.from(files).map((file) => file.name);
-};
-
 const Content = () => {
 	const { register, handleSubmit, reset } = useForm<FormValues>();
 	const mutation = useMutation({
@@ -44,7 +37,7 @@ const Content = () => {
 				});
 				console.log(ossRes.data);
 			}
-			return uploadFiles(files);
+			return Array.from(files).map((file) => file.name);
 		},
 		onSuccess: (data) => {
 			console.log("Uploaded files:", data);
