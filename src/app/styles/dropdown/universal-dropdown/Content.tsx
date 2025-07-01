@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Dropdown, DropdownOption } from "./dropdown/Dropdown";
+import { Dropdown } from "./dropdown/Dropdown";
 
 type User = {
 	id: string;
@@ -17,10 +17,10 @@ type Fruit =
 
 export const Content = () => {
 	const [stringSelected, setStringSelected] = useState<
-		DropdownOption | DropdownOption[] | null
+		string | string[] | null
 	>(null);
 	const [objectSelected, setObjectSelected] = useState<
-		DropdownOption | DropdownOption[] | null
+		string | string[] | null
 	>(null);
 	const [hovered, setHovered] = useState<any>(null);
 
@@ -30,15 +30,6 @@ export const Content = () => {
 		"Orange",
 		"A very loooooooooooooooooooooooooooooooooooooooooooooooooooooog option",
 	];
-	const identifiedStringOptions = stringOptions.map((option, i) => ({
-		id: i,
-		label: option,
-	}));
-	const stringOptionIds = identifiedStringOptions
-		.sort((a, b) => a.label.localeCompare(b.label))
-		.map((option, i) => ({
-			id: i,
-		})) as DropdownOption[];
 
 	const objectOptions: User[] = [
 		{ id: "1", name: "John", email: "john@example.com" },
@@ -52,9 +43,7 @@ export const Content = () => {
 	];
 	const objectOptionIds = objectOptions
 		.sort((a, b) => a.name.localeCompare(b.name))
-		.map((option) => ({
-			id: option.id,
-		})) as DropdownOption[];
+		.map((option) => option.id) as string[];
 
 	return (
 		<div
@@ -65,24 +54,24 @@ export const Content = () => {
 				{/* String Dropdown - Single Select */}
 				<Dropdown
 					mode="regular"
-					options={stringOptionIds}
+					options={stringOptions}
 					selected={stringSelected}
 					setSelected={setStringSelected}
 					setHover={setHovered}
 					placeholder="Select a fruit"
 					getLabel={(option) => {
-						const found = identifiedStringOptions.find(
-							(obj) => obj.id === option.id
+						const found = stringOptions.find(
+							(obj) => obj === option
 						);
-						switch (found?.label) {
+						switch (found) {
 							case "Apple":
-								return <div>🍏 {found.label}</div>;
+								return <div>🍏 {found}</div>;
 							case "Banana":
-								return <div>🍌 {found.label}</div>;
+								return <div>🍌 {found}</div>;
 							case "Orange":
-								return <div>🍊 {found.label}</div>;
+								return <div>🍊 {found}</div>;
 							default:
-								return found?.label;
+								return found;
 						}
 					}}
 					optionWrapperClassName={(option, { selected, hovered }) => {
@@ -91,8 +80,8 @@ export const Content = () => {
 						cursor-pointer truncate`;
 					}}
 					renderOption={(option, { selected, hovered }) => {
-						const found = identifiedStringOptions.find(
-							(obj) => obj.id === option.id
+						const found = stringOptions.find(
+							(obj) => obj === option
 						);
 						return (
 							<div
@@ -101,17 +90,17 @@ export const Content = () => {
 								} ${hovered ? "bg-neutral-700" : ""}
 								rounded truncate`}
 							>
-								<span>{found?.label}</span>
+								<span>{found}</span>
 							</div>
 						);
 					}}
 					selectedItemClassName={(option) => {
-						switch (option.id) {
-							case 0:
+						switch (option) {
+							case "Apple":
 								return "text-green-500 truncate";
-							case 1:
+							case "Banana":
 								return "text-yellow-500 truncate";
-							case 2:
+							case "Orange":
 								return "text-orange-500 truncate";
 							default:
 								return "text-white truncate";
@@ -137,18 +126,18 @@ export const Content = () => {
 					setHover={setHovered}
 					multiple
 					getLabel={(option) => {
-						return objectOptions.find((obj) => obj.id === option.id)
+						return objectOptions.find((obj) => obj.id === option)
 							?.name as string;
 					}}
 					getSearchString={(option) => {
 						const found = objectOptions.find(
-							(obj) => obj.id === option.id
+							(obj) => obj.id === option
 						);
 						return found ? found.name + " " + found.email : "";
 					}}
 					renderOption={(option, { selected, hovered }) => {
 						const found = objectOptions.find(
-							(obj) => obj.id === option.id
+							(obj) => obj.id === option
 						);
 						return (
 							<div
