@@ -48,7 +48,13 @@ export default function Home() {
 			min-h-svh p-10 gap-6
 			bg-gradient-to-br from-cyan-500/60 to-purple-500/60"
 		>
-			<Block title="Home" list={[{ link: "/", text: "home" }]} />
+			<Block
+				title="Home"
+				list={[
+					{ link: "/", text: "home" },
+					{ link: "/cors-test", text: "CORS Test" },
+				]}
+			/>
 			<Block
 				title="Animation | AnimeJS"
 				list={[
