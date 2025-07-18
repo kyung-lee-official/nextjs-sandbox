@@ -263,6 +263,10 @@ export default function Home() {
 				title="Data Fetching"
 				list={[
 					{
+						link: "/data-fetching/axios",
+						text: "axios & qs",
+					},
+					{
 						link: "/data-fetching/tanstack-query",
 						text: "TanStack Query",
 					},
