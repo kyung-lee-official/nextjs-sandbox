@@ -14,6 +14,10 @@ const Example = () => {
 				obj: {
 					nestedKey: "nestedValue",
 				},
+				/* this will be added to the string with key only */
+				nullValue: null,
+				/* this will be ignored */
+				undefinedValue: undefined,
 			};
 			const serialized = queryString.stringify(complexData);
 			console.log("Serialized complex data:", serialized);
