@@ -287,7 +287,7 @@ export default function Home() {
 					{ link: "/files/tencent-cos", text: "tencent cos" },
 					{
 						link: "/files/aliyun-oss",
-						text: "upload files to aliyun oss",
+						text: "aliyun oss upload and download",
 					},
 				]}
 			/>
