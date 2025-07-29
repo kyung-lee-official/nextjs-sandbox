@@ -14,6 +14,18 @@ export async function POST(request: NextRequest) {
 	try {
 		const { name, email, recaptchaToken } = await request.json();
 
+		/* TEST: Force low score for specific test data */
+		if (name === "Test Bot" || email === "bot@test.com") {
+			return NextResponse.json(
+				{
+					message: "Security verification failed. Please try again.",
+					/* Simulate low score */
+					score: 0.1,
+				},
+				{ status: 400 }
+			);
+		}
+
 		/* Validate required fields */
 		if (!name || !email || !recaptchaToken) {
 			return NextResponse.json(
