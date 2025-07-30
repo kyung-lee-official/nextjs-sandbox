@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Script from "next/script";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 declare global {
 	interface Window {
@@ -31,18 +31,36 @@ const Content = () => {
 			}
 
 			return new Promise((resolve) => {
-				window.grecaptcha.ready(async () => {
-					try {
-						const token = await window.grecaptcha.execute(
-							process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
-							{ action }
-						);
-						resolve(token);
-					} catch (error) {
-						console.error("reCAPTCHA execution failed:", error);
-						resolve(null);
+				window.grecaptcha.ready(
+					/* This callback will execute when reCAPTCHA is fully loaded and ready */
+					async () => {
+						try {
+							/**
+							 * get reCAPTCHA token
+							 *
+							 * What the token contains (internally):
+							 * 1. Site key - the public key for your reCAPTCHA
+							 * 2. Action - the action name you assigned to the reCAPTCHA (e.g., "submit_form")
+							 * 3. Timestamp - the time when the token was generated
+							 * 4. User's risk score- Google's assessment (0.0 to 1.0)
+							 * 5. Browser/device fingerprint - Various signals about the user's device and browser
+							 * 6. Session info - Information about the user's session
+							 *
+							 * * You cannot decode this token in JavaScript - it's encrypted and signed by Google.
+							 * * Only Google's servers can verify this token.
+							 */
+							const token = await window.grecaptcha.execute(
+								process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+								{ action }
+							);
+							console.log("reCAPTCHA token:", token);
+							resolve(token);
+						} catch (error) {
+							console.error("reCAPTCHA execution failed:", error);
+							resolve(null);
+						}
 					}
-				});
+				);
 			});
 		},
 		[recaptchaLoaded]
