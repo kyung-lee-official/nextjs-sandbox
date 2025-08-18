@@ -24,24 +24,31 @@ export const Button = (props: {
 	const onClick = () => {
 		setCalendarRange((prev) => {
 			if (!prev.isSelecting) {
+				/* if not currently selecting a range, start selecting */
 				return {
-					start: date,
-					end: date /* temporarily set the end date to the same date */,
+					/* ensure the start date is at the beginning of the day */
+					start: date.startOf("day"),
+					/* temporarily set the end date to the same date */
+					end: date.endOf("day"),
 					isSelecting: true,
 				};
 			} else {
+				/* if currently selecting a range, update the range */
 				if (prev.start.isAfter(date)) {
+					/* if the start date is after the clicked date, set the start date to the clicked date */
 					return {
-						start: date,
-						end: prev.start,
+						start: date.startOf("day"),
+						end: prev.start.endOf("day"),
+						isSelecting: false,
+					};
+				} else {
+					/* if the start date is before or same as the clicked date, set the end date to the clicked date */
+					return {
+						start: prev.start.startOf("day"),
+						end: date.endOf("day"),
 						isSelecting: false,
 					};
 				}
-				return {
-					start: prev.start,
-					end: date,
-					isSelecting: false,
-				};
 			}
 		});
 	};
