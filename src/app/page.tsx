@@ -289,6 +289,10 @@ export default function Home() {
 						link: "/files/aliyun-oss",
 						text: "aliyun oss upload and download",
 					},
+					{
+						link: "/files/upload-multiple-excel",
+						text: "compress and upload multiple excel files",
+					},
 				]}
 			/>
 			<Block
