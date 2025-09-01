@@ -293,6 +293,10 @@ export default function Home() {
 						link: "/files/upload-multiple-excel",
 						text: "compress and upload multiple excel files",
 					},
+					{
+						link: "/files/modify-excel-before-upload",
+						text: "modify excel before upload",
+					},
 				]}
 			/>
 			<Block
