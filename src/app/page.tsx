@@ -291,7 +291,11 @@ export default function Home() {
 					},
 					{
 						link: "/files/upload-multiple-excel",
-						text: "compress and upload multiple excel files",
+						text: "compress and upload multiple excel files in individual inputs",
+					},
+					{
+						link: "/files/upload-multiple-excel-single-input",
+						text: "compress and upload multiple excel files in a single inputs",
 					},
 					{
 						link: "/files/modify-excel-before-upload",
