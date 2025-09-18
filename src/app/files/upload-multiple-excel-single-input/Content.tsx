@@ -52,6 +52,7 @@ export const Content = () => {
 				compressedBlob,
 				"files.json.gz"
 			);
+			uploadData.append("description", "Multiple Excel files upload");
 			const res = await axios.post(
 				"techniques/upload-compressed-single-blob-single-input",
 				uploadData,
