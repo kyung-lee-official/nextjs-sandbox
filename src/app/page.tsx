@@ -379,6 +379,10 @@ export default function Home() {
 				]}
 			/>
 			<Block
+				title="Medusa"
+				list={[{ link: "/medusa", text: "Medusa" }]}
+			/>
+			<Block
 				title="NextJS"
 				list={[
 					{
