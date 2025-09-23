@@ -1,21 +1,49 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { getRegistrationAuthenticationToken } from "./api";
+import { useForm } from "react-hook-form";
+import { getRegistrationAuthenticationToken, registerTester } from "./api";
 import Link from "next/link";
+import { TesterList } from "./TesterList";
+
+type RegistrationForm = {
+	email: string;
+	password: string;
+	firstName: string;
+	lastName: string;
+	avatar_url?: string;
+};
 
 export const BasicAuthenticationFlow = () => {
-	const getRegistrationAuthenticationTokenMutation = useMutation({
-		mutationFn: async (data: { email: string; password: string }) => {
-			const res = await getRegistrationAuthenticationToken(
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<RegistrationForm>();
+
+	const registrationMutation = useMutation({
+		mutationFn: async (data: RegistrationForm) => {
+			const tokenRes = await getRegistrationAuthenticationToken(
 				data.email,
-				data.password
+				data.password,
+				"tester"
 			);
-			return res;
+
+			const regRes = await registerTester(
+				tokenRes.token,
+				data.firstName,
+				data.lastName,
+				data.email,
+				data.avatar_url
+			);
+
+			return regRes;
 		},
 		onSuccess: (data) => {
-			console.log("Registration successful:", data);
-			// Handle successful registration (e.g., store token, redirect, etc.)
+			console.log("Registration Token: ", data);
+		},
+		onError: (error) => {
+			console.error("Registration failed:", error);
 		},
 	});
 
@@ -35,40 +63,100 @@ export const BasicAuthenticationFlow = () => {
 				manually extract it in user creation step later.
 			</p>
 			<form
+				onSubmit={handleSubmit((data) =>
+					registrationMutation.mutate(data)
+				)}
 				className="flex flex-col gap-4 max-w-sm"
-				onSubmit={(e) => {
-					e.preventDefault();
-					const formData = new FormData(e.currentTarget);
-					const email = formData.get("email") as string;
-					const password = formData.get("password") as string;
-					getRegistrationAuthenticationTokenMutation.mutate({
-						email,
-						password,
-					});
-				}}
 			>
-				<label>
-					Email:
+				<div>
+					<label>Email:</label>
 					<input
+						{...register("email", {
+							required: "Email is required",
+						})}
 						type="email"
-						name="email"
-						required
-						defaultValue={"admin@restaurant.com"}
+						defaultValue="tester1@example.com"
+						className="block w-full px-3 py-2 border rounded"
 					/>
-				</label>
-				<label>
-					Password:
+					{errors.email && (
+						<span className="text-red-500">
+							{errors.email.message}
+						</span>
+					)}
+				</div>
+				<div>
+					<label>Password:</label>
 					<input
+						{...register("password", {
+							required: "Password is required",
+						})}
 						type="password"
-						name="password"
-						required
-						defaultValue={"supersecret"}
+						defaultValue="supersecret"
+						className="block w-full px-3 py-2 border rounded"
 					/>
-				</label>
-				<button type="submit" className="underline decoration-dotted">
-					Register
+					{errors.password && (
+						<span className="text-red-500">
+							{errors.password.message}
+						</span>
+					)}
+				</div>
+
+				<div>
+					<label>First Name:</label>
+					<input
+						{...register("firstName", {
+							required: "First name is required",
+						})}
+						type="text"
+						defaultValue="Tester1"
+						className="block w-full px-3 py-2 border rounded"
+					/>
+					{errors.firstName && (
+						<span className="text-red-500">
+							{errors.firstName.message}
+						</span>
+					)}
+				</div>
+				<div>
+					<label>Last Name:</label>
+					<input
+						{...register("lastName", {
+							required: "Last name is required",
+						})}
+						type="text"
+						defaultValue="Lee"
+						className="block w-full px-3 py-2 border rounded"
+					/>
+					{errors.lastName && (
+						<span className="text-red-500">
+							{errors.lastName.message}
+						</span>
+					)}
+				</div>
+
+				<div>
+					<label>Avatar URL (optional):</label>
+					<input
+						{...register("avatar_url", {
+							/* Transform empty strings to undefined */
+							setValueAs: (value) => value?.trim() || undefined,
+						})}
+						type="url"
+						className="block w-full px-3 py-2 border rounded"
+					/>
+				</div>
+
+				<button
+					type="submit"
+					disabled={registrationMutation.isPending}
+					className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+				>
+					{registrationMutation.isPending
+						? "Registering..."
+						: "Register"}
 				</button>
 			</form>
+			<TesterList />
 		</div>
 	);
 };
