@@ -2,9 +2,14 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { getRegistrationAuthenticationToken, registerTester } from "./api";
+import {
+	getRegistrationAuthenticationToken,
+	registerTester,
+	TesterQK,
+} from "./api";
 import Link from "next/link";
 import { TesterList } from "./TesterList";
+import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
 type RegistrationForm = {
 	email: string;
@@ -40,7 +45,9 @@ export const BasicAuthenticationFlow = () => {
 			return regRes;
 		},
 		onSuccess: (data) => {
-			console.log("Registration Token: ", data);
+			queryClient.invalidateQueries({
+				queryKey: [TesterQK.GET_TESTER_LIST],
+			});
 		},
 		onError: (error) => {
 			console.error("Registration failed:", error);

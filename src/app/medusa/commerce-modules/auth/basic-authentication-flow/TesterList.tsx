@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTesterList, TesterQK } from "./api";
 import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
+import { DeleteTester } from "./DeleteTester";
 
 export const TesterList = () => {
 	const getTesterListQuery = useQuery({
@@ -20,8 +21,6 @@ export const TesterList = () => {
 	if (getTesterListQuery.isError) {
 		return <div>Error loading testers.</div>;
 	}
-
-	console.log(getTesterListQuery.data);
 
 	return (
 		<div>
@@ -44,7 +43,9 @@ export const TesterList = () => {
 								<td>{tester.first_name}</td>
 								<td>{tester.last_name}</td>
 								<td>{tester.email}</td>
-								<td>delete</td>
+								<td>
+									<DeleteTester testerId={tester.id} />
+								</td>
 							</tr>
 						))}
 					</Tbody>

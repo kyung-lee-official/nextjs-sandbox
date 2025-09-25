@@ -63,3 +63,14 @@ export const getTesterList = async () => {
 	});
 	return res.data;
 };
+
+export const deleteTester = async (testerId: string) => {
+	const res = await axios.delete(`/tester/${testerId}`, {
+		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+		headers: {
+			"x-publishable-api-key":
+				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+		},
+	});
+	return res.data;
+};
