@@ -13,7 +13,8 @@ export const TestLoginToken = () => {
 		<div className="w-full">
 			<h1>
 				Test Login (Note that auth info is recorded separately in
-				auth_identity table, )
+				auth_identity table and provider_identity table, deleting tester
+				doesn&#39;t prevent login)
 			</h1>
 			<button
 				className="underline decoration-dotted"
