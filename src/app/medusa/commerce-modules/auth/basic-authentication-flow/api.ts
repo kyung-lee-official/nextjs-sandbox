@@ -26,6 +26,24 @@ export async function getRegistrationAuthenticationToken(
 	return res.data;
 }
 
+export async function loginTester(email: string, password: string) {
+	const res = await axios.post(
+		`/auth/tester/emailpass`,
+		{
+			email,
+			password,
+		},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
+
 export async function registerTester(
 	token: string,
 	firstName: string,

@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { TesterList } from "./TesterList";
 import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
+import { TestLoginToken } from "./TestLoginToken";
 
 type RegistrationForm = {
 	email: string;
@@ -163,6 +164,7 @@ export const BasicAuthenticationFlow = () => {
 						: "Register"}
 				</button>
 			</form>
+			<TestLoginToken />
 			<TesterList />
 		</div>
 	);
