@@ -53,6 +53,15 @@ export default function Page() {
 				]}
 			/>
 			<Block
+				title="Framework"
+				list={[
+					{
+						link: "medusa/framework/events-and-subscribers",
+						text: "Events and Subscribers",
+					},
+				]}
+			/>
+			<Block
 				title="Commerce Modules"
 				list={[
 					{
