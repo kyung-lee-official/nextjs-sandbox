@@ -70,6 +70,10 @@ export default function Page() {
 					},
 					{ link: "medusa/commerce-modules/auth", text: "Auth" },
 					{ link: "medusa/commerce-modules/cart", text: "Cart" },
+					{
+						link: "medusa/commerce-modules/customer",
+						text: "Customer",
+					},
 					{ link: "medusa/commerce-modules/user", text: "User" },
 				]}
 			/>
