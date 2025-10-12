@@ -1,0 +1,59 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { CartQK, getCartById } from "../api";
+
+export const Content = () => {
+	const { cartId } = useParams();
+
+	const cartQuery = useQuery({
+		queryKey: [CartQK.GET_CART_BY_ID, cartId],
+		queryFn: async () => {
+			const res = await getCartById(cartId as string);
+			return res;
+		},
+	});
+
+	if (cartQuery.isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (cartQuery.isError) {
+		return <div>Error loading cart.</div>;
+	}
+
+	return (
+		<div className="m-6 space-y-4">
+			<div>Cart ID: {cartId}</div>
+			<div>Region ID: {cartQuery.data.region_id}</div>
+			<div>Region Name: {cartQuery.data.region_name}</div>
+			<div>Sales Channel ID: {cartQuery.data.sales_channel_id}</div>
+			<div>Customer ID: {cartQuery.data.customer_id}</div>
+			<div>Email: {cartQuery.data.email}</div>
+			<div>Currency Code: {cartQuery.data.currency_code}</div>
+			<div>
+				Created At:{" "}
+				{new Date(cartQuery.data.created_at).toLocaleString()}
+			</div>
+			<div>
+				Updated At:{" "}
+				{new Date(cartQuery.data.updated_at).toLocaleString()}
+			</div>
+			<div>Billing Address ID: {cartQuery.data.billing_address_id}</div>
+			<div>Shipping Address ID: {cartQuery.data.shipping_address_id}</div>
+			<div>
+				Completed At:{" "}
+				{cartQuery.data.completed_at
+					? new Date(cartQuery.data.completed_at).toLocaleString()
+					: "Not completed"}
+			</div>
+			<div>
+				Metadata:{" "}
+				{cartQuery.data.metadata
+					? JSON.stringify(cartQuery.data.metadata)
+					: "No metadata"}
+			</div>
+		</div>
+	);
+};

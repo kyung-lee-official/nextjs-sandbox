@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
 import { CustomerQK, getCustomerList } from "../api";
 import { DeleteCustomer } from "./DeleteCustomer";
+import { Carts } from "./Carts";
 
 export const CustomerList = () => {
 	const getCustomerListQuery = useQuery({
@@ -33,6 +34,7 @@ export const CustomerList = () => {
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Email</th>
+							<th>Carts (per region)</th>
 							<th></th>
 						</tr>
 					</Thead>
@@ -43,6 +45,9 @@ export const CustomerList = () => {
 								<td>{customer.first_name}</td>
 								<td>{customer.last_name}</td>
 								<td>{customer.email}</td>
+								<td>
+									<Carts customerId={customer.id} />
+								</td>
 								<td>
 									<DeleteCustomer customerId={customer.id} />
 								</td>
