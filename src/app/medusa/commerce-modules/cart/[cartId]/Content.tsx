@@ -29,6 +29,7 @@ export const Content = () => {
 			<div>Region ID: {cartQuery.data.region_id}</div>
 			<div>Region Name: {cartQuery.data.region_name}</div>
 			<div>Sales Channel ID: {cartQuery.data.sales_channel_id}</div>
+			<div>Sales Channel Name: {cartQuery.data.sales_channel_name}</div>
 			<div>Customer ID: {cartQuery.data.customer_id}</div>
 			<div>Email: {cartQuery.data.email}</div>
 			<div>Currency Code: {cartQuery.data.currency_code}</div>
