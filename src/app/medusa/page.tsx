@@ -74,6 +74,10 @@ export default function Page() {
 						link: "medusa/commerce-modules/customer",
 						text: "Customer",
 					},
+					{
+						link: "medusa/commerce-modules/product",
+						text: "Product",
+					},
 					{ link: "medusa/commerce-modules/user", text: "User" },
 				]}
 			/>
