@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStockLocationsBySalesChannelId, SalesChannelQK } from "../../api";
 import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
+import dayjs from "dayjs";
 
 type StockLocationsProps = {
 	salesChannelId: string;
@@ -47,8 +48,16 @@ export const Content = (props: StockLocationsProps) => {
 								<td>{sl.id}</td>
 								<td>{sl.name}</td>
 								<td>{sl.address}</td>
-								<td>{sl.created_at}</td>
-								<td>{sl.updated_at}</td>
+								<td>
+									{dayjs(sl.created_at).format(
+										"YYYY-MM-DD HH:mm:ss"
+									)}
+								</td>
+								<td>
+									{dayjs(sl.updated_at).format(
+										"YYYY-MM-DD HH:mm:ss"
+									)}
+								</td>
 							</tr>
 						))}
 					</Tbody>
