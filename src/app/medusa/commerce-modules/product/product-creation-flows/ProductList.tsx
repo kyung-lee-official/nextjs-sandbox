@@ -1,10 +1,11 @@
+import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 import { getProductList, ProductQK } from "../api";
 import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
 import { DeleteProduct } from "./DeleteProduct";
 import { SoftDeleteProduct } from "./SoftDeleteProdcut";
-import dayjs from "dayjs";
 import { PublishProduct } from "./PublishProduct";
+import Link from "next/link";
 
 export const ProductList = () => {
 	const productQuery = useQuery({
@@ -16,18 +17,18 @@ export const ProductList = () => {
 	});
 
 	if (productQuery.isLoading) {
-		return <div>Loading...</div>;
+		return <div> ...</div>;
 	}
 
 	if (productQuery.isError) {
 		return <div>Error loading products</div>;
 	}
 
-	console.log(productQuery.data);
-
 	return (
-		<div>
-			<h1>Product List</h1>
+		<div className="relative">
+			<div className="flex justify-between mb-2">
+				<h1>Product List</h1>
+			</div>
 			<div className="bg-neutral-500">
 				<Table>
 					<Thead>
@@ -37,7 +38,7 @@ export const ProductList = () => {
 							<th>Status</th>
 							<th>Created At</th>
 							<th>Updated At</th>
-							<th>Deleted At</th>
+							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>
@@ -60,9 +61,12 @@ export const ProductList = () => {
 									)}
 								</td>
 								<td>
-									{dayjs(product.deleted_at).format(
-										"YYYY-MM-DD HH:mm:ss"
-									)}
+									<Link
+										href={`/medusa/commerce-modules/product/${product.id}`}
+										className="underline decoration-dotted"
+									>
+										Details
+									</Link>
 								</td>
 								<td>
 									<PublishProduct productId={product.id} />

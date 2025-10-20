@@ -26,12 +26,28 @@ export const Content = () => {
 		formState: { errors },
 	} = useForm<CreateProductForm>();
 
-	const registrationMutation = useMutation({
+	const createProductsMutation = useMutation({
 		mutationFn: async (data: CreateProductForm) => {
 			const res = await createProducts([
 				{
-					...data,
+					title: "Shirt",
 					options: [{ title: "Size", values: ["S", "M", "L"] }],
+					variants: [
+						{
+							title: "Small Shirt",
+							sku: "SMALLSHIRT",
+							options: {
+								Size: "S",
+							},
+							prices: [
+								{
+									amount: 10,
+									currency_code: "usd",
+								},
+							],
+							manage_inventory: true,
+						},
+					],
 				},
 			]);
 			return res;
@@ -58,7 +74,7 @@ export const Content = () => {
 			</Link>
 			<form
 				onSubmit={handleSubmit((data) =>
-					registrationMutation.mutate(data)
+					createProductsMutation.mutate(data)
 				)}
 				className="flex flex-col gap-4 max-w-sm"
 			>
@@ -80,10 +96,12 @@ export const Content = () => {
 
 				<button
 					type="submit"
-					disabled={registrationMutation.isPending}
+					disabled={createProductsMutation.isPending}
 					className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
 				>
-					{registrationMutation.isPending ? "Creating..." : "Create"}
+					{createProductsMutation.isPending
+						? "Creating..."
+						: "Create"}
 				</button>
 			</form>
 			<ProductList />

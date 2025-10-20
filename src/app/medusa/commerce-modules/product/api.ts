@@ -2,6 +2,7 @@ import axios from "axios";
 
 export enum ProductQK {
 	GET_PRODUCT_LIST = "get-product-list",
+	GET_PRODUCT_BY_ID = "get-product-by-id",
 }
 
 export async function createProducts(data: any) {
@@ -57,6 +58,17 @@ export async function softDeleteProduct(productId: string) {
 
 export async function deleteProduct(productId: string) {
 	const res = await axios.delete(`/commerce-modules/product/${productId}`, {
+		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+		headers: {
+			"x-publishable-api-key":
+				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+		},
+	});
+	return res.data;
+}
+
+export async function getProductById(productId: string) {
+	const res = await axios.get(`/commerce-modules/product/${productId}`, {
 		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
 		headers: {
 			"x-publishable-api-key":
