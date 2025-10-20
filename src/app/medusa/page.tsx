@@ -75,6 +75,10 @@ export default function Page() {
 						text: "Customer",
 					},
 					{
+						link: "medusa/commerce-modules/inventory",
+						text: "Inventory",
+					},
+					{
 						link: "medusa/commerce-modules/product",
 						text: "Product",
 					},
