@@ -78,6 +78,14 @@ export default function Page() {
 						link: "medusa/commerce-modules/product",
 						text: "Product",
 					},
+					{
+						link: "medusa/commerce-modules/sales-channel",
+						text: "Sales Channel",
+					},
+					{
+						link: "medusa/commerce-modules/stock-location",
+						text: "Stock Location",
+					},
 					{ link: "medusa/commerce-modules/user", text: "User" },
 				]}
 			/>

@@ -41,7 +41,7 @@ export const Content = () => {
 							<th>Name</th>
 							<th>Description</th>
 							<th>Is Disabled</th>
-							<th>Stock Locations</th>
+							{/* <th>Stock Locations</th> */}
 							<th>Created At</th>
 							<th>Updated At</th>
 						</tr>
@@ -53,14 +53,14 @@ export const Content = () => {
 								<td>{sc.name}</td>
 								<td>{sc.description}</td>
 								<td>{sc.is_disabled ? "Yes" : "No"}</td>
-								<td>
+								{/* <td>
 									<Link
 										href={`/medusa/commerce-modules/sales-channel/get-stock-locations-by-sales-channel-id/${sc.id}`}
 										className="underline decoration-dotted"
 									>
 										Stock Locations
 									</Link>
-								</td>
+								</td> */}
 								<td>
 									{dayjs(sc.created_at).format(
 										"YYYY-MM-DD HH:mm"
