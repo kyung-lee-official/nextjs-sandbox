@@ -42,6 +42,7 @@ export const Content = () => {
 							<th>Title</th>
 							<th>Description</th>
 							<th>Requires Shipping</th>
+							<th>Details</th>
 							<th>Created At</th>
 							<th>Updated At</th>
 						</tr>
@@ -54,6 +55,14 @@ export const Content = () => {
 								<td>{inv.title}</td>
 								<td>{inv.description}</td>
 								<td>{inv.requires_shipping ? "Yes" : "No"}</td>
+								<td>
+									<Link
+										href={`/medusa/commerce-modules/inventory/${inv.id}`}
+										className="underline decoration-dotted"
+									>
+										Details
+									</Link>
+								</td>
 								<td>
 									{dayjs(inv.created_at).format(
 										"YYYY-MM-DD HH:mm"
