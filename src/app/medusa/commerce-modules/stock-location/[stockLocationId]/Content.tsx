@@ -32,8 +32,6 @@ export const Content = (props: ContentProps) => {
 		return <div>Error loading stock locations</div>;
 	}
 
-	console.log(stockLocationQuery.data);
-
 	return (
 		<div className="m-6 space-y-4">
 			<h1>
