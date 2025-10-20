@@ -38,7 +38,7 @@ export const Content = (props: ContentProps) => {
 				Stock Location {stockLocationQuery.data?.name} (
 				{stockLocationId}) Details
 			</h1>
-			<div>Address: {stockLocationQuery.data?.address}</div>
+			<div>Address: {stockLocationQuery.data?.address?.id}</div>
 			<div>
 				Created At{" "}
 				{dayjs(stockLocationQuery.data?.created_at).format(
@@ -70,7 +70,7 @@ export const Content = (props: ContentProps) => {
 						</tr>
 					</Thead>
 					<Tbody>
-						{stockLocationQuery.data?.sales_channels.map(
+						{stockLocationQuery.data?.sales_channels?.map(
 							(sc: any) => (
 								<tr key={sc.id}>
 									<td>{sc.id}</td>
