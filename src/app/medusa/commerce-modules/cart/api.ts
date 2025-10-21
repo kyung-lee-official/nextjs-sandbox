@@ -18,13 +18,16 @@ export async function getCartById(cartId: string) {
 }
 
 export async function getCartCheckoutInfoById(cartId: string) {
-	const res = await axios.get(`/commerce-modules/cart/checkout/${cartId}`, {
-		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
-		headers: {
-			"x-publishable-api-key":
-				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
-		},
-	});
+	const res = await axios.get(
+		`/commerce-modules/cart/checkout-info/${cartId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
 	return res.data;
 }
 
@@ -50,5 +53,22 @@ export async function updateCart(cartId: string, payload: any) {
 				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
 		},
 	});
+	return res.data;
+}
+
+/* === checkout === */
+
+export async function completePaymentCollection(cartId: string) {
+	const res = await axios.post(
+		`/commerce-modules/cart/checkout/create-payment-collection/${cartId}`,
+		{},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
 	return res.data;
 }

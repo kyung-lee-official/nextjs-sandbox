@@ -4,9 +4,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import {
 	CartQK,
+	completePaymentCollection,
 	getCartCheckoutInfoById,
 	getCartsByCustomerId,
 } from "../../cart/api";
+import { useRouter } from "next/navigation";
 
 type CartProps = {
 	customerQuery: UseQueryResult<any, Error>;
@@ -16,6 +18,7 @@ type CartProps = {
 
 export const Cart = (props: CartProps) => {
 	const { customerQuery, selectedCart, setSelectedCart } = props;
+	const router = useRouter();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState<
@@ -54,6 +57,18 @@ export const Cart = (props: CartProps) => {
 		},
 		onError: (error) => {
 			console.error("Error fetching carts:", error);
+		},
+	});
+
+	const completePaymentCollectionMutation = useMutation({
+		mutationFn: async (cartId: string) => {
+			const res = await completePaymentCollection(cartId);
+			return res;
+		},
+		onSuccess: (data) => {
+			router.push(
+				`/medusa/commerce-modules/cart/payment-collection/${data.completed_cart.id}`
+			);
 		},
 	});
 
@@ -290,7 +305,11 @@ export const Cart = (props: CartProps) => {
 									</button>
 									<button
 										className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-										disabled
+										onClick={() => {
+											completePaymentCollectionMutation.mutate(
+												selectedCart as string
+											);
+										}}
 									>
 										Checkout
 									</button>
