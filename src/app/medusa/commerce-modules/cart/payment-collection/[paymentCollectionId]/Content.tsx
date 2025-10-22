@@ -4,9 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getPaymentCollectionById, PaymentQK } from "../../../payment/api";
 import dayjs from "dayjs";
 import { Cart } from "./Cart";
+import { PaymentProviders } from "./PaymentProviders";
+import { useState } from "react";
 
 const Content = (props: { paymentCollectionId: string }) => {
 	const { paymentCollectionId } = props;
+
+	const [paymentProviderId, setPaymentProviderId] = useState<
+		string | string[] | null
+	>(null);
+	const [cartRegionId, setCartRegionId] = useState<string | null>(null);
 
 	const paymentCollectionQuery = useQuery({
 		queryKey: [PaymentQK.GET_PAYMENT_COLLECTION_BY_ID, paymentCollectionId],
@@ -57,7 +64,17 @@ const Content = (props: { paymentCollectionId: string }) => {
 					)}
 				</div>
 			</div>
-			<Cart paymentCollectionId={paymentCollectionId} />
+			<Cart
+				paymentCollectionId={paymentCollectionId}
+				setCartRegionId={setCartRegionId}
+			/>
+			{cartRegionId && (
+				<PaymentProviders
+					cartRegionId={cartRegionId}
+					paymentProviderId={paymentProviderId}
+					setPaymentProviderId={setPaymentProviderId}
+				/>
+			)}
 		</div>
 	);
 };

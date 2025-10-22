@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { PaymentQK, getCartByPaymentCollectionId } from "../../../payment/api";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type CartProps = {
 	paymentCollectionId: string;
+	setCartRegionId: Dispatch<SetStateAction<string | null>>;
 };
 
 export const Cart = (props: CartProps) => {
-	const { paymentCollectionId } = props;
+	const { paymentCollectionId, setCartRegionId } = props;
 
 	const getCartByPaymentCollectionIdQuery = useQuery({
 		queryKey: [
@@ -18,6 +20,14 @@ export const Cart = (props: CartProps) => {
 			return res;
 		},
 	});
+
+	useEffect(() => {
+		if (getCartByPaymentCollectionIdQuery.data) {
+			setCartRegionId(
+				getCartByPaymentCollectionIdQuery.data.cart.region.id
+			);
+		}
+	}, [getCartByPaymentCollectionIdQuery.data]);
 
 	if (getCartByPaymentCollectionIdQuery.isLoading) {
 		return <div>Loading...</div>;
@@ -33,12 +43,16 @@ export const Cart = (props: CartProps) => {
 		<div>
 			<h1>Cart</h1>
 			<div>ID: {cart.id}</div>
-			<div>Customer ID: {cart.customer_id}</div>
-			<div>Email: {cart.email}</div>
+			<div>
+				Customer: {cart.email} ({cart.customer_id})
+			</div>
 			<div>
 				Region: {cart.region.name} ({cart.region.id})
 			</div>
-			<div>Sales Channel ID: {cart.sales_channel_id}</div>
+			<div>
+				Sales Channel: {cart.sales_channel.name} (
+				{cart.sales_channel_id})
+			</div>
 		</div>
 	);
 };
