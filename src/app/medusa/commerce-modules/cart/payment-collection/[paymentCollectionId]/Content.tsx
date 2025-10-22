@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Cart } from "./Cart";
 import { PaymentProviders } from "./PaymentProviders";
 import { useState } from "react";
+import { CreatePaymentSession } from "./CreatePaymentSession";
 
 const Content = (props: { paymentCollectionId: string }) => {
 	const { paymentCollectionId } = props;
@@ -73,6 +74,12 @@ const Content = (props: { paymentCollectionId: string }) => {
 					cartRegionId={cartRegionId}
 					paymentProviderId={paymentProviderId}
 					setPaymentProviderId={setPaymentProviderId}
+				/>
+			)}
+			{paymentProviderId && (
+				<CreatePaymentSession
+					paymentCollectionId={paymentCollectionId}
+					paymentProviderId={paymentProviderId as string}
 				/>
 			)}
 		</div>

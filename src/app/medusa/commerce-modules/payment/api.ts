@@ -49,3 +49,24 @@ export async function getPaymentProvidersByRegionId(regionId: string) {
 	);
 	return res.data;
 }
+
+export async function createPaymentSession(
+	paymentCollectionId: string,
+	paymentProviderId: string
+) {
+	const res = await axios.post(
+		`/commerce-modules/payment/payment-session/create-payment-session`,
+		{
+			payment_collection_id: paymentCollectionId,
+			provider_id: paymentProviderId,
+		},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
