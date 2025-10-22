@@ -87,3 +87,18 @@ export async function getPaymentSessionByPaymentCollectionId(
 	);
 	return res.data;
 }
+
+export async function authorizePaymentSession(paymentSessionId: string) {
+	const res = await axios.post(
+		`/commerce-modules/payment/payment-session/authorize-payment-session/${paymentSessionId}`,
+		{},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}

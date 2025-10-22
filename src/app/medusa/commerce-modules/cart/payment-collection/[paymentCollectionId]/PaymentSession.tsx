@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+	authorizePaymentSession,
 	getPaymentSessionByPaymentCollectionId,
 	PaymentQK,
 } from "../../../payment/api";
@@ -22,6 +23,15 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 			);
 			return res;
 		},
+	});
+
+	const authorizePaymentSessionMutation = useMutation({
+		mutationFn: async () => {
+			await authorizePaymentSession(
+				getPaymentSessionByPaymentCollectionIdQuery.data.id
+			);
+		},
+		onSuccess: () => {},
 	});
 
 	if (getPaymentSessionByPaymentCollectionIdQuery.isLoading) {
@@ -55,6 +65,7 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 						className="text-white p-2
 						bg-blue-500
 						rounded cursor-pointer"
+						onClick={() => authorizePaymentSessionMutation.mutate()}
 					>
 						Authorize Payment Session
 					</button>
