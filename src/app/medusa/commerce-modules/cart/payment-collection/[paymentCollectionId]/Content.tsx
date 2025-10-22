@@ -7,6 +7,7 @@ import { Cart } from "./Cart";
 import { PaymentProviders } from "./PaymentProviders";
 import { useState } from "react";
 import { CreatePaymentSession } from "./CreatePaymentSession";
+import { PaymentSession } from "./PaymentSession";
 
 const Content = (props: { paymentCollectionId: string }) => {
 	const { paymentCollectionId } = props;
@@ -82,6 +83,7 @@ const Content = (props: { paymentCollectionId: string }) => {
 					paymentProviderId={paymentProviderId as string}
 				/>
 			)}
+			<PaymentSession paymentCollectionId={paymentCollectionId} />
 		</div>
 	);
 };

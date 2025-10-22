@@ -4,6 +4,7 @@ export enum PaymentQK {
 	GET_PAYMENT_COLLECTION_BY_ID = "get-payment-collection-by-id",
 	GET_CART_BY_PAYMENT_COLLECTION_ID = "get-cart-by-payment-collection-id",
 	GET_PAYMENT_PROVIDERS_BY_REGION_ID = "get-payment-providers-by-region-id",
+	GET_PAYMENT_SESSION_BY_PAYMENT_COLLECTION_ID = "get-payment-session-by-payment-collection-id",
 }
 
 export async function getPaymentCollectionById(paymentCollectionId: string) {
@@ -60,6 +61,22 @@ export async function createPaymentSession(
 			payment_collection_id: paymentCollectionId,
 			provider_id: paymentProviderId,
 		},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
+
+export async function getPaymentSessionByPaymentCollectionId(
+	paymentCollectionId: string
+) {
+	const res = await axios.get(
+		`/commerce-modules/payment/payment-session/get-payment-session-by-payment-collection-id/${paymentCollectionId}`,
 		{
 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
 			headers: {
