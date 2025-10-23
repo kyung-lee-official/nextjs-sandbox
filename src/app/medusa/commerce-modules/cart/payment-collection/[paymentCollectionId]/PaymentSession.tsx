@@ -4,6 +4,7 @@ import {
 	getPaymentSessionByPaymentCollectionId,
 	PaymentQK,
 } from "../../../payment/api";
+import { Payment } from "./Payment";
 
 type PaymentSessionProps = {
 	paymentCollectionId: string;
@@ -61,6 +62,13 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 								.provider_id
 						}
 					</div>
+					<div>
+						Payment ID:{" "}
+						{
+							getPaymentSessionByPaymentCollectionIdQuery.data
+								?.payment.id
+						}
+					</div>
 					<button
 						className="text-white p-2
 						bg-blue-500
@@ -69,6 +77,12 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 					>
 						Authorize Payment Session
 					</button>
+					<Payment
+						paymentId={
+							getPaymentSessionByPaymentCollectionIdQuery.data
+								?.payment.id
+						}
+					/>
 				</div>
 			) : (
 				<div>No Payment Session Found</div>
