@@ -3,14 +3,19 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../data-fetching/tanstack-query/queryClient";
 import { ReactNode } from "react";
+import { Header } from "./Header";
 
 type MedusaWrapperProps = {
-	children?: ReactNode;
+	regionId: string | undefined;
+	customerId: string | undefined;
+	children: ReactNode;
 };
 
-export const MedusaWrapper = ({ children }: MedusaWrapperProps) => {
+export const MedusaWrapper = (props: MedusaWrapperProps) => {
+	const { children, regionId, customerId } = props;
 	return (
 		<QueryClientProvider client={queryClient}>
+			<Header regionId={regionId} customerId={customerId} />
 			{children}
 		</QueryClientProvider>
 	);
