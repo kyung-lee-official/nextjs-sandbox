@@ -17,9 +17,9 @@ type ContentProps = {
 export const Content = (props: ContentProps) => {
 	const { productId } = props;
 
-	const [selectedCart, setSelectedCart] = useState<string | string[] | null>(
-		null
-	);
+	const [selectedCartId, setSelectedCartId] = useState<
+		string | string[] | null
+	>(null);
 
 	const getCustomerListQuery = useQuery({
 		queryKey: [CustomerQK.GET_CUSTOMER_LIST],
@@ -46,8 +46,8 @@ export const Content = (props: ContentProps) => {
 			<div>Updated At: {productQuery.data?.updated_at}</div>
 			<Cart
 				customerQuery={getCustomerListQuery}
-				selectedCart={selectedCart}
-				setSelectedCart={setSelectedCart}
+				selectedCartId={selectedCartId}
+				setSelectedCartId={setSelectedCartId}
 			/>
 			<div className="p-4 border bg-neutral-400">
 				<h1>Variants</h1>
@@ -74,7 +74,7 @@ export const Content = (props: ContentProps) => {
 											{price.amount} {price.currency_code}{" "}
 											<AddToCart
 												variantId={variant.id}
-												cartId={selectedCart}
+												cartId={selectedCartId}
 											/>
 										</div>
 									))}

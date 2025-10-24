@@ -12,12 +12,12 @@ import { useRouter } from "next/navigation";
 
 type CartProps = {
 	customerQuery: UseQueryResult<any, Error>;
-	selectedCart: string | string[] | null;
-	setSelectedCart: Dispatch<SetStateAction<string | string[] | null>>;
+	selectedCartId: string | string[] | null;
+	setSelectedCartId: Dispatch<SetStateAction<string | string[] | null>>;
 };
 
 export const Cart = (props: CartProps) => {
-	const { customerQuery, selectedCart, setSelectedCart } = props;
+	const { customerQuery, selectedCartId, setSelectedCartId } = props;
 	const router = useRouter();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,9 +34,9 @@ export const Cart = (props: CartProps) => {
 	}, [customerQuery.data]);
 
 	const cartQuery = useQuery({
-		queryKey: [CartQK.GET_CART_CHECKOUT_INFO_BY_ID, selectedCart],
+		queryKey: [CartQK.GET_CART_CHECKOUT_INFO_BY_ID, selectedCartId],
 		queryFn: async () => {
-			const res = await getCartCheckoutInfoById(selectedCart as string);
+			const res = await getCartCheckoutInfoById(selectedCartId as string);
 			return res;
 		},
 	});
@@ -50,9 +50,9 @@ export const Cart = (props: CartProps) => {
 		onSuccess: (data) => {
 			/* initialize selected cart */
 			if (data && data.length > 0) {
-				setSelectedCart(data[0].id);
+				setSelectedCartId(data[0].id);
 			} else {
-				setSelectedCart([]);
+				setSelectedCartId([]);
 			}
 		},
 		onError: (error) => {
@@ -183,8 +183,8 @@ export const Cart = (props: CartProps) => {
 												  )
 												: []
 										}
-										selected={selectedCart}
-										setSelected={setSelectedCart}
+										selected={selectedCartId}
+										setSelected={setSelectedCartId}
 										placeholder="Select a cart"
 										getLabel={(option: any) => {
 											const found =
@@ -230,10 +230,11 @@ export const Cart = (props: CartProps) => {
 								</div>
 							)}
 
-							{selectedCart && (
+							{selectedCartId && (
 								<div className="my-4 p-4 border bg-neutral-100 rounded">
 									<div>
-										<strong>Cart ID:</strong> {selectedCart}
+										<strong>Cart ID:</strong>{" "}
+										{selectedCartId}
 									</div>
 									<div>
 										<strong>Region:</strong>{" "}
@@ -307,7 +308,7 @@ export const Cart = (props: CartProps) => {
 										className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
 										onClick={() => {
 											completePaymentCollectionMutation.mutate(
-												selectedCart as string
+												selectedCartId as string
 											);
 										}}
 									>
