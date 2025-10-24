@@ -53,7 +53,10 @@ export const Content = () => {
 	return (
 		<div className="flex flex-col gap-1 m-6">
 			<h1 className="text-lg">Modify Excel Before Upload</h1>
-			<h3>Convert 'YYYY-MM-DD' to ISO8601 format before uploading</h3>
+			<h3>
+				Convert &apos;YYYY-MM-DD&apos; to ISO8601 format before
+				uploading
+			</h3>
 			<form className="flex flex-col w-60 gap-2" onSubmit={handleSubmit}>
 				<input
 					type="file"
