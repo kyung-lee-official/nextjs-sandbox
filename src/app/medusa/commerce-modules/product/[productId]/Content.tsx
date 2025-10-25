@@ -6,27 +6,31 @@ import { ProductQK } from "../api";
 import { Table, Thead, Tbody } from "@/app/styles/basic/table/table/Table";
 import dayjs from "dayjs";
 import { AddToCart } from "../product-creation-flows/AddToCart";
-import { Cart } from "../product-creation-flows/Cart";
-import { CustomerQK, getCustomerList } from "../../customer/api";
-import { useState } from "react";
+import { CartQK, getCartByRegionIdAndCustomerId } from "../../cart/api";
 
 type ContentProps = {
 	productId: string;
+	regionId: string | undefined;
+	customerId: string | undefined;
 };
 
 export const Content = (props: ContentProps) => {
-	const { productId } = props;
+	const { productId, regionId, customerId } = props;
 
-	const [selectedCartId, setSelectedCartId] = useState<
-		string | string[] | null
-	>(null);
-
-	const getCustomerListQuery = useQuery({
-		queryKey: [CustomerQK.GET_CUSTOMER_LIST],
+	const getCartByRegionIdAndCustomerIdQuery = useQuery({
+		queryKey: [
+			CartQK.GET_CART_BY_REGION_ID_AND_CUSTOMER_ID,
+			regionId,
+			customerId,
+		],
 		queryFn: async () => {
-			const res = await getCustomerList();
+			const res = await getCartByRegionIdAndCustomerId(
+				regionId as string,
+				customerId as string
+			);
 			return res;
 		},
+		enabled: !!regionId && !!customerId,
 	});
 
 	const productQuery = useQuery({
@@ -44,11 +48,6 @@ export const Content = (props: ContentProps) => {
 			<div>Status: {productQuery.data?.status}</div>
 			<div>Created At: {productQuery.data?.created_at}</div>
 			<div>Updated At: {productQuery.data?.updated_at}</div>
-			<Cart
-				customerQuery={getCustomerListQuery}
-				selectedCartId={selectedCartId}
-				setSelectedCartId={setSelectedCartId}
-			/>
 			<div className="p-4 border bg-neutral-400">
 				<h1>Variants</h1>
 				<Table>
@@ -74,7 +73,10 @@ export const Content = (props: ContentProps) => {
 											{price.amount} {price.currency_code}{" "}
 											<AddToCart
 												variantId={variant.id}
-												cartId={selectedCartId}
+												cartId={
+													getCartByRegionIdAndCustomerIdQuery
+														.data?.id
+												}
 											/>
 										</div>
 									))}
