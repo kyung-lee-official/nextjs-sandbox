@@ -9,6 +9,8 @@ import {
 	getCartByRegionIdSalesChannelIdCustomerId,
 } from "./api";
 import { useRouter } from "next/navigation";
+import { getPaymentCollectionByCartId, PaymentQK } from "../payment/api";
+import Link from "next/link";
 
 type CartProps = {
 	regionId: string | undefined;
@@ -40,6 +42,21 @@ export const Cart = (props: CartProps) => {
 		enabled: !!regionId && !!salesChannelId && !!customerId,
 	});
 
+	const getPaymentCollectionByCartIdQuery = useQuery({
+		queryKey: [
+			PaymentQK.GET_PAYMENT_COLLECTION_BY_CART_ID,
+			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id,
+		],
+		queryFn: async () => {
+			const res = await getPaymentCollectionByCartId(
+				getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id
+			);
+			return res;
+		},
+		enabled:
+			!!getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id,
+	});
+
 	const completePaymentCollectionMutation = useMutation({
 		mutationFn: async (cartId: string) => {
 			const res = await completePaymentCollection(cartId);
@@ -47,7 +64,7 @@ export const Cart = (props: CartProps) => {
 		},
 		onSuccess: (data) => {
 			router.push(
-				`/medusa/commerce-modules/cart/payment-collection/${data.completed_cart.id}`
+				`/medusa/commerce-modules/payment/payment-collection/${data.completed_cart.id}`
 			);
 		},
 	});
@@ -193,16 +210,25 @@ export const Cart = (props: CartProps) => {
 									>
 										Continue Shopping
 									</button>
-									<button
-										className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-										onClick={() => {
-											completePaymentCollectionMutation.mutate(
-												data.id
-											);
-										}}
-									>
-										Checkout
-									</button>
+									{getPaymentCollectionByCartIdQuery.data ? (
+										<Link
+											href={`/medusa/commerce-modules/payment/payment-collection/${getPaymentCollectionByCartIdQuery.data.payment_collection.id}`}
+											className="flex-1 px-4 py-2 border border-neutral-300 border-dashed rounded"
+										>
+											Go to Payment Collection
+										</Link>
+									) : (
+										<button
+											className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+											onClick={() => {
+												completePaymentCollectionMutation.mutate(
+													data.id
+												);
+											}}
+										>
+											Checkout
+										</button>
+									)}
 								</div>
 								<div className="flex gap-3">
 									<button

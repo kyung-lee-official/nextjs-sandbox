@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { PaymentQK, getCartByPaymentCollectionId } from "../../../payment/api";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { CartQK, getCartByPaymentCollectionId } from "../../../cart/api";
 
 type CartProps = {
 	paymentCollectionId: string;
@@ -12,7 +12,7 @@ export const Cart = (props: CartProps) => {
 
 	const getCartByPaymentCollectionIdQuery = useQuery({
 		queryKey: [
-			PaymentQK.GET_CART_BY_PAYMENT_COLLECTION_ID,
+			CartQK.GET_CART_BY_PAYMENT_COLLECTION_ID,
 			paymentCollectionId,
 		],
 		queryFn: async () => {

@@ -3,6 +3,7 @@ import axios, { Axios, AxiosResponse } from "axios";
 export enum CartQK {
 	GET_CART_BY_ID = "get-cart-by-id",
 	GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID = "get-cart-by-region-id-and-sales-channel-id-and-customer-id",
+	GET_CART_BY_PAYMENT_COLLECTION_ID = "get-cart-by-payment-collection-id",
 	GET_CART_CHECKOUT_INFO_BY_ID = "get-cart-checkout-info-by-id",
 	GET_CARTS_BY_CUSTOMER_ID = "get-carts-by-customer-id",
 }
@@ -47,6 +48,22 @@ export async function getCartByRegionIdSalesChannelIdCustomerId(
 export async function getCartCheckoutInfoById(cartId: string) {
 	const res = await axios.get(
 		`/commerce-modules/cart/checkout-info/${cartId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
+
+export async function getCartByPaymentCollectionId(
+	paymentCollectionId: string
+) {
+	const res = await axios.get(
+		`/commerce-modules/cart/get-cart-by-payment-collection-id/${paymentCollectionId}`,
 		{
 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
 			headers: {

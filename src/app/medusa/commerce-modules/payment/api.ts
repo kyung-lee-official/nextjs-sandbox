@@ -2,7 +2,7 @@ import axios from "axios";
 
 export enum PaymentQK {
 	GET_PAYMENT_COLLECTION_BY_ID = "get-payment-collection-by-id",
-	GET_CART_BY_PAYMENT_COLLECTION_ID = "get-cart-by-payment-collection-id",
+	GET_PAYMENT_COLLECTION_BY_CART_ID = "get-payment-collection-by-cart-id",
 	GET_PAYMENT_PROVIDERS_BY_REGION_ID = "get-payment-providers-by-region-id",
 	GET_PAYMENT_SESSION_BY_PAYMENT_COLLECTION_ID = "get-payment-session-by-payment-collection-id",
 	GET_PAYMENT_BY_ID = "get-payment-by-id",
@@ -22,11 +22,9 @@ export async function getPaymentCollectionById(paymentCollectionId: string) {
 	return res.data;
 }
 
-export async function getCartByPaymentCollectionId(
-	paymentCollectionId: string
-) {
+export async function getPaymentCollectionByCartId(cartId: string) {
 	const res = await axios.get(
-		`/commerce-modules/payment/get-cart-by-payment-collection-id/${paymentCollectionId}`,
+		`/commerce-modules/payment/payment-collection/get-payment-collection-by-cart-id/${cartId}`,
 		{
 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
 			headers: {

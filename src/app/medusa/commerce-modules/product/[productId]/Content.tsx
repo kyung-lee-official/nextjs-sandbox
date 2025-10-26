@@ -83,6 +83,9 @@ export const Content = (props: ContentProps) => {
 													getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
 														.data?.id
 												}
+												regionId={regionId}
+												salesChannelId={salesChannelId}
+												customerId={customerId}
 											/>
 										</div>
 									))}

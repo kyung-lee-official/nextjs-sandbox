@@ -66,7 +66,7 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 						Payment ID:{" "}
 						{
 							getPaymentSessionByPaymentCollectionIdQuery.data
-								?.payment.id
+								.payment?.id
 						}
 					</div>
 					<button
@@ -77,12 +77,15 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 					>
 						Authorize Payment Session
 					</button>
-					<Payment
-						paymentId={
-							getPaymentSessionByPaymentCollectionIdQuery.data
-								?.payment.id
-						}
-					/>
+					{getPaymentSessionByPaymentCollectionIdQuery.data
+						.payment && (
+						<Payment
+							paymentId={
+								getPaymentSessionByPaymentCollectionIdQuery.data
+									.payment.id
+							}
+						/>
+					)}
 				</div>
 			) : (
 				<div>No Payment Session Found</div>
