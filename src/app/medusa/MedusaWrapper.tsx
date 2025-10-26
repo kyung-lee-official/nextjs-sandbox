@@ -7,15 +7,20 @@ import { Header } from "./Header";
 
 type MedusaWrapperProps = {
 	regionId: string | undefined;
+	salesChannelId: string | undefined;
 	customerId: string | undefined;
 	children: ReactNode;
 };
 
 export const MedusaWrapper = (props: MedusaWrapperProps) => {
-	const { children, regionId, customerId } = props;
+	const { children, regionId, salesChannelId, customerId } = props;
 	return (
 		<QueryClientProvider client={queryClient}>
-			<Header regionId={regionId} customerId={customerId} />
+			<Header
+				regionId={regionId}
+				salesChannelId={salesChannelId}
+				customerId={customerId}
+			/>
 			{children}
 		</QueryClientProvider>
 	);

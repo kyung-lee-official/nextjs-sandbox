@@ -13,13 +13,18 @@ const layout = async (props: LayoutProps) => {
 	const cookieStore = await cookies();
 	/* default to "us" if undefined */
 	const regionId = cookieStore.get("medusaRegion")?.value;
+	const salesChannelId = cookieStore.get("medusaSalesChannel")?.value;
 	const customerId = cookieStore.get("medusaCustomer")?.value;
 
 	/* you can also get all cookies */
 	// const allCookies = cookieStore.getAll();
 
 	return (
-		<MedusaWrapper regionId={regionId} customerId={customerId}>
+		<MedusaWrapper
+			regionId={regionId}
+			salesChannelId={salesChannelId}
+			customerId={customerId}
+		>
 			{children}
 		</MedusaWrapper>
 	);
