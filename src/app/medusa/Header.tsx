@@ -22,7 +22,11 @@ export const Header = (props: HeaderProps) => {
 				<SalesChannel salesChannelId={salesChannelId} />
 				<Customer customerId={customerId} />
 			</div>
-			<Cart regionId={regionId} customerId={customerId} />
+			<Cart
+				regionId={regionId}
+				salesChannelId={salesChannelId}
+				customerId={customerId}
+			/>
 		</div>
 	);
 };

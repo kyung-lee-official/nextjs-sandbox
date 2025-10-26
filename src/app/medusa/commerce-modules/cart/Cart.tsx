@@ -4,36 +4,40 @@ import { createPortal } from "react-dom";
 import {
 	CartQK,
 	completePaymentCollection,
+	deleteCart,
 	forceCompleteCart,
-	getCartByRegionIdAndCustomerId,
+	getCartByRegionIdSalesChannelIdCustomerId,
 } from "./api";
 import { useRouter } from "next/navigation";
 
 type CartProps = {
 	regionId: string | undefined;
+	salesChannelId: string | undefined;
 	customerId: string | undefined;
 };
 
 export const Cart = (props: CartProps) => {
-	const { regionId, customerId } = props;
+	const { regionId, salesChannelId, customerId } = props;
 	const router = useRouter();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const getCartByRegionIdAndCustomerIdQuery = useQuery({
+	const getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery = useQuery({
 		queryKey: [
-			CartQK.GET_CART_BY_REGION_ID_AND_CUSTOMER_ID,
+			CartQK.GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID,
 			regionId,
+			salesChannelId,
 			customerId,
 		],
 		queryFn: async () => {
-			const res = await getCartByRegionIdAndCustomerId(
+			const res = await getCartByRegionIdSalesChannelIdCustomerId(
 				regionId as string,
+				salesChannelId as string,
 				customerId as string
 			);
 			return res;
 		},
-		enabled: !!regionId && !!customerId,
+		enabled: !!regionId && !!salesChannelId && !!customerId,
 	});
 
 	const completePaymentCollectionMutation = useMutation({
@@ -58,18 +62,28 @@ export const Cart = (props: CartProps) => {
 		},
 	});
 
-	if (getCartByRegionIdAndCustomerIdQuery.isLoading) {
+	const deleteCartMutation = useMutation({
+		mutationFn: async (cartId: string) => {
+			const res = await deleteCart(cartId);
+			return res;
+		},
+		onSuccess: () => {
+			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.refetch();
+		},
+	});
+
+	if (getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.isLoading) {
 		return <div>Loading cart...</div>;
 	}
 
-	if (getCartByRegionIdAndCustomerIdQuery.isError) {
+	if (getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.isError) {
 		return <div>Error loading cart</div>;
 	}
 
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
 
-	const { data } = getCartByRegionIdAndCustomerIdQuery;
+	const { data } = getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery;
 
 	return (
 		<div className="relative h-4">
@@ -190,7 +204,7 @@ export const Cart = (props: CartProps) => {
 										Checkout
 									</button>
 								</div>
-								<div>
+								<div className="flex gap-3">
 									<button
 										className="text-red-500
 										underline decoration-dotted cursor-pointer"
@@ -201,6 +215,15 @@ export const Cart = (props: CartProps) => {
 										}}
 									>
 										Complete Cart Manually
+									</button>
+									<button
+										className="text-red-500
+										underline decoration-dotted cursor-pointer"
+										onClick={() => {
+											deleteCartMutation.mutate(data.id);
+										}}
+									>
+										Delete Cart Manually
 									</button>
 								</div>
 							</div>

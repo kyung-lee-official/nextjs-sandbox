@@ -2,7 +2,7 @@ import axios, { Axios, AxiosResponse } from "axios";
 
 export enum CartQK {
 	GET_CART_BY_ID = "get-cart-by-id",
-	GET_CART_BY_REGION_ID_AND_CUSTOMER_ID = "get-cart-by-region-id-and-customer-id",
+	GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID = "get-cart-by-region-id-and-sales-channel-id-and-customer-id",
 	GET_CART_CHECKOUT_INFO_BY_ID = "get-cart-checkout-info-by-id",
 	GET_CARTS_BY_CUSTOMER_ID = "get-carts-by-customer-id",
 }
@@ -19,18 +19,20 @@ export async function getCartById(cartId: string) {
 }
 
 /**
- * This function tries to get a cart by regionId and customerId.
+ * This function tries to get a cart by regionId, salesChannelId and customerId.
  * If no cart exists, it creates a new one.
  * @param regionId
+ * @param salesChannelId
  * @param customerId
  * @returns cart info
  */
-export async function getCartByRegionIdAndCustomerId(
+export async function getCartByRegionIdSalesChannelIdCustomerId(
 	regionId: string,
+	salesChannelId: string,
 	customerId: string
 ) {
 	const res = await axios.get(
-		`/commerce-modules/cart/get-cart-by-region-and-customer?region_id=${regionId}&customer_id=${customerId}`,
+		`/commerce-modules/cart/get-cart-by-region-sales-channel-customer?region_id=${regionId}&sales_channel_id=${salesChannelId}&customer_id=${customerId}`,
 		{
 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
 			headers: {
@@ -112,5 +114,16 @@ export async function forceCompleteCart(cartId: string) {
 			},
 		}
 	);
+	return res.data;
+}
+
+export async function deleteCart(cartId: string) {
+	const res = await axios.delete(`/commerce-modules/cart/${cartId}`, {
+		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+		headers: {
+			"x-publishable-api-key":
+				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+		},
+	});
 	return res.data;
 }

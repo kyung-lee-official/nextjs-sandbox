@@ -6,31 +6,37 @@ import { ProductQK } from "../api";
 import { Table, Thead, Tbody } from "@/app/styles/basic/table/table/Table";
 import dayjs from "dayjs";
 import { AddToCart } from "../product-creation-flows/AddToCart";
-import { CartQK, getCartByRegionIdAndCustomerId } from "../../cart/api";
+import {
+	CartQK,
+	getCartByRegionIdSalesChannelIdCustomerId,
+} from "../../cart/api";
 
 type ContentProps = {
 	productId: string;
+	salesChannelId: string | undefined;
 	regionId: string | undefined;
 	customerId: string | undefined;
 };
 
 export const Content = (props: ContentProps) => {
-	const { productId, regionId, customerId } = props;
+	const { productId, salesChannelId, regionId, customerId } = props;
 
-	const getCartByRegionIdAndCustomerIdQuery = useQuery({
+	const getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery = useQuery({
 		queryKey: [
-			CartQK.GET_CART_BY_REGION_ID_AND_CUSTOMER_ID,
+			CartQK.GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID,
 			regionId,
+			salesChannelId,
 			customerId,
 		],
 		queryFn: async () => {
-			const res = await getCartByRegionIdAndCustomerId(
+			const res = await getCartByRegionIdSalesChannelIdCustomerId(
 				regionId as string,
+				salesChannelId as string,
 				customerId as string
 			);
 			return res;
 		},
-		enabled: !!regionId && !!customerId,
+		enabled: !!regionId && !!salesChannelId && !!customerId,
 	});
 
 	const productQuery = useQuery({
@@ -74,7 +80,7 @@ export const Content = (props: ContentProps) => {
 											<AddToCart
 												variantId={variant.id}
 												cartId={
-													getCartByRegionIdAndCustomerIdQuery
+													getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
 														.data?.id
 												}
 											/>
