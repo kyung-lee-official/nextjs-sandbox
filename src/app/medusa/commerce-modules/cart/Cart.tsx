@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import {
 	CartQK,
 	completePaymentCollection,
+	forceCompleteCart,
 	getCartByRegionIdAndCustomerId,
 } from "./api";
 import { useRouter } from "next/navigation";
@@ -44,6 +45,16 @@ export const Cart = (props: CartProps) => {
 			router.push(
 				`/medusa/commerce-modules/cart/payment-collection/${data.completed_cart.id}`
 			);
+		},
+	});
+
+	const forceCompleteCartMutation = useMutation({
+		mutationFn: async (cartId: string) => {
+			const res = await forceCompleteCart(cartId);
+			return res;
+		},
+		onSuccess: (data) => {
+			console.log(data);
 		},
 	});
 
@@ -153,7 +164,7 @@ export const Cart = (props: CartProps) => {
 
 							{/* Modal Footer */}
 							<div
-								className="mt-6 p-2
+								className="mt-6 p-2 space-y-3
 								bg-neutral-100 rounded"
 							>
 								<div className="flex justify-between items-center mb-4">
@@ -177,6 +188,19 @@ export const Cart = (props: CartProps) => {
 										}}
 									>
 										Checkout
+									</button>
+								</div>
+								<div>
+									<button
+										className="text-red-500
+										underline decoration-dotted cursor-pointer"
+										onClick={() => {
+											forceCompleteCartMutation.mutate(
+												data.id
+											);
+										}}
+									>
+										Complete Cart Manually
 									</button>
 								</div>
 							</div>

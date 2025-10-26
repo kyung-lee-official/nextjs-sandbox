@@ -97,3 +97,20 @@ export async function completePaymentCollection(cartId: string) {
 	);
 	return res.data;
 }
+
+/* danger zone */
+
+export async function forceCompleteCart(cartId: string) {
+	const res = await axios.post(
+		`/commerce-modules/cart/force-complete-cart/${cartId}`,
+		{},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
