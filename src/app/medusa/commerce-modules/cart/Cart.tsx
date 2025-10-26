@@ -176,7 +176,8 @@ export const Cart = (props: CartProps) => {
 														{item.variant_title}
 													</span>
 													<span>
-														Unit Price: $
+														Unit Price:{" "}
+														{data.currency_code}{" "}
 														{item.unit_price}
 													</span>
 												</div>
@@ -210,7 +211,8 @@ export const Cart = (props: CartProps) => {
 									>
 										Continue Shopping
 									</button>
-									{getPaymentCollectionByCartIdQuery.data ? (
+									{getPaymentCollectionByCartIdQuery.data
+										.payment_collection ? (
 										<Link
 											href={`/medusa/commerce-modules/payment/payment-collection/${getPaymentCollectionByCartIdQuery.data.payment_collection.id}`}
 											className="flex-1 px-4 py-2 border border-neutral-300 border-dashed rounded"
