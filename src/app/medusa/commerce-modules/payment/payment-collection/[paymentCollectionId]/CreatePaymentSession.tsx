@@ -18,7 +18,7 @@ export const CreatePaymentSession = (props: CreatePaymentSessionProps) => {
 			return res;
 		},
 		onSuccess: (data) => {
-			console.log("Payment session created:", data);
+			// console.log("Payment session created:", data);
 		},
 	});
 

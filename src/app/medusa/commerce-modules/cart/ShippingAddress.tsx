@@ -1,0 +1,134 @@
+import { Dropdown } from "@/app/styles/dropdown/universal-dropdown/dropdown/Dropdown";
+import { useState, useTransition } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { linkShippingAddressToCart } from "./api";
+
+type ShippingAddressProps = {
+	cartId: string;
+	addresses: any[];
+};
+
+export const ShippingAddress = (props: ShippingAddressProps) => {
+	const { cartId, addresses } = props;
+	const queryClient = useQueryClient();
+	const [isPending, startTransition] = useTransition();
+
+	const [selectedAddrId, setSelectedAddrId] = useState<
+		string | string[] | null
+	>(null);
+
+	const linkAddressMutation = useMutation({
+		mutationFn: async (addressId: string) => {
+			const res = await linkShippingAddressToCart(cartId, addressId);
+			return res;
+		},
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ["cart", cartId] });
+		},
+		onError: (error) => {
+			console.error("Error linking shipping address:", error);
+			setSelectedAddrId(null);
+		},
+	});
+
+	const handleAddressSelected = async (
+		newAddressId:
+			| string
+			| string[]
+			| null
+			| ((
+					prevState: string | string[] | null
+			  ) => string | string[] | null)
+	) => {
+		const addressValue =
+			typeof newAddressId === "function"
+				? newAddressId(selectedAddrId)
+				: newAddressId;
+
+		/* update local state immediately for ui feedback */
+		setSelectedAddrId(addressValue);
+
+		/* only proceed if we have a valid string address ID */
+		if (typeof addressValue === "string") {
+			startTransition(async () => {
+				try {
+					await linkAddressMutation.mutateAsync(addressValue);
+				} catch (error) {
+					/* error handling is already done in the mutation */
+				}
+			});
+		}
+	};
+
+	return (
+		<div>
+			{/* Loading indicator */}
+			{(isPending || linkAddressMutation.isPending) && (
+				<div className="text-sm text-blue-400 mb-2">
+					Updating shipping address...
+				</div>
+			)}
+
+			{/* Error display */}
+			{linkAddressMutation.isError && (
+				<div className="text-sm text-red-400 mb-2">
+					Failed to update shipping address. Please try again.
+				</div>
+			)}
+
+			<Dropdown
+				mode="regular"
+				options={addresses.map((addr) => addr.id)}
+				selected={selectedAddrId}
+				setSelected={handleAddressSelected}
+				placeholder="Select a shipping address"
+				getLabel={(option) => {
+					const found = addresses.find(
+						(addr: any) => addr.id === option
+					);
+					if (!found) {
+						return (
+							<div className="text-white">Address not found</div>
+						);
+					}
+					return (
+						<div className="text-white">
+							{found?.first_name} {found?.last_name},{" "}
+							{found?.address_1}, {found?.city}
+						</div>
+					);
+				}}
+				optionWrapperClassName={(option, { selected, hovered }) => {
+					return `px-2 py-1 
+						${hovered ? "bg-neutral-700" : ""}}
+						cursor-pointer truncate`;
+				}}
+				renderOption={(option, { selected, hovered }) => {
+					const found = addresses.find((addr) => addr.id === option);
+					return (
+						<div
+							className={`flex items-center px-2 gap-2 ${
+								selected ? "text-blue-500" : ""
+							} ${hovered ? "bg-neutral-700" : ""}
+								rounded truncate`}
+						>
+							<span>
+								{found?.first_name} {found?.last_name},{" "}
+								{found?.address_1}, {found?.city}
+							</span>
+						</div>
+					);
+				}}
+				selectedItemClassName={(option) => "text-white truncate"}
+				controlClassName="flex items-center flex-wrap min-h-8 px-2 py-1 gap-2
+				bg-neutral-800
+				border-1 border-neutral-700 rounded-md cursor-pointer"
+				placeholderClassName="text-neutral-400 truncate"
+				menuClassName="absolute z-10 w-full mt-1
+				text-white/60
+				bg-neutral-800
+				border border-neutral-700 rounded-md overflow-auto"
+			/>
+		</div>
+	);
+};

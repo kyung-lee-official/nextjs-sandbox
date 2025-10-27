@@ -2,6 +2,7 @@ import { Customer } from "./commerce-modules/customer/Customer";
 import { Region } from "./commerce-modules/region/Region";
 import { Cart } from "./commerce-modules/cart/Cart";
 import { SalesChannel } from "./commerce-modules/sales-channel/SalesChannel";
+import Link from "next/link";
 
 type HeaderProps = {
 	regionId: string | undefined;
@@ -17,7 +18,13 @@ export const Header = (props: HeaderProps) => {
 			className="flex justify-between items-center h-14 px-4
 			border-b border-dashed border-neutral-700"
 		>
-			<div className="flex w-2/3 gap-2">
+			<div className="flex items-center w-3/5 gap-2">
+				<Link
+					href="/medusa"
+					className="underline decoration-dotted text-nowrap"
+				>
+					Medusa Home
+				</Link>
 				<Region regionId={regionId} />
 				<SalesChannel salesChannelId={salesChannelId} />
 				<Customer customerId={customerId} />

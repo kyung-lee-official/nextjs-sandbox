@@ -11,6 +11,8 @@ import {
 import { useRouter } from "next/navigation";
 import { getPaymentCollectionByCartId, PaymentQK } from "../payment/api";
 import Link from "next/link";
+import { ShippingAddress } from "./ShippingAddress";
+import { CustomerQK, getCustomerById } from "../customer/api";
 
 type CartProps = {
 	regionId: string | undefined;
@@ -55,6 +57,15 @@ export const Cart = (props: CartProps) => {
 		},
 		enabled:
 			!!getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id,
+	});
+
+	const customerQuery = useQuery({
+		queryKey: [CustomerQK.GET_CUSTOMER_BY_ID, customerId],
+		queryFn: async () => {
+			const res = await getCustomerById(customerId as string);
+			return res;
+		},
+		enabled: !!customerId,
 	});
 
 	const completePaymentCollectionMutation = useMutation({
@@ -136,9 +147,7 @@ export const Cart = (props: CartProps) => {
 									×
 								</button>
 							</div>
-
 							{/* Modal Content */}
-
 							{data && (
 								<div className="my-4 p-4 border bg-neutral-100 rounded">
 									<div>
@@ -152,11 +161,18 @@ export const Cart = (props: CartProps) => {
 										<strong>Currency:</strong>{" "}
 										{data.currency_code}
 									</div>
+									<div>
+										<strong>Shipping Address:</strong>{" "}
+										<ShippingAddress
+											cartId={data.id}
+											addresses={
+												customerQuery.data.addresses
+											}
+										/>
+									</div>
 								</div>
 							)}
-
 							{/* Cart Items */}
-
 							<div className="space-y-4">
 								{data && data.items.length > 0 ? (
 									data.items.map((item: any) => {
@@ -193,7 +209,6 @@ export const Cart = (props: CartProps) => {
 									</div>
 								)}
 							</div>
-
 							{/* Modal Footer */}
 							<div
 								className="mt-6 p-2 space-y-3

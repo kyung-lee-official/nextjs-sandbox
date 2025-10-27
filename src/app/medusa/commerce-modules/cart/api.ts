@@ -100,6 +100,27 @@ export async function updateCart(cartId: string, payload: any) {
 	return res.data;
 }
 
+/* === link address === */
+export async function linkShippingAddressToCart(
+	cartId: string,
+	addressId: string
+) {
+	const res = await axios.post(
+		`/commerce-modules/cart/shipping-address/${cartId}`,
+		{
+			address_id: addressId,
+		},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
+
 /* === checkout === */
 
 export async function completePaymentCollection(cartId: string) {
@@ -117,7 +138,7 @@ export async function completePaymentCollection(cartId: string) {
 	return res.data;
 }
 
-/* danger zone */
+/* === danger zone === */
 
 export async function forceCompleteCart(cartId: string) {
 	const res = await axios.post(
