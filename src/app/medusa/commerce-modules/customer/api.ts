@@ -2,6 +2,7 @@ import axios from "axios";
 
 export enum CustomerQK {
 	GET_CUSTOMER_LIST = "get-customer-list",
+	GET_CUSTOMER_BY_ID = "get-customer-by-id",
 }
 
 export async function registerCustomer(
@@ -60,6 +61,17 @@ export const getCustomerList = async () => {
 	return res.data;
 };
 
+export const getCustomerById = async (customerId: string) => {
+	const res = await axios.get(`/commerce-modules/customer/${customerId}`, {
+		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+		headers: {
+			"x-publishable-api-key":
+				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+		},
+	});
+	return res.data;
+};
+
 export const deleteCustomer = async (customerId: string) => {
 	const res = await axios.delete(`/commerce-modules/customer/${customerId}`, {
 		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
@@ -68,5 +80,24 @@ export const deleteCustomer = async (customerId: string) => {
 				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
 		},
 	});
+	return res.data;
+};
+
+/* ==== addresses ==== */
+export const addAddressToCustomer = async (
+	customerId: string,
+	addressData: Record<string, any>
+) => {
+	const res = await axios.post(
+		`/commerce-modules/customer/add-address-by-customer-id/${customerId}`,
+		addressData,
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
 	return res.data;
 };

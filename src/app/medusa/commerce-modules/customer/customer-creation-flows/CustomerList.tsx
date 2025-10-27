@@ -5,6 +5,7 @@ import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
 import { CustomerQK, getCustomerList } from "../api";
 import { DeleteCustomer } from "./DeleteCustomer";
 import { Carts } from "./Carts";
+import Link from "next/link";
 
 export const CustomerList = () => {
 	const getCustomerListQuery = useQuery({
@@ -41,7 +42,14 @@ export const CustomerList = () => {
 					<Tbody>
 						{getCustomerListQuery.data?.map((customer: any) => (
 							<tr key={customer.id}>
-								<td>{customer.id}</td>
+								<td>
+									<Link
+										href={`/medusa/commerce-modules/customer/${customer.id}`}
+										className="underline decoration-dotted"
+									>
+										{customer.id}
+									</Link>
+								</td>
 								<td>{customer.first_name}</td>
 								<td>{customer.last_name}</td>
 								<td>{customer.email}</td>
