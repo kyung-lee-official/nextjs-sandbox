@@ -100,7 +100,7 @@ export async function updateCart(cartId: string, payload: any) {
 	return res.data;
 }
 
-/* === link address === */
+/* === address === */
 export async function linkShippingAddressToCart(
 	cartId: string,
 	addressId: string
@@ -120,6 +120,28 @@ export async function linkShippingAddressToCart(
 	);
 	return res.data;
 }
+
+/* === shipping === */
+
+// export async function linkShippingMethodToCart(
+// 	cartId: string,
+// 	shippingMethodId: string
+// ) {
+// 	const res = await axios.post(
+// 		`/commerce-modules/cart/shipping-method/${cartId}`,
+// 		{
+// 			shipping_method_id: shippingMethodId,
+// 		},
+// 		{
+// 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+// 			headers: {
+// 				"x-publishable-api-key":
+// 					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+// 			},
+// 		}
+// 	);
+// 	return res.data;
+// }
 
 /* === checkout === */
 
