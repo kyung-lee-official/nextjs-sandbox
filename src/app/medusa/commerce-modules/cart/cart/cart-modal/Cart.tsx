@@ -13,6 +13,7 @@ import { getPaymentCollectionByCartId, PaymentQK } from "../../../payment/api";
 import Link from "next/link";
 import { CustomerQK, getCustomerById } from "../../../customer/api";
 import { CartBasicInfo } from "./CartBasicInfo";
+import { CartItems } from "./CartItems";
 
 type CartProps = {
 	regionId: string | undefined;
@@ -156,40 +157,7 @@ export const Cart = (props: CartProps) => {
 							)}
 							{/* Cart Items */}
 							<div className="space-y-4">
-								{data && data.items.length > 0 ? (
-									data.items.map((item: any) => {
-										return (
-											<div
-												key={item.id}
-												className="pb-2
-												border-b border-dotted"
-											>
-												<span>
-													Product Title:{" "}
-													{item.product_title}
-												</span>
-												<div className="flex justify-between">
-													<span>
-														Variant Title:{" "}
-														{item.variant_title}
-													</span>
-													<span>
-														Unit Price:{" "}
-														{data.currency_code}{" "}
-														{item.unit_price}
-													</span>
-												</div>
-												<div className="text-sm text-gray-500">
-													Qty: {item.quantity}
-												</div>
-											</div>
-										);
-									})
-								) : (
-									<div className="text-gray-500">
-										No items in cart
-									</div>
-								)}
+								<CartItems items={data.items} />
 							</div>
 							{/* Modal Footer */}
 							<div
