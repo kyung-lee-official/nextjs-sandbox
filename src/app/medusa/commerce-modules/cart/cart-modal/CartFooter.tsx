@@ -3,8 +3,8 @@ import {
 	completePaymentCollection,
 	deleteCart,
 	forceCompleteCart,
-} from "../../api";
-import { getPaymentCollectionByCartId, PaymentQK } from "../../../payment/api";
+} from "../api";
+import { getPaymentCollectionByCartId, PaymentQK } from "../../payment/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

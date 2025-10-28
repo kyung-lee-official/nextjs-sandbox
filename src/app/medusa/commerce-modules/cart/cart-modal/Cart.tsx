@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { CartQK, getCartByRegionIdSalesChannelIdCustomerId } from "../../api";
-import { CustomerQK, getCustomerById } from "../../../customer/api";
+import { CartQK, getCartByRegionIdSalesChannelIdCustomerId } from "../api";
+import { CustomerQK, getCustomerById } from "../../customer/api";
 import { CartBasicInfo } from "./CartBasicInfo";
 import { CartItems } from "./CartItems";
 import { CartFooter } from "./CartFooter";

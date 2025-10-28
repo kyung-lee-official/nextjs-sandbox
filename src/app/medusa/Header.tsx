@@ -1,6 +1,6 @@
 import { Customer } from "./commerce-modules/customer/Customer";
 import { Region } from "./commerce-modules/region/Region";
-import { Cart } from "./commerce-modules/cart/cart/cart-modal/Cart";
+import { Cart } from "./commerce-modules/cart/cart-modal/Cart";
 import { SalesChannel } from "./commerce-modules/sales-channel/SalesChannel";
 import Link from "next/link";
 
