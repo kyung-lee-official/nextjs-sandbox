@@ -7,10 +7,10 @@ export const Content = () => {
 		<div className="flex flex-col m-6">
 			<h1>Fulfillment Module</h1>
 			<Link
-				href="/medusa/commerce-modules/fulfillment/shipping-methods"
+				href="/medusa/commerce-modules/fulfillment/shipping-options"
 				className="underline decoration-dotted cursor-pointer"
 			>
-				Shipping Methods
+				Shipping Options
 			</Link>
 		</div>
 	);
