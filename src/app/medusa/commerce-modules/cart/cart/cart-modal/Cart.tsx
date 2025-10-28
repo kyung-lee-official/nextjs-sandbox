@@ -1,19 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import {
-	CartQK,
-	completePaymentCollection,
-	deleteCart,
-	forceCompleteCart,
-	getCartByRegionIdSalesChannelIdCustomerId,
-} from "../../api";
-import { useRouter } from "next/navigation";
-import { getPaymentCollectionByCartId, PaymentQK } from "../../../payment/api";
-import Link from "next/link";
+import { CartQK, getCartByRegionIdSalesChannelIdCustomerId } from "../../api";
 import { CustomerQK, getCustomerById } from "../../../customer/api";
 import { CartBasicInfo } from "./CartBasicInfo";
 import { CartItems } from "./CartItems";
+import { CartFooter } from "./CartFooter";
 
 type CartProps = {
 	regionId: string | undefined;
@@ -23,7 +15,6 @@ type CartProps = {
 
 export const Cart = (props: CartProps) => {
 	const { regionId, salesChannelId, customerId } = props;
-	const router = useRouter();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -45,21 +36,6 @@ export const Cart = (props: CartProps) => {
 		enabled: !!regionId && !!salesChannelId && !!customerId,
 	});
 
-	const getPaymentCollectionByCartIdQuery = useQuery({
-		queryKey: [
-			PaymentQK.GET_PAYMENT_COLLECTION_BY_CART_ID,
-			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id,
-		],
-		queryFn: async () => {
-			const res = await getPaymentCollectionByCartId(
-				getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id
-			);
-			return res;
-		},
-		enabled:
-			!!getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id,
-	});
-
 	const customerQuery = useQuery({
 		queryKey: [CustomerQK.GET_CUSTOMER_BY_ID, customerId],
 		queryFn: async () => {
@@ -67,38 +43,6 @@ export const Cart = (props: CartProps) => {
 			return res;
 		},
 		enabled: !!customerId,
-	});
-
-	const completePaymentCollectionMutation = useMutation({
-		mutationFn: async (cartId: string) => {
-			const res = await completePaymentCollection(cartId);
-			return res;
-		},
-		onSuccess: (data) => {
-			router.push(
-				`/medusa/commerce-modules/payment/payment-collection/${data.completed_cart.id}`
-			);
-		},
-	});
-
-	const forceCompleteCartMutation = useMutation({
-		mutationFn: async (cartId: string) => {
-			const res = await forceCompleteCart(cartId);
-			return res;
-		},
-		onSuccess: (data) => {
-			console.log(data);
-		},
-	});
-
-	const deleteCartMutation = useMutation({
-		mutationFn: async (cartId: string) => {
-			const res = await deleteCart(cartId);
-			return res;
-		},
-		onSuccess: () => {
-			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.refetch();
-		},
 	});
 
 	if (getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.isLoading) {
@@ -160,66 +104,12 @@ export const Cart = (props: CartProps) => {
 								<CartItems items={data.items} />
 							</div>
 							{/* Modal Footer */}
-							<div
-								className="mt-6 p-2 space-y-3
-								bg-neutral-100 rounded"
-							>
-								<div className="flex justify-between items-center mb-4">
-									<span className="font-semibold">
-										Total: {data.total} {data.currency_code}
-									</span>
-								</div>
-								<div className="flex gap-2">
-									<button
-										onClick={closeModal}
-										className="flex-1 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
-									>
-										Continue Shopping
-									</button>
-									{getPaymentCollectionByCartIdQuery.data
-										.payment_collection ? (
-										<Link
-											href={`/medusa/commerce-modules/payment/payment-collection/${getPaymentCollectionByCartIdQuery.data.payment_collection.id}`}
-											className="flex-1 px-4 py-2 border border-neutral-300 border-dashed rounded"
-										>
-											Go to Payment Collection
-										</Link>
-									) : (
-										<button
-											className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-											onClick={() => {
-												completePaymentCollectionMutation.mutate(
-													data.id
-												);
-											}}
-										>
-											Checkout
-										</button>
-									)}
-								</div>
-								<div className="flex gap-3">
-									<button
-										className="text-red-500
-										underline decoration-dotted cursor-pointer"
-										onClick={() => {
-											forceCompleteCartMutation.mutate(
-												data.id
-											);
-										}}
-									>
-										Complete Cart Manually
-									</button>
-									<button
-										className="text-red-500
-										underline decoration-dotted cursor-pointer"
-										onClick={() => {
-											deleteCartMutation.mutate(data.id);
-										}}
-									>
-										Delete Cart Manually
-									</button>
-								</div>
-							</div>
+							{data && (
+								<CartFooter
+									cart={data}
+									closeModal={closeModal}
+								/>
+							)}
 						</div>
 					</div>,
 					document.body
