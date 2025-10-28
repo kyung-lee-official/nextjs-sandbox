@@ -1,7 +1,7 @@
 import { Dropdown } from "@/app/styles/dropdown/universal-dropdown/dropdown/Dropdown";
 import { useState, useTransition } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { linkShippingAddressToCart } from "../../api";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { linkShippingAddressToCart, getCartById, CartQK } from "../../api";
 
 type ShippingAddressProps = {
 	cartId: string;
@@ -13,6 +13,18 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 	const queryClient = useQueryClient();
 	const [isPending, startTransition] = useTransition();
 
+	const cartQuery = useQuery({
+		queryKey: [CartQK.GET_CART_BY_ID, cartId],
+		queryFn: async () => {
+			const res = await getCartById(cartId);
+			return res;
+		},
+		enabled: !!cartId,
+	});
+
+	const cartShippingAddress = cartQuery.data?.shipping_address || null;
+
+	/* Initialize dropdown selection state */
 	const [selectedAddrId, setSelectedAddrId] = useState<
 		string | string[] | null
 	>(null);
@@ -23,10 +35,13 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 			return res;
 		},
 		onSuccess: (data) => {
-			queryClient.invalidateQueries({ queryKey: ["cart", cartId] });
+			queryClient.invalidateQueries({
+				queryKey: [CartQK.GET_CART_BY_ID, cartId],
+			});
 		},
 		onError: (error) => {
 			console.error("Error linking shipping address:", error);
+			/* Revert to no selection on error */
 			setSelectedAddrId(null);
 		},
 	});
@@ -60,16 +75,34 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 		}
 	};
 
+	// Show loading state while cart is loading
+	if (cartQuery.isLoading) {
+		return (
+			<div className="text-sm text-gray-400">
+				Loading cart information...
+			</div>
+		);
+	}
+
+	// Show error state if cart query fails
+	if (cartQuery.isError) {
+		return (
+			<div className="text-sm text-red-400">
+				Failed to load cart information. Please try again.
+			</div>
+		);
+	}
+
 	return (
 		<div>
-			{/* Loading indicator */}
+			{/* Loading indicator for address update */}
 			{(isPending || linkAddressMutation.isPending) && (
 				<div className="text-sm text-blue-400 mb-2">
 					Updating shipping address...
 				</div>
 			)}
 
-			{/* Error display */}
+			{/* Error display for address update */}
 			{linkAddressMutation.isError && (
 				<div className="text-sm text-red-400 mb-2">
 					Failed to update shipping address. Please try again.
@@ -81,11 +114,16 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 				options={addresses.map((addr) => addr.id)}
 				selected={selectedAddrId}
 				setSelected={handleAddressSelected}
-				placeholder="Select a shipping address"
+				placeholder={
+					cartShippingAddress
+						? `${cartShippingAddress.first_name} ${cartShippingAddress.last_name}, ${cartShippingAddress.address_1}, ${cartShippingAddress.city}`
+						: "Select a shipping address"
+				}
 				getLabel={(option) => {
 					const found = addresses.find(
 						(addr: any) => addr.id === option
 					);
+
 					if (!found) {
 						return (
 							<div className="text-white">Address not found</div>
