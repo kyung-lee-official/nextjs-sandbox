@@ -38,7 +38,10 @@ export const Content = (props: ContentProps) => {
 	});
 
 	const getAvailableShippingOptionsQuery = useQuery({
-		queryKey: [FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID],
+		queryKey: [
+			FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID,
+			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data.id,
+		],
 		queryFn: async () => {
 			const res = await getShippingOptionsByCartId(
 				getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data.id
@@ -66,7 +69,10 @@ export const Content = (props: ContentProps) => {
 
 	return (
 		<div className="flex flex-col m-6">
-			<h1>Shipping Methods</h1>
+			<h1>
+				Shipping Options for cart{" "}
+				{getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id}
+			</h1>
 			<div className="bg-neutral-500">
 				<Table>
 					<Thead>
