@@ -48,6 +48,17 @@ export const Content = (props: ContentProps) => {
 				<div>
 					<strong>Name:</strong> {shippingOption?.name || "N/A"}
 				</div>
+				<div>
+					<strong>Type:</strong> {shippingOption?.type.label || "N/A"}
+				</div>
+				<div>
+					<strong>Provider:</strong>{" "}
+					{shippingOption?.provider.id || "N/A"}
+				</div>
+				<div>
+					<strong>Shipping Profile:</strong>{" "}
+					{shippingOption?.shipping_profile.name || "N/A"}
+				</div>
 			</div>
 
 			{/* Raw data for debugging */}

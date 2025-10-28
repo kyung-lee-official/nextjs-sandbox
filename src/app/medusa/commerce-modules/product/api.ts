@@ -67,13 +67,16 @@ export async function deleteProduct(productId: string) {
 	return res.data;
 }
 
-export async function getProductById(productId: string) {
-	const res = await axios.get(`/commerce-modules/product/${productId}`, {
-		baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
-		headers: {
-			"x-publishable-api-key":
-				process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
-		},
-	});
+export async function getProductById(productId: string, regionId: string) {
+	const res = await axios.get(
+		`/commerce-modules/product/${productId}?region_id=${regionId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
 	return res.data;
 }

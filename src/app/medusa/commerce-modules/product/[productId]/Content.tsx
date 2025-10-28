@@ -40,9 +40,9 @@ export const Content = (props: ContentProps) => {
 	});
 
 	const productQuery = useQuery({
-		queryKey: [ProductQK.GET_PRODUCT_BY_ID],
+		queryKey: [ProductQK.GET_PRODUCT_BY_ID, productId, regionId],
 		queryFn: async () => {
-			const res = await getProductById(productId);
+			const res = await getProductById(productId, regionId as string);
 			return res;
 		},
 	});
@@ -74,21 +74,35 @@ export const Content = (props: ContentProps) => {
 								<td>{variant.title}</td>
 								<td>{variant.sku}</td>
 								<td>
-									{variant.prices.map((price: any) => (
-										<div key={price.id}>
-											{price.amount} {price.currency_code}{" "}
-											<AddToCart
-												variantId={variant.id}
-												cartId={
-													getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
-														.data?.id
-												}
-												regionId={regionId}
-												salesChannelId={salesChannelId}
-												customerId={customerId}
-											/>
-										</div>
-									))}
+									{variant.prices.map((price: any) => {
+										const matchedPrice =
+											variant.prices.find((p: any) =>
+												p.region_id
+													? p.region_id === regionId
+													: p.sales_channel_id ===
+													  salesChannelId
+											);
+										console.log(variant);
+
+										return (
+											<div key={price.id}>
+												{price.amount}{" "}
+												{price.currency_code}{" "}
+												<AddToCart
+													variantId={variant.id}
+													cartId={
+														getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
+															.data?.id
+													}
+													regionId={regionId}
+													salesChannelId={
+														salesChannelId
+													}
+													customerId={customerId}
+												/>
+											</div>
+										);
+									})}
 								</td>
 								<td>
 									{dayjs(variant.created_at).format(
