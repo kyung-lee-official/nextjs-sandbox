@@ -7,12 +7,12 @@ import {
 	deleteCart,
 	forceCompleteCart,
 	getCartByRegionIdSalesChannelIdCustomerId,
-} from "./api";
+} from "../../api";
 import { useRouter } from "next/navigation";
-import { getPaymentCollectionByCartId, PaymentQK } from "../payment/api";
+import { getPaymentCollectionByCartId, PaymentQK } from "../../../payment/api";
 import Link from "next/link";
-import { ShippingAddress } from "./ShippingAddress";
-import { CustomerQK, getCustomerById } from "../customer/api";
+import { CustomerQK, getCustomerById } from "../../../customer/api";
+import { CartBasicInfo } from "./CartBasicInfo";
 
 type CartProps = {
 	regionId: string | undefined;
@@ -149,28 +149,10 @@ export const Cart = (props: CartProps) => {
 							</div>
 							{/* Modal Content */}
 							{data && (
-								<div className="my-4 p-4 border bg-neutral-100 rounded">
-									<div>
-										<strong>Cart ID:</strong> {data.id}
-									</div>
-									<div>
-										<strong>Region:</strong>{" "}
-										{data.region.name}
-									</div>
-									<div>
-										<strong>Currency:</strong>{" "}
-										{data.currency_code}
-									</div>
-									<div>
-										<strong>Shipping Address:</strong>{" "}
-										<ShippingAddress
-											cartId={data.id}
-											addresses={
-												customerQuery.data.addresses
-											}
-										/>
-									</div>
-								</div>
+								<CartBasicInfo
+									cart={data}
+									addresses={customerQuery.data.addresses}
+								/>
 							)}
 							{/* Cart Items */}
 							<div className="space-y-4">

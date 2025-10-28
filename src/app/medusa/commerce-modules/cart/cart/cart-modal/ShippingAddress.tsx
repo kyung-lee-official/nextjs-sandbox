@@ -1,7 +1,7 @@
 import { Dropdown } from "@/app/styles/dropdown/universal-dropdown/dropdown/Dropdown";
 import { useState, useTransition } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { linkShippingAddressToCart } from "./api";
+import { linkShippingAddressToCart } from "../../api";
 
 type ShippingAddressProps = {
 	cartId: string;
