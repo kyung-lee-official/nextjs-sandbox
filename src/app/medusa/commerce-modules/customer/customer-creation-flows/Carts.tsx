@@ -27,7 +27,7 @@ export const Carts = (props: CartsProps) => {
 	}
 
 	return (
-		<div>
+		<div className="flex flex-col">
 			{cartsQuery.data.map((cart: any) => (
 				<Link
 					key={cart.id}
