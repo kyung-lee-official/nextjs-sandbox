@@ -8,7 +8,6 @@ import {
 	getCartByRegionIdSalesChannelIdCustomerId,
 } from "../../cart/api";
 import { Table, Tbody, Thead } from "@/app/styles/basic/table/table/Table";
-import dayjs from "dayjs";
 
 type ContentProps = {
 	regionId: string;
@@ -37,18 +36,19 @@ export const Content = (props: ContentProps) => {
 		enabled: !!regionId && !!salesChannelId && !!customerId,
 	});
 
+	const cartId =
+		getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data?.id;
+
 	const getAvailableShippingOptionsQuery = useQuery({
-		queryKey: [
-			FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID,
-			getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data.id,
-		],
+		queryKey: [FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID, cartId],
 		queryFn: async () => {
-			const res = await getShippingOptionsByCartId(
-				getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data.id
-			);
+			if (!cartId) {
+				throw new Error("Cart ID is required");
+			}
+			const res = await getShippingOptionsByCartId(cartId);
 			return res;
 		},
-		enabled: !!getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data,
+		enabled: !!cartId,
 	});
 
 	if (getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.isLoading) {
