@@ -55,6 +55,15 @@ export const Content = () => {
 					? JSON.stringify(cartQuery.data.metadata)
 					: "No metadata"}
 			</div>
+			<h2>Raw Data</h2>
+			<details>
+				<summary className="cursor-pointer text-blue-600 underline">
+					Toggle Raw JSON Data
+				</summary>
+				<pre className="bg-neutral-100 p-4 rounded overflow-x-auto">
+					{JSON.stringify(cartQuery.data, null, 2)}
+				</pre>
+			</details>
 		</div>
 	);
 };

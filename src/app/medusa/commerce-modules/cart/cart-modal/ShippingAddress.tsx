@@ -2,6 +2,7 @@ import { Dropdown } from "@/app/styles/dropdown/universal-dropdown/dropdown/Drop
 import { useState, useTransition } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { linkShippingAddressToCart, getCartById, CartQK } from "../api";
+import { FulfillmentQK } from "../../fulfillment/api";
 
 type ShippingAddressProps = {
 	cartId: string;
@@ -35,8 +36,16 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 			return res;
 		},
 		onSuccess: (data) => {
+			/* Invalidate cart query to refresh cart data */
 			queryClient.invalidateQueries({
 				queryKey: [CartQK.GET_CART_BY_ID, cartId],
+			});
+			/* Invalidate shipping options since they may change with new address */
+			queryClient.invalidateQueries({
+				queryKey: [
+					FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID,
+					cartId,
+				],
 			});
 		},
 		onError: (error) => {

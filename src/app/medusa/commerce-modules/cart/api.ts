@@ -123,25 +123,25 @@ export async function linkShippingAddressToCart(
 
 /* === shipping === */
 
-// export async function linkShippingMethodToCart(
-// 	cartId: string,
-// 	shippingMethodId: string
-// ) {
-// 	const res = await axios.post(
-// 		`/commerce-modules/cart/shipping-method/${cartId}`,
-// 		{
-// 			shipping_method_id: shippingMethodId,
-// 		},
-// 		{
-// 			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
-// 			headers: {
-// 				"x-publishable-api-key":
-// 					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
-// 			},
-// 		}
-// 	);
-// 	return res.data;
-// }
+export async function linkShippingMethodToCart(
+	cartId: string,
+	shippingOptionId: string
+) {
+	const res = await axios.post(
+		`/commerce-modules/cart/shipping-method/${cartId}`,
+		{
+			shippingOptionId: shippingOptionId,
+		},
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+}
 
 /* === checkout === */
 
