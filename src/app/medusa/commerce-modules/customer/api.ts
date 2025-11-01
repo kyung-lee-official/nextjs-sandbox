@@ -101,3 +101,17 @@ export const addAddressToCustomer = async (
 	);
 	return res.data;
 };
+
+export const deleteAddressById = async (addressId: string) => {
+	const res = await axios.delete(
+		`/commerce-modules/customer/delete-address-by-id/${addressId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL,
+			headers: {
+				"x-publishable-api-key":
+					process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+			},
+		}
+	);
+	return res.data;
+};
