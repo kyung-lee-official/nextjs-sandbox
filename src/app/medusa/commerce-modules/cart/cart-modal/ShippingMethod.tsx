@@ -181,13 +181,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 				options={shippingOptions.map((option: any) => option.id)}
 				selected={selectedMethodId}
 				setSelected={handleMethodSelected}
-				placeholder={
-					currentShippingMethod
-						? `${currentShippingMethod.shipping_option?.name} - $${(
-								currentShippingMethod.amount / 100
-						  ).toFixed(2)}`
-						: "Select a shipping method"
-				}
+				placeholder="Select a shipping option"
 				getLabel={(option: string) => {
 					const found = shippingOptions.find(
 						(opt: any) => opt.id === option
