@@ -96,7 +96,9 @@ export const Cart = (props: CartProps) => {
 							{data && (
 								<CartBasicInfo
 									cart={data}
-									addresses={customerQuery.data.addresses}
+									customerAddresses={
+										customerQuery.data.addresses
+									}
 								/>
 							)}
 							{/* Cart Items */}

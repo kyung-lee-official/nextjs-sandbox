@@ -6,11 +6,11 @@ import { FulfillmentQK } from "../../fulfillment/api";
 
 type ShippingAddressProps = {
 	cartId: string;
-	addresses: any[];
+	customerAddresses: any[];
 };
 
 export const ShippingAddress = (props: ShippingAddressProps) => {
-	const { cartId, addresses } = props;
+	const { cartId, customerAddresses } = props;
 	const queryClient = useQueryClient();
 	const [isPending, startTransition] = useTransition();
 
@@ -120,7 +120,7 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 
 			<Dropdown
 				mode="regular"
-				options={addresses.map((addr) => addr.id)}
+				options={customerAddresses.map((addr) => addr.id)}
 				selected={selectedAddrId}
 				setSelected={handleAddressSelected}
 				placeholder={
@@ -129,8 +129,8 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 						: "Select a shipping address"
 				}
 				getLabel={(option) => {
-					const found = addresses.find(
-						(addr: any) => addr.id === option
+					const found = customerAddresses.find(
+						(ca: any) => ca.id === option
 					);
 
 					if (!found) {
@@ -151,7 +151,9 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 						cursor-pointer truncate`;
 				}}
 				renderOption={(option, { selected, hovered }) => {
-					const found = addresses.find((addr) => addr.id === option);
+					const found = customerAddresses.find(
+						(addr) => addr.id === option
+					);
 					return (
 						<div
 							className={`flex items-center px-2 gap-2 ${

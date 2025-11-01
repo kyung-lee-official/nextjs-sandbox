@@ -4,11 +4,11 @@ import { ShippingMethod } from "./ShippingMethod";
 
 type CartBasicInfoProps = {
 	cart: any;
-	addresses: any[];
+	customerAddresses: any[];
 };
 
 export const CartBasicInfo = (props: CartBasicInfoProps) => {
-	const { cart, addresses } = props;
+	const { cart, customerAddresses } = props;
 	return (
 		<div className="my-4 p-4 border bg-neutral-100 rounded">
 			<div>
@@ -28,7 +28,10 @@ export const CartBasicInfo = (props: CartBasicInfoProps) => {
 			</div>
 			<div>
 				<strong>Shipping Address:</strong>{" "}
-				<ShippingAddress cartId={cart.id} addresses={addresses} />
+				<ShippingAddress
+					cartId={cart.id}
+					customerAddresses={customerAddresses}
+				/>
 			</div>
 			<div>
 				<strong>Shipping Method:</strong>{" "}
