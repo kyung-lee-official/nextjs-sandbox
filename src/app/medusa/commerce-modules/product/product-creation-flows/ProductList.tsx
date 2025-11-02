@@ -41,13 +41,19 @@ export const ProductList = () => {
 							<th></th>
 							<th></th>
 							<th></th>
-							<th></th>
 						</tr>
 					</Thead>
 					<Tbody>
 						{productQuery.data?.map((product: any) => (
 							<tr key={product.id}>
-								<td>{product.id}</td>
+								<td>
+									<Link
+										href={`/medusa/commerce-modules/product/${product.id}`}
+										className="underline decoration-dotted"
+									>
+										{product.id}
+									</Link>
+								</td>
 								<td>{product.title}</td>
 								<td>{product.status}</td>
 								<td>
@@ -59,14 +65,6 @@ export const ProductList = () => {
 									{dayjs(product.updated_at).format(
 										"YYYY-MM-DD HH:mm:ss"
 									)}
-								</td>
-								<td>
-									<Link
-										href={`/medusa/commerce-modules/product/${product.id}`}
-										className="underline decoration-dotted"
-									>
-										Details
-									</Link>
 								</td>
 								<td>
 									<PublishProduct productId={product.id} />
