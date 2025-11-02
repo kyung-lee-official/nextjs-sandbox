@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { getProductById } from "../api";
 import { ProductQK } from "../api";
 import { Table, Thead, Tbody } from "@/app/styles/basic/table/table/Table";
@@ -10,6 +10,52 @@ import {
 	CartQK,
 	getCartByRegionIdSalesChannelIdCustomerId,
 } from "../../cart/api";
+
+type PricesProps = {
+	variant: any;
+	regionId: string | undefined;
+	salesChannelId: string | undefined;
+	customerId: string | undefined;
+	getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery: UseQueryResult<
+		any,
+		Error
+	>;
+};
+
+const Prices = (props: PricesProps) => {
+	const {
+		variant,
+		regionId,
+		salesChannelId,
+		customerId,
+		getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery,
+	} = props;
+
+	if (variant.prices.length === 0) {
+		return <div>No prices available for {variant.title}</div>;
+	}
+
+	/**
+	 * TODO: Implement proper matching logic for regionId in the backend API
+	 */
+	const matchedPrice = variant.prices[0];
+
+	return (
+		<div>
+			{matchedPrice.amount} {matchedPrice.currency_code}{" "}
+			<AddToCart
+				variantId={variant.id}
+				cartId={
+					getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery.data
+						?.id
+				}
+				regionId={regionId}
+				salesChannelId={salesChannelId}
+				customerId={customerId}
+			/>
+		</div>
+	);
+};
 
 type ContentProps = {
 	productId: string;
@@ -74,35 +120,15 @@ export const Content = (props: ContentProps) => {
 								<td>{variant.title}</td>
 								<td>{variant.sku}</td>
 								<td>
-									{variant.prices.map((price: any) => {
-										const matchedPrice =
-											variant.prices.find((p: any) =>
-												p.region_id
-													? p.region_id === regionId
-													: p.sales_channel_id ===
-													  salesChannelId
-											);
-										console.log(variant);
-
-										return (
-											<div key={price.id}>
-												{price.amount}{" "}
-												{price.currency_code}{" "}
-												<AddToCart
-													variantId={variant.id}
-													cartId={
-														getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
-															.data?.id
-													}
-													regionId={regionId}
-													salesChannelId={
-														salesChannelId
-													}
-													customerId={customerId}
-												/>
-											</div>
-										);
-									})}
+									<Prices
+										variant={variant}
+										regionId={regionId}
+										salesChannelId={salesChannelId}
+										customerId={customerId}
+										getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery={
+											getCartByRegionIdAndSalesChannelIdAndCustomerIdQuery
+										}
+									/>
 								</td>
 								<td>
 									{dayjs(variant.created_at).format(
