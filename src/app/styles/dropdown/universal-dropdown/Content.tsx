@@ -59,9 +59,9 @@ export const Content = () => {
 					setSelected={setStringSelected}
 					setHover={setHovered}
 					placeholder="Select a fruit"
-					getLabel={(option) => {
+					getLabel={(selected) => {
 						const found = stringOptions.find(
-							(obj) => obj === option
+							(obj) => obj === selected
 						);
 						switch (found) {
 							case "Apple":
@@ -125,8 +125,8 @@ export const Content = () => {
 					setSelected={setObjectSelected}
 					setHover={setHovered}
 					multiple
-					getLabel={(option) => {
-						return objectOptions.find((obj) => obj.id === option)
+					getLabel={(selected) => {
+						return objectOptions.find((obj) => obj.id === selected)
 							?.name as string;
 					}}
 					getSearchString={(option) => {

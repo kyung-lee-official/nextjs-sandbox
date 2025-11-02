@@ -43,7 +43,7 @@ type DropdownProps = {
 	controlClassName: string;
 	placeholderClassName?: string;
 	/* label of selected option, string only */
-	getLabel: (option: string) => string | ReactNode;
+	getLabel: (selected: string) => string | ReactNode;
 	/* searchable string for each option, empty string if not provided */
 	getSearchString?: (option: string) => string;
 	searchInputClassName?: string;
