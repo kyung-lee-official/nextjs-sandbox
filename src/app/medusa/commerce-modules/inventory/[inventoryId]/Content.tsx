@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { getInventoryById, InventoryQK } from "../api";
+import { InventoryLevels } from "./InventoryLevels";
 
 type InventoryProps = {
 	inventoryId: string;
@@ -56,6 +57,9 @@ export const Content = (props: InventoryProps) => {
 					"YYYY-MM-DD HH:mm"
 				)}
 			</div>
+			<InventoryLevels
+				inventoryLevels={inventoryListQuery.data?.inventory_levels}
+			/>
 			<details>
 				<summary className="cursor-pointer">Raw Data</summary>
 				<pre className="bg-gray-100 p-4 mt-2 rounded overflow-x-auto">
