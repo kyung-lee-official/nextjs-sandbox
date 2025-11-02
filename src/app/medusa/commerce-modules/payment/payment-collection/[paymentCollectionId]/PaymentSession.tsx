@@ -36,6 +36,12 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: [
+					PaymentQK.GET_PAYMENT_COLLECTION_BY_ID,
+					paymentCollectionId,
+				],
+			});
+			queryClient.invalidateQueries({
+				queryKey: [
 					PaymentQK.GET_PAYMENT_SESSION_BY_PAYMENT_COLLECTION_ID,
 					paymentCollectionId,
 				],

@@ -7,10 +7,14 @@ import { FulfillmentQK } from "../../fulfillment/api";
 type ShippingAddressProps = {
 	cartId: string;
 	customerAddresses: any[];
+	regionId: string;
+	salesChannelId: string;
+	customerId: string;
 };
 
 export const ShippingAddress = (props: ShippingAddressProps) => {
-	const { cartId, customerAddresses } = props;
+	const { cartId, customerAddresses, regionId, salesChannelId, customerId } =
+		props;
 	const queryClient = useQueryClient();
 	const [isPending, startTransition] = useTransition();
 
@@ -54,6 +58,14 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 				queryKey: [
 					FulfillmentQK.GET_SHIPPING_OPTIONS_BY_CART_ID,
 					cartId,
+				],
+			});
+			queryClient.invalidateQueries({
+				queryKey: [
+					CartQK.GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID,
+					regionId,
+					salesChannelId,
+					customerId,
 				],
 			});
 		},

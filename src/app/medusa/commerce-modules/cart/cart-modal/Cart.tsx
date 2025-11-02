@@ -99,6 +99,9 @@ export const Cart = (props: CartProps) => {
 									customerAddresses={
 										customerQuery.data.addresses
 									}
+									regionId={regionId as string}
+									salesChannelId={salesChannelId as string}
+									customerId={customerId as string}
 								/>
 							)}
 							{/* Cart Items */}

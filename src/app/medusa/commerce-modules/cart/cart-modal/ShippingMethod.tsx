@@ -11,10 +11,13 @@ import {
 
 type ShippingMethodProps = {
 	cartId: string;
+	regionId: string;
+	salesChannelId: string;
+	customerId: string;
 };
 
 export const ShippingMethod = (props: ShippingMethodProps) => {
-	const { cartId } = props;
+	const { cartId, regionId, salesChannelId, customerId } = props;
 	const queryClient = useQueryClient();
 	const [isPending, startTransition] = useTransition();
 
@@ -68,6 +71,14 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 			/* Invalidate cart query to refresh the data */
 			queryClient.invalidateQueries({
 				queryKey: [CartQK.GET_CART_BY_ID, cartId],
+			});
+			queryClient.invalidateQueries({
+				queryKey: [
+					CartQK.GET_CART_BY_REGION_ID_AND_SALES_CHANNEL_ID_AND_CUSTOMER_ID,
+					regionId,
+					salesChannelId,
+					customerId,
+				],
 			});
 		},
 		onError: (error) => {

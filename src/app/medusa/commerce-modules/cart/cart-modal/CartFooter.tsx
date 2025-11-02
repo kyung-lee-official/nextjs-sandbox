@@ -17,6 +17,11 @@ export const CartFooter = (props: CartFooterProps) => {
 	const { cart, closeModal } = props;
 	const router = useRouter();
 
+	/* Check if cart has both shipping address and shipping method selected */
+	const hasShippingAddress = !!cart.shipping_address;
+	const hasShippingMethod = !!cart.shipping_methods && cart.shipping_methods.length > 0;
+	const canCheckout = hasShippingAddress && hasShippingMethod;
+
 	const getPaymentCollectionByCartIdQuery = useQuery({
 		queryKey: [PaymentQK.GET_PAYMENT_COLLECTION_BY_CART_ID, cart.id],
 		queryFn: async () => {
@@ -80,7 +85,7 @@ export const CartFooter = (props: CartFooterProps) => {
 					>
 						Go to Payment Collection
 					</Link>
-				) : (
+				) : canCheckout ? (
 					<button
 						className="flex-1 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
 						onClick={() => {
@@ -88,6 +93,18 @@ export const CartFooter = (props: CartFooterProps) => {
 						}}
 					>
 						Checkout
+					</button>
+				) : (
+					<button
+						className="flex-1 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
+						disabled
+						title="Please select shipping address and method"
+					>
+						{!hasShippingAddress 
+							? "Select Shipping Address" 
+							: !hasShippingMethod 
+							? "Select Shipping Method" 
+							: "Checkout"}
 					</button>
 				)}
 			</div>
