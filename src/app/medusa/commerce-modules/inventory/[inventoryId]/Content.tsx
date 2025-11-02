@@ -56,6 +56,12 @@ export const Content = (props: InventoryProps) => {
 					"YYYY-MM-DD HH:mm"
 				)}
 			</div>
+			<details>
+				<summary className="cursor-pointer">Raw Data</summary>
+				<pre className="bg-gray-100 p-4 mt-2 rounded overflow-x-auto">
+					{JSON.stringify(inventoryListQuery.data, null, 2)}
+				</pre>
+			</details>
 		</div>
 	);
 };

@@ -42,7 +42,6 @@ export const Content = () => {
 							<th>ID</th>
 							<th>Name</th>
 							<th>Description</th>
-							<th>Details</th>
 							<th>Created At</th>
 							<th>Updated At</th>
 						</tr>
@@ -50,17 +49,17 @@ export const Content = () => {
 					<Tbody>
 						{stockLocationQuery.data?.map((sl: any) => (
 							<tr key={sl.id}>
-								<td>{sl.id}</td>
-								<td>{sl.name}</td>
-								<td>{sl.description}</td>
 								<td>
 									<Link
 										href={`/medusa/commerce-modules/stock-location/${sl.id}`}
 										className="underline decoration-dotted cursor-pointer"
 									>
-										Details
+										{sl.id}
 									</Link>
 								</td>
+								<td>{sl.name}</td>
+								<td>{sl.description}</td>
+
 								<td>
 									{dayjs(sl.created_at).format(
 										"YYYY-MM-DD HH:mm"
