@@ -40,7 +40,10 @@ export const Cart = (props: CartProps) => {
 	const { cart } = getCartByPaymentCollectionIdQuery.data;
 
 	return (
-		<div>
+		<div
+			className="p-3
+			bg-neutral-100"
+		>
 			<h1>Cart</h1>
 			<div>ID: {cart.id}</div>
 			<div>
@@ -49,10 +52,16 @@ export const Cart = (props: CartProps) => {
 			<div>
 				Region: {cart.region.name} ({cart.region.id})
 			</div>
+			<div>Currency: {cart.region.currency_code}</div>
 			<div>
 				Sales Channel: {cart.sales_channel.name} (
 				{cart.sales_channel_id})
 			</div>
+			{cart.completed_at ? (
+				<div>Completed At: {cart.completed_at}</div>
+			) : (
+				<div className="text-red-500">Cart is not completed</div>
+			)}
 		</div>
 	);
 };
