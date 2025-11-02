@@ -1,5 +1,5 @@
 import { Dropdown } from "@/app/styles/dropdown/universal-dropdown/dropdown/Dropdown";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { linkShippingAddressToCart, getCartById, CartQK } from "../api";
 import { FulfillmentQK } from "../../fulfillment/api";
@@ -29,6 +29,15 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 	const [selectedAddrId, setSelectedAddrId] = useState<
 		string | string[] | null
 	>(null);
+
+	/* Sync selectedAddrId with cart shipping address when cart data changes */
+	useEffect(() => {
+		if (cartShippingAddress?.metadata?.customer_address_id) {
+			setSelectedAddrId(cartShippingAddress.metadata.customer_address_id);
+		} else {
+			setSelectedAddrId(null);
+		}
+	}, [cartShippingAddress?.metadata?.customer_address_id]);
 
 	const linkAddressMutation = useMutation({
 		mutationFn: async (addressId: string) => {
@@ -69,22 +78,22 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 				? newAddressId(selectedAddrId)
 				: newAddressId;
 
-		/* update local state immediately for ui feedback */
+		/* Update local state immediately for ui feedback */
 		setSelectedAddrId(addressValue);
 
-		/* only proceed if we have a valid string address ID */
+		/* Only proceed if we have a valid string address ID */
 		if (typeof addressValue === "string") {
 			startTransition(async () => {
 				try {
 					await linkAddressMutation.mutateAsync(addressValue);
 				} catch (error) {
-					/* error handling is already done in the mutation */
+					/* Error handling is already done in the mutation */
 				}
 			});
 		}
 	};
 
-	// Show loading state while cart is loading
+	/* Show loading state while cart is loading */
 	if (cartQuery.isLoading) {
 		return (
 			<div className="text-sm text-gray-400">
@@ -93,7 +102,7 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 		);
 	}
 
-	// Show error state if cart query fails
+	/* Show error state if cart query fails */
 	if (cartQuery.isError) {
 		return (
 			<div className="text-sm text-red-400">
@@ -123,14 +132,10 @@ export const ShippingAddress = (props: ShippingAddressProps) => {
 				options={customerAddresses.map((addr) => addr.id)}
 				selected={selectedAddrId}
 				setSelected={handleAddressSelected}
-				placeholder={
-					cartShippingAddress
-						? `${cartShippingAddress.first_name} ${cartShippingAddress.last_name}, ${cartShippingAddress.address_1}, ${cartShippingAddress.city}`
-						: "Select a shipping address"
-				}
-				getLabel={(option) => {
+				placeholder="Select a shipping address"
+				getLabel={(selected) => {
 					const found = customerAddresses.find(
-						(ca: any) => ca.id === option
+						(ca: any) => ca.id === selected
 					);
 
 					if (!found) {
