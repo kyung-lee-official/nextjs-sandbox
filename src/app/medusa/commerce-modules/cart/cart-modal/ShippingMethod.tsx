@@ -42,15 +42,19 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 		enabled: !!cartId && hasShippingAddress, // Only fetch when cart has shipping address
 	});
 
-	// Initialize dropdown selection state
+	/* Initialize dropdown selection state */
 	const [selectedMethodId, setSelectedMethodId] = useState<
 		string | string[] | null
 	>(null);
 
-	// Sync with cart data when it changes
+	/* Sync selectedMethodId with cart's current shipping method using shipping_option_id */
 	useEffect(() => {
-		setSelectedMethodId(currentShippingMethod?.shipping_option?.id || null);
-	}, [currentShippingMethod?.shipping_option?.id]);
+		if (currentShippingMethod?.shipping_option_id) {
+			setSelectedMethodId(currentShippingMethod.shipping_option_id);
+		} else {
+			setSelectedMethodId(null);
+		}
+	}, [currentShippingMethod?.shipping_option_id]);
 
 	const linkMethodMutation = useMutation({
 		mutationFn: async (shippingOptionId: string) => {
@@ -61,16 +65,16 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 			return res;
 		},
 		onSuccess: (data) => {
-			// Invalidate cart query to refresh the data
+			/* Invalidate cart query to refresh the data */
 			queryClient.invalidateQueries({
 				queryKey: [CartQK.GET_CART_BY_ID, cartId],
 			});
 		},
 		onError: (error) => {
 			console.error("Error linking shipping method:", error);
-			// Revert to current shipping method on error
+			/* Revert to current shipping method on error */
 			setSelectedMethodId(
-				currentShippingMethod?.shipping_option?.id || null
+				currentShippingMethod?.shipping_option_id || null
 			);
 		},
 	});
@@ -89,22 +93,22 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 				? newMethodId(selectedMethodId)
 				: newMethodId;
 
-		// Update local state immediately for UI feedback
+		/* Update local state immediately for UI feedback */
 		setSelectedMethodId(methodValue);
 
-		// Only proceed if we have a valid string method ID
+		/* Only proceed if we have a valid string method ID */
 		if (typeof methodValue === "string") {
 			startTransition(async () => {
 				try {
 					await linkMethodMutation.mutateAsync(methodValue);
 				} catch (error) {
-					// Error handling is already done in the mutation
+					/* Error handling is already done in the mutation */
 				}
 			});
 		}
 	};
 
-	// Don't render if no shipping address is selected
+	/* Don't render if no shipping address is selected */
 	if (!hasShippingAddress) {
 		return (
 			<div className="text-sm text-gray-400">
@@ -113,7 +117,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 		);
 	}
 
-	// Show loading state while cart is loading
+	/* Show loading state while cart is loading */
 	if (cartQuery.isLoading) {
 		return (
 			<div className="text-sm text-gray-400">
@@ -122,7 +126,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 		);
 	}
 
-	// Show error state if cart query fails
+	/* Show error state if cart query fails */
 	if (cartQuery.isError) {
 		return (
 			<div className="text-sm text-red-400">
@@ -131,7 +135,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 		);
 	}
 
-	// Show loading state while shipping options are loading
+	/* Show loading state while shipping options are loading */
 	if (shippingOptionsQuery.isLoading) {
 		return (
 			<div className="text-sm text-gray-400">
@@ -140,7 +144,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 		);
 	}
 
-	// Show error state if shipping options query fails
+	/* Show error state if shipping options query fails */
 	if (shippingOptionsQuery.isError) {
 		return (
 			<div className="text-sm text-red-400">
@@ -151,7 +155,7 @@ export const ShippingMethod = (props: ShippingMethodProps) => {
 
 	const shippingOptions = shippingOptionsQuery.data || [];
 
-	// Show message if no shipping options available
+	/* Show message if no shipping options available */
 	if (shippingOptions.length === 0) {
 		return (
 			<div className="text-sm text-yellow-400">
