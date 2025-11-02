@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	authorizePaymentSession,
 	getPaymentSessionByPaymentCollectionId,
@@ -12,6 +12,7 @@ type PaymentSessionProps = {
 
 export const PaymentSession = (props: PaymentSessionProps) => {
 	const { paymentCollectionId } = props;
+	const queryClient = useQueryClient();
 
 	const getPaymentSessionByPaymentCollectionIdQuery = useQuery({
 		queryKey: [
@@ -32,7 +33,14 @@ export const PaymentSession = (props: PaymentSessionProps) => {
 				getPaymentSessionByPaymentCollectionIdQuery.data.id
 			);
 		},
-		onSuccess: () => {},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [
+					PaymentQK.GET_PAYMENT_SESSION_BY_PAYMENT_COLLECTION_ID,
+					paymentCollectionId,
+				],
+			});
+		},
 	});
 
 	if (getPaymentSessionByPaymentCollectionIdQuery.isLoading) {

@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { createPaymentSession } from "../../../payment/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createPaymentSession, PaymentQK } from "../../../payment/api";
 
 type CreatePaymentSessionProps = {
 	paymentCollectionId: string;
@@ -8,6 +8,7 @@ type CreatePaymentSessionProps = {
 
 export const CreatePaymentSession = (props: CreatePaymentSessionProps) => {
 	const { paymentCollectionId, paymentProviderId } = props;
+	const queryClient = useQueryClient();
 
 	const createPaymentSessionMutation = useMutation({
 		mutationFn: async () => {
@@ -19,6 +20,18 @@ export const CreatePaymentSession = (props: CreatePaymentSessionProps) => {
 		},
 		onSuccess: (data) => {
 			// console.log("Payment session created:", data);
+			queryClient.invalidateQueries({
+				queryKey: [
+					PaymentQK.GET_PAYMENT_SESSION_BY_PAYMENT_COLLECTION_ID,
+					paymentCollectionId,
+				],
+			});
+			queryClient.invalidateQueries({
+				queryKey: [
+					PaymentQK.GET_PAYMENT_COLLECTION_BY_ID,
+					paymentCollectionId,
+				],
+			});
 		},
 	});
 

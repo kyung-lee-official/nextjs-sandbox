@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { CartQK, getCartById } from "../api";
+import Link from "next/link";
 
 export const Content = () => {
 	const { cartId } = useParams();
@@ -55,6 +56,20 @@ export const Content = () => {
 					? JSON.stringify(cartQuery.data.metadata)
 					: "No metadata"}
 			</div>
+			{cartQuery.data.payment_collection.id && (
+				<div
+					className="p-3 rounded
+					border border-dashed border-neutral-400"
+				>
+					Payment Collection ID:{" "}
+					<Link
+						href={`/medusa/commerce-modules/payment/payment-collection/${cartQuery.data.payment_collection.id}`}
+						className="underline decoration-dotted"
+					>
+						{cartQuery.data.payment_collection.id}
+					</Link>
+				</div>
+			)}
 			<h2>Raw Data</h2>
 			<details>
 				<summary className="cursor-pointer text-blue-600 underline">
