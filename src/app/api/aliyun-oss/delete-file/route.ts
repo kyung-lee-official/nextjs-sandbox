@@ -1,7 +1,8 @@
+import { NextRequest } from "next/server";
 import { getOSSClient } from "../client";
 
-export async function DELETE(request: Request) {
-	const { searchParams } = new URL(request.url);
+export async function DELETE(request: NextRequest) {
+	const searchParams = request.nextUrl.searchParams;
 	const filename = searchParams.get("filename");
 
 	const client = await getOSSClient();
