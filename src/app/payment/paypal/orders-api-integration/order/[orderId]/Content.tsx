@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getOrderById } from "../../api";
+import { getOrderById, PayPalOrderQK } from "../../api";
+import { CaptureButton } from "./CaptureButton";
 
 type ContentProps = {
 	orderId: string;
@@ -9,7 +10,7 @@ type ContentProps = {
 
 export const Content = ({ orderId }: ContentProps) => {
 	const orderQuery = useQuery({
-		queryKey: ["paypal-order", orderId],
+		queryKey: [PayPalOrderQK.GET_ORDER_BY_ID, orderId],
 		queryFn: async () => {
 			const result = await getOrderById(orderId);
 			return result;
@@ -112,6 +113,24 @@ export const Content = ({ orderId }: ContentProps) => {
 								</span>
 							</div>
 						</div>
+
+						{/* Capture Payment Section - Only show for APPROVED orders with AUTHORIZE intent */}
+						{order?.status === "APPROVED" &&
+							order?.intent === "AUTHORIZE" && (
+								<div className="bg-green-50 border border-green-200 rounded-lg p-6">
+									<div className="mb-4">
+										<h3 className="font-semibold text-green-900 mb-2">
+											Payment Authorized
+										</h3>
+										<p className="text-green-700 text-sm">
+											The customer has authorized this
+											payment. You can now capture the
+											funds to complete the transaction.
+										</p>
+									</div>
+									<CaptureButton orderId={orderId} />
+								</div>
+							)}
 
 						{/* Purchase Units */}
 						{order?.purchase_units && (

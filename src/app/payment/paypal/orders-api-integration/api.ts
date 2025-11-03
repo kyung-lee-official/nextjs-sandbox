@@ -1,5 +1,9 @@
 import axios from "axios";
 
+export enum PayPalOrderQK {
+	GET_ORDER_BY_ID = "get_order_by_id",
+}
+
 export interface PayPalTokenResponse {
 	scope: string;
 	access_token: string;
@@ -136,6 +140,41 @@ export const getOrderById = async (
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching PayPal order:", error);
+		throw error;
+	}
+};
+
+export interface PayPalCaptureResponse {
+	id: string;
+	status: string;
+	purchase_units: Array<{
+		reference_id: string;
+		payments: {
+			captures: Array<{
+				id: string;
+				status: string;
+				amount: {
+					currency_code: string;
+					value: string;
+				};
+				final_capture: boolean;
+				create_time: string;
+				update_time: string;
+			}>;
+		};
+	}>;
+}
+
+export const captureOrder = async (
+	orderId: string
+): Promise<PayPalCaptureResponse> => {
+	try {
+		const response = await axios.post(
+			`/api/payment/paypal/v2/capture-order/${orderId}`
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Error capturing PayPal order:", error);
 		throw error;
 	}
 };
