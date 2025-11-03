@@ -1,5 +1,6 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import { PayPalConfig } from "../utils";
 
 export async function POST(req: NextRequest) {
 	try {
@@ -8,8 +9,11 @@ export async function POST(req: NextRequest) {
 			`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
 		).toString("base64");
 
+		/* Get environment-appropriate PayPal API base URL */
+		const paypalBaseURL = PayPalConfig.getBaseURL();
+
 		const paypalRes = await axios.post(
-			"https://api-m.sandbox.paypal.com/v1/oauth2/token",
+			`${paypalBaseURL}/v1/oauth2/token`,
 			"grant_type=client_credentials",
 			{
 				headers: {

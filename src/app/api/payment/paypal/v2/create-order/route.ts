@@ -2,6 +2,7 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createOrderSchema } from "./schemas";
+import { getPayPalBaseURL } from "../utils";
 
 export async function POST(req: NextRequest) {
 	try {
@@ -37,8 +38,9 @@ export async function POST(req: NextRequest) {
 		const orderData = validationResult.data;
 
 		/* Call PayPal API to create order */
+		const paypalBaseURL = getPayPalBaseURL();
 		const paypalRes = await axios.post(
-			"https://api-m.sandbox.paypal.com/v2/checkout/orders/",
+			`${paypalBaseURL}/v2/checkout/orders/`,
 			orderData,
 			{
 				headers: {

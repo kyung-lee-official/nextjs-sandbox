@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import axios from "axios";
+import { getPayPalBaseURL } from "../../utils";
 
 export async function POST(
 	request: NextRequest,
@@ -18,9 +19,12 @@ export async function POST(
 			);
 		}
 
+		/* Get environment-appropriate PayPal API base URL */
+		const paypalBaseURL = getPayPalBaseURL();
+
 		/* First, get the order details to check its status and intent */
 		const orderResponse = await axios.get(
-			`https://api-m.sandbox.paypal.com/v2/checkout/orders/${params.orderId}`,
+			`${paypalBaseURL}/v2/checkout/orders/${params.orderId}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -35,7 +39,7 @@ export async function POST(
 		if (order.intent === "AUTHORIZE" && order.status === "APPROVED") {
 			/* Step 1: Authorize the payment */
 			const authorizeResponse = await axios.post(
-				`https://api-m.sandbox.paypal.com/v2/checkout/orders/${params.orderId}/authorize`,
+				`${paypalBaseURL}/v2/checkout/orders/${params.orderId}/authorize`,
 				/* Empty body for authorize request */
 				{},
 				{
@@ -56,7 +60,7 @@ export async function POST(
 					authData.purchase_units[0].payments.authorizations[0].id;
 
 				const captureResponse = await axios.post(
-					`https://api-m.sandbox.paypal.com/v2/payments/authorizations/${authId}/capture`,
+					`${paypalBaseURL}/v2/payments/authorizations/${authId}/capture`,
 					/* Empty body for capture request */
 					{},
 					{
@@ -79,7 +83,7 @@ export async function POST(
 		} else if (order.intent === "CAPTURE") {
 			/* For CAPTURE intent orders, direct capture */
 			const response = await axios.post(
-				`https://api-m.sandbox.paypal.com/v2/checkout/orders/${params.orderId}/capture`,
+				`${paypalBaseURL}/v2/checkout/orders/${params.orderId}/capture`,
 				/* Empty body for capture request */
 				{},
 				{

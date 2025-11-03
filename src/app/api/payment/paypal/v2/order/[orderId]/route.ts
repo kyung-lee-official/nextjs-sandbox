@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import axios from "axios";
+import { getPayPalBaseURL } from "../../utils";
 
 export async function GET(
 	request: NextRequest,
@@ -19,8 +20,9 @@ export async function GET(
 		}
 
 		/* Fetch order details from PayPal API */
+		const paypalBaseURL = getPayPalBaseURL();
 		const response = await axios.get(
-			`https://api-m.sandbox.paypal.com/v2/checkout/orders/${params.orderId}`,
+			`${paypalBaseURL}/v2/checkout/orders/${params.orderId}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
