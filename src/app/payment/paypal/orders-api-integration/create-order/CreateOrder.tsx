@@ -4,12 +4,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import { Form, type OrderFormData } from "./Form";
+import { useRouter } from "next/navigation";
 
 type CreateOrderProps = {
 	paypalAccessToken?: string;
 };
 
 export const CreateOrder = ({ paypalAccessToken }: CreateOrderProps) => {
+	const router = useRouter();
 	const [orderData, setOrderData] = useState<any>(null);
 
 	const createOrderMutation = useMutation({
@@ -55,6 +57,15 @@ export const CreateOrder = ({ paypalAccessToken }: CreateOrderProps) => {
 		onSuccess: (data) => {
 			console.log("PayPal order created successfully:", data);
 			setOrderData(data);
+			/* redirect the user to the PayPal approval link */
+			if (data.links) {
+				const approvalLink = data.links.find(
+					(link: any) => link.rel === "payer-action"
+				);
+				if (approvalLink) {
+					router.push(approvalLink.href);
+				}
+			}
 		},
 		onError: (error) => {
 			console.error("Error creating PayPal order:", error);

@@ -43,7 +43,7 @@ export const Form = ({ onSubmit, isLoading = false }: FormProps) => {
 			admin_area_2: "San Jose",
 			postal_code: "95131",
 			country_code: "US",
-			email_address: "kyung.lee@qq.com",
+			email_address: "sb-pfrec25202733@personal.example.com",
 			payment_method_preference: "IMMEDIATE_PAYMENT_REQUIRED",
 			return_url: `http://localhost:4000/payment/paypal/orders-api-integration/return`,
 			cancel_url: `http://localhost:4000/payment/paypal/orders-api-integration/cancel`,
