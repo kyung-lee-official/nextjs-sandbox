@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { Content } from "./Content";
 
-const Page = () => {
+const Page = async () => {
+	const cookieStore = await cookies();
+	const paypalAccessToken = cookieStore.get("paypalAccessToken")?.value;
 	return (
 		<div className="flex flex-col p-4 gap-2">
 			<h1>
@@ -19,6 +23,7 @@ const Page = () => {
 					Official docs
 				</Link>
 			</h1>
+			<Content paypalAccessToken={paypalAccessToken} />
 		</div>
 	);
 };
