@@ -3,12 +3,7 @@
 import Link from "next/link";
 import { CustomerList } from "./customer-creation-flows/CustomerList";
 
-type ContentProps = {
-	customerId: string;
-};
-
-export const Content = (props: ContentProps) => {
-	const { customerId } = props;
+export const Content = () => {
 	return (
 		<div className="m-6 space-y-6">
 			<div>
