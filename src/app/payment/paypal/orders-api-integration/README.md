@@ -114,6 +114,20 @@ AUTHORIZE Intent is useful for:
 -   Services - Capture when service is delivered
 -   Fraud prevention - Time to verify orders before capturing funds
 
+**⚠️ Important Note for AUTHORIZE Intent:**
+When capturing an order created with `AUTHORIZE` intent, you must follow a **two-step API process**:
+
+1. **First**: Call the authorize endpoint to authorize the approved payment
+    ```
+    POST /v2/checkout/orders/{order_id}/authorize
+    ```
+2. **Second**: Use the returned authorization ID to capture the funds
+    ```
+    POST /v2/payments/authorizations/{authorization_id}/capture
+    ```
+
+You **cannot** directly call `/v2/checkout/orders/{order_id}/capture` on an AUTHORIZE intent order, as this will result in an `ACTION_DOES_NOT_MATCH_INTENT` error.
+
 Direct CAPTURE Intent (single step) is suitable for:
 
 -   Digital goods - Immediate delivery after payment
