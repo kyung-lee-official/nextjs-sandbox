@@ -4,9 +4,10 @@ import axios from "axios";
 
 export async function POST(
 	request: NextRequest,
-	{ params }: { params: { orderId: string } }
+	ctx: RouteContext<"/api/payment/paypal/v2/capture-order/[orderId]">
 ) {
 	try {
+		const params = await ctx.params;
 		const cookieStore = await cookies();
 		const accessToken = cookieStore.get("paypalAccessToken")?.value;
 
