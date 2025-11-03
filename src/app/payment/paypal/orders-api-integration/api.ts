@@ -82,3 +82,60 @@ export const createPayPalOrder = async (
 		throw error;
 	}
 };
+
+export interface PayPalOrderResponse {
+	id: string;
+	status: string;
+	payment_source: {
+		paypal: {
+			email_address: string;
+			account_id: string;
+			account_status: string;
+			name: {
+				given_name: string;
+				surname: string;
+			};
+			phone_type: string;
+			address: PayPalAddress;
+		};
+	};
+	purchase_units: Array<{
+		reference_id: string;
+		amount: {
+			currency_code: string;
+			value: string;
+		};
+		payee: {
+			email_address: string;
+			merchant_id: string;
+		};
+		shipping: {
+			name: {
+				full_name: string;
+			};
+			address: PayPalAddress;
+		};
+	}>;
+	intent: string;
+	create_time: string;
+	update_time: string;
+	links: Array<{
+		href: string;
+		rel: string;
+		method: string;
+	}>;
+}
+
+export const getOrderById = async (
+	orderId: string
+): Promise<PayPalOrderResponse> => {
+	try {
+		const response = await axios.get(
+			`/api/payment/paypal/v2/order/${orderId}`
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Error fetching PayPal order:", error);
+		throw error;
+	}
+};
