@@ -275,10 +275,22 @@ export default function Home() {
 			<Block
 				title="Files"
 				list={[
-					{ link: "/files/image-cropper", text: "image cropper" },
+					{
+						link: "/files/aliyun-oss",
+						text: "aliyun oss upload and download",
+					},
+					{
+						link: "/files/conditionally-download-json-or-buffer",
+						text: "conditionally download json or buffer",
+					},
 					{
 						link: "/files/file-transmit",
 						text: "file transmit (upload and download)",
+					},
+					{ link: "/files/image-cropper", text: "image cropper" },
+					{
+						link: "/files/modify-excel-before-upload",
+						text: "modify excel before upload",
 					},
 					{
 						link: "/files/file-transmit/upload-files-multi",
@@ -286,20 +298,12 @@ export default function Home() {
 					},
 					{ link: "/files/tencent-cos", text: "tencent cos" },
 					{
-						link: "/files/aliyun-oss",
-						text: "aliyun oss upload and download",
-					},
-					{
 						link: "/files/upload-multiple-excel",
 						text: "compress and upload multiple excel files in individual inputs",
 					},
 					{
 						link: "/files/upload-multiple-excel-single-input",
 						text: "compress and upload multiple excel files in a single inputs",
-					},
-					{
-						link: "/files/modify-excel-before-upload",
-						text: "modify excel before upload",
 					},
 				]}
 			/>
