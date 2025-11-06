@@ -298,6 +298,10 @@ export default function Home() {
 					},
 					{ link: "/files/tencent-cos", text: "tencent cos" },
 					{
+						link: "/files/upload-large-xlsx-to-database",
+						text: "upload large xlsx to database",
+					},
+					{
 						link: "/files/upload-multiple-excel",
 						text: "compress and upload multiple excel files in individual inputs",
 					},
