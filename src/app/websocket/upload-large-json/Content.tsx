@@ -77,7 +77,7 @@ export const Content = () => {
 		formData.append("data", blob);
 
 		/* send the FormData to the backend */
-		const res = await axios.post(`upload-large-json`, formData, {
+		const res = await axios.post(`applications/upload-large-json`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
