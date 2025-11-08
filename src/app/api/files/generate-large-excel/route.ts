@@ -67,20 +67,69 @@ const lastNames = [
 ];
 
 const genders = ["Male", "Female", "Non-binary", "Prefer not to say"];
+const invalidGenders = [
+	"Invalid",
+	"",
+	null,
+	undefined,
+	"123",
+	"Unknown Gender Type",
+];
+const invalidNames = [
+	"",
+	null,
+	undefined,
+	"123456",
+	"Name@#$",
+	"Very Long Name That Exceeds Normal Database Limits And Should Cause Validation Errors",
+];
 
 /* Fast random generators */
-const getRandomName = () => {
+const getRandomName = (isValid = true) => {
+	if (!isValid && Math.random() < 0.3) {
+		return invalidNames[Math.floor(Math.random() * invalidNames.length)];
+	}
 	const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
 	const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 	return `${firstName} ${lastName}`;
 };
 
-const getRandomGender = () => {
+const getRandomGender = (isValid = true) => {
+	if (!isValid && Math.random() < 0.2) {
+		return invalidGenders[
+			Math.floor(Math.random() * invalidGenders.length)
+		];
+	}
 	return genders[Math.floor(Math.random() * genders.length)];
+};
+
+const getRandomBioId = (isValid = true) => {
+	if (!isValid && Math.random() < 0.15) {
+		const invalidOptions = [
+			"", // Empty string
+			null, // Null value
+			undefined, // Undefined
+			"123", // Too short
+			"invalid-bio-id-that-is-way-too-long-for-normal-use", // Too long
+			"bio@#$%", // Invalid characters
+			"duplicate-id", // Intentional duplicate
+		];
+		return invalidOptions[
+			Math.floor(Math.random() * invalidOptions.length)
+		];
+	}
+	return nanoid(12);
 };
 
 export async function POST(req: NextRequest) {
 	try {
+		/* Parse request body to get file type */
+		const body = await req.json().catch(() => ({}));
+		const fileType = body.fileType || "valid"; // Default to valid
+		const isValidData = fileType === "valid";
+
+		console.log(`Generating ${fileType} data file...`);
+
 		/* Create temp directory if it doesn't exist */
 		const tempDir = path.join(process.cwd(), "temp");
 		if (!fs.existsSync(tempDir)) {
@@ -135,16 +184,11 @@ export async function POST(req: NextRequest) {
 				totalRows - batch * batchSize
 			);
 
-			/* Pre-generate nanoids for this batch */
-			const bioIds = Array.from({ length: rowsInBatch }, () =>
-				nanoid(12)
-			);
-
 			for (let i = 0; i < rowsInBatch; i++) {
 				batchData.push({
-					name: getRandomName(),
-					gender: getRandomGender(),
-					bioId: bioIds[i],
+					name: getRandomName(isValidData),
+					gender: getRandomGender(isValidData),
+					bioId: getRandomBioId(isValidData),
 				});
 			}
 
@@ -163,7 +207,8 @@ export async function POST(req: NextRequest) {
 
 		/* Generate filename with timestamp */
 		const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-		const filename = `mock-data-500k-${timestamp}.xlsx`;
+		const dataTypeLabel = isValidData ? "valid" : "invalid";
+		const filename = `mock-data-500k-${dataTypeLabel}-${timestamp}.xlsx`;
 		const filepath = path.join(tempDir, filename);
 
 		console.log("Writing Excel file...");
@@ -186,6 +231,7 @@ export async function POST(req: NextRequest) {
 			success: true,
 			filename,
 			filepath,
+			fileType: dataTypeLabel,
 			rows: totalRows + 1, // +1 for header
 			fileSizeMB: `${fileSizeMB} MB`,
 			generationTimeMs: generationTime,
