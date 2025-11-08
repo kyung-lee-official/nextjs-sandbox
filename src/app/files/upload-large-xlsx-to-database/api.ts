@@ -1,4 +1,34 @@
 import axios from "axios";
+import { z } from "zod";
+
+/* Task schemas and types */
+const TaskStatusSchema = z.enum([
+	"PENDING",
+	"LOADING_WORKBOOK",
+	"VALIDATING_HEADERS",
+	"VALIDATING",
+	"SAVING",
+	"COMPLETED",
+	"HAS_ERRORS",
+	"FAILED",
+]);
+
+const TaskSchema = z.object({
+	id: z.string(),
+	createdAt: z.string().datetime(),
+	errorRows: z.number().min(0),
+	savedRows: z.number().min(0),
+	savingProgress: z.number().min(0).max(100),
+	status: TaskStatusSchema,
+	totalRows: z.number().min(0),
+	updatedAt: z.string().datetime(),
+	validatedRows: z.number().min(0),
+	validationProgress: z.number().min(0).max(100),
+});
+
+/* Infer TypeScript types from Zod schemas */
+type TaskStatus = z.infer<typeof TaskStatusSchema>;
+type Task = z.infer<typeof TaskSchema>;
 
 /* Response types */
 interface UploadFileResponse {
@@ -57,5 +87,6 @@ export const uploadLargeXlsxFile = async (
 	return response.data;
 };
 
-/* Export types for use in components */
-export type { UploadFileResponse, UploadProgressCallback };
+/* Export schemas and types for use in components */
+export { TaskSchema, TaskStatusSchema };
+export type { Task, TaskStatus, UploadFileResponse, UploadProgressCallback };
