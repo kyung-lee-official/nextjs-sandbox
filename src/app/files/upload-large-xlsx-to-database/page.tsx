@@ -1,5 +1,5 @@
 import { GenerateXlsx } from "./GenerateXlsx";
-import { Tasks } from "./Tasks";
+import { Tasks } from "./tasks/Tasks";
 import { TanStackWrapper } from "./TanStackWrapper";
 import { UploadFile } from "./UploadFile";
 

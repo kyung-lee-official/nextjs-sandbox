@@ -1,6 +1,11 @@
 import axios from "axios";
 import { z } from "zod";
 
+export enum UploadLargeXlsxToDatabaseQK {
+	GET_TASKS = "get_tasks",
+	GET_TASK_BY_ID = "get_task_by_id",
+}
+
 /* Task schemas and types */
 const TaskStatusSchema = z.enum([
 	"PENDING",
@@ -58,7 +63,7 @@ export const uploadLargeXlsxFile = async (
 	formData.append("file", file);
 
 	/* Make the upload request */
-	const response = await axios.post<UploadFileResponse>(
+	const res = await axios.post<UploadFileResponse>(
 		"/applications/upload-large-xlsx/upload",
 		formData,
 		{
@@ -84,7 +89,22 @@ export const uploadLargeXlsxFile = async (
 		}
 	);
 
-	return response.data;
+	return res.data;
+};
+
+export const getTaskList = async (page?: number): Promise<Task[]> => {
+	const params = new URLSearchParams();
+	if (page !== undefined) {
+		params.append("page", page.toString());
+	}
+
+	const res = await axios.get<Task[]>(
+		`/applications/upload-large-xlsx/tasks?${params.toString()}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_NESTJS,
+		}
+	);
+	return res.data;
 };
 
 /* Export schemas and types for use in components */
