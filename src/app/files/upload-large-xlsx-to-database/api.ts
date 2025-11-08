@@ -107,6 +107,16 @@ export const getTaskList = async (page?: number): Promise<Task[]> => {
 	return res.data;
 };
 
+export const deleteTaskById = async (taskId: string) => {
+	const res = await axios.delete(
+		`/applications/upload-large-xlsx/delete-task-by-id/${taskId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_NESTJS,
+		}
+	);
+	return res.data;
+};
+
 /* Export schemas and types for use in components */
 export { TaskSchema, TaskStatusSchema };
 export type { Task, TaskStatus, UploadFileResponse, UploadProgressCallback };
