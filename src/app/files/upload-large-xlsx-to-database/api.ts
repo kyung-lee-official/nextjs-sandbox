@@ -1,6 +1,11 @@
 import axios from "axios";
 import { UploadProgressCallback, UploadFileResponse, Task } from "./types";
 
+export enum UploadLargeXlsxToDatabaseQK {
+	GET_TASKS = "get_tasks",
+	GET_TASK_BY_ID = "get_task_by_id",
+}
+
 /* Upload file to application endpoint */
 export const uploadLargeXlsxFile = async (
 	file: File,
