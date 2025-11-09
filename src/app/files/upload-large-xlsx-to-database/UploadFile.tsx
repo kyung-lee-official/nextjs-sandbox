@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { uploadLargeXlsxFile, UploadFileResponse } from "./api";
+import { uploadLargeXlsxFile } from "./api";
 import { validateFile } from "../utils/xlsx";
 import { humanReadableSize } from "../utils/file";
 
@@ -18,7 +18,7 @@ export const UploadFile = () => {
 			uploadLargeXlsxFile(file, (progressEvent) => {
 				setUploadProgress(progressEvent.progress || 0);
 			}),
-		onSuccess: (data: UploadFileResponse) => {
+		onSuccess: (data) => {
 			alert(
 				`File uploaded successfully: ${
 					data.filename || "Unknown filename"

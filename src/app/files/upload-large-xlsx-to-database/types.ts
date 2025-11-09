@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-export enum UploadLargeXlsxToDatabaseQK {
-	GET_TASKS = "get_tasks",
-	GET_TASK_BY_ID = "get_task_by_id",
-}
-
 /* Task schemas and types */
 const TaskStatusSchema = z.enum([
 	"PENDING",
