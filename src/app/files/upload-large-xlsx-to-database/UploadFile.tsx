@@ -19,11 +19,6 @@ export const UploadFile = () => {
 				setUploadProgress(progressEvent.progress || 0);
 			}),
 		onSuccess: (data) => {
-			alert(
-				`File uploaded successfully: ${
-					data.filename || "Unknown filename"
-				}`
-			);
 			setSelectedFile(null);
 			setUploadProgress(0);
 			if (fileInputRef.current) {
