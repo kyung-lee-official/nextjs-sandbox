@@ -1,46 +1,54 @@
 import { z } from "zod";
 
-/* Task schemas and types */
-const TaskStatusSchema = z.enum([
+/* Database Task Status Schema */
+export const DbTaskStatusSchema = z.enum([
 	"PENDING",
-	"LOADING_WORKBOOK",
-	"VALIDATING_HEADERS",
-	"VALIDATING",
-	"SAVING",
+	"PROCESSING",
 	"COMPLETED",
 	"HAS_ERRORS",
 	"FAILED",
 ]);
 
-const TaskSchema = z.object({
-	id: z.string(),
+/* Redis Progress Status Schema */
+export const RedisProgressStatusSchema = z.enum([
+	"LOADING_WORKBOOK",
+	"VALIDATING_HEADERS",
+	"VALIDATING",
+	"SAVING",
+]);
+
+export const TaskSchema = z.object({
+	id: z.number().int(),
+	status: DbTaskStatusSchema,
+	totalRows: z.number().int().min(0),
+	validatedRows: z.number().int().min(0),
+	savedRows: z.number().int().min(0),
+	errorRows: z.number().int().min(0),
 	createdAt: z.string().datetime(),
-	errorRows: z.number().min(0),
-	savedRows: z.number().min(0),
-	savingProgress: z.number().min(0).max(100),
-	status: TaskStatusSchema,
-	totalRows: z.number().min(0),
 	updatedAt: z.string().datetime(),
-	validatedRows: z.number().min(0),
-	validationProgress: z.number().min(0).max(100),
 });
 
 /* Infer TypeScript types from Zod schemas */
-export type TaskStatus = z.infer<typeof TaskStatusSchema>;
+export type DbTaskStatus = z.infer<typeof DbTaskStatusSchema>;
 export type Task = z.infer<typeof TaskSchema>;
 
-/* Response types */
-export type UploadFileResponse = {
-	success: boolean;
-	message: string;
-	fileId?: string;
-	filename?: string;
-	size?: number;
-	recordsProcessed?: number;
-};
+/* Response schemas and types */
+export const UploadFileResponseSchema = z.object({
+	success: z.boolean(),
+	message: z.string(),
+	fileId: z.string().optional(),
+	filename: z.string().optional(),
+	size: z.number().int().min(0).optional(),
+	recordsProcessed: z.number().int().min(0).optional(),
+});
+export type UploadFileResponse = z.infer<typeof UploadFileResponseSchema>;
 
-export type UploadProgressCallback = (progressEvent: {
-	loaded: number;
-	total?: number;
-	progress?: number;
-}) => void;
+export const UploadProgressEventSchema = z.object({
+	loaded: z.number().min(0),
+	total: z.number().min(0).optional(),
+	progress: z.number().min(0).max(100).optional(),
+});
+export type UploadProgressEvent = z.infer<typeof UploadProgressEventSchema>;
+export type UploadProgressCallback = (
+	progressEvent: UploadProgressEvent
+) => void;

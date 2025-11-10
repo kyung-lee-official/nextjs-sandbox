@@ -1,28 +1,35 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getTaskList, Task, UploadLargeXlsxToDatabaseQK } from "../api";
+import { getTaskList, UploadLargeXlsxToDatabaseQK } from "../api";
 import { usePagination } from "@/app/components/pagination/usePagination";
 import { Pagination } from "@/app/components/pagination/Pagination";
 import { TaskCard } from "./Task";
+import { Task } from "../types";
+import { useSocketEnhancement } from "../socket/hooks";
+import { isActiveTask } from "../socket/subscriptions";
 
 export const Tasks = () => {
 	const { currentPage, updatePage } = usePagination();
 
-	const activeStatuses = ["PENDING", "VALIDATING", "SAVING"];
 	const tasksQuery = useQuery({
 		queryKey: [UploadLargeXlsxToDatabaseQK.GET_TASKS, currentPage],
 		queryFn: () => getTaskList(currentPage),
 		refetchInterval: (query) => {
 			/* Smart polling: only poll if there are active tasks */
 			const hasActiveTasks = query.state.data?.some((task: Task) =>
-				activeStatuses.includes(task.status)
+				isActiveTask(task)
 			);
 			/* 5s if has active, 30s for all static */
 			return hasActiveTasks ? 5000 : 30000;
 		},
 		refetchIntervalInBackground: false,
 	});
+
+	/* Enhance with real-time Socket.io updates */
+	const { connectionState, isConnected } = useSocketEnhancement(
+		tasksQuery.data || []
+	);
 
 	if (tasksQuery.isLoading) {
 		return (
@@ -55,9 +62,30 @@ export const Tasks = () => {
 
 	return (
 		<div className="p-6 space-y-3">
-			<h2 className="text-2xl font-bold text-gray-900">
-				Tasks ({tasks.length})
-			</h2>
+			<div className="flex items-center justify-between">
+				<h2 className="text-2xl font-bold text-gray-900">
+					Tasks ({tasks.length})
+				</h2>
+				{/* Real-time connection status indicator */}
+				<div className="flex items-center gap-2 text-sm">
+					<div
+						className={`w-2 h-2 rounded-full ${
+							isConnected
+								? "bg-green-500"
+								: connectionState.reconnecting
+								? "bg-yellow-500"
+								: "bg-gray-500"
+						}`}
+					></div>
+					<span className="text-gray-600">
+						{isConnected
+							? "Real-time"
+							: connectionState.reconnecting
+							? "Reconnecting..."
+							: "Offline"}
+					</span>
+				</div>
+			</div>
 			{tasks.length === 0 ? (
 				<div className="text-center py-12">
 					<div className="text-gray-400 text-lg mb-2">
