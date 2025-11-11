@@ -1,4 +1,4 @@
-import { DbTaskStatus, Task } from "../types";
+import { ActiveStatusesSchema, DbTaskStatus, Task } from "../types";
 
 type ActiveTaskCardProps = {
 	task: Task;
@@ -19,9 +19,9 @@ export const ActiveTaskCard = ({ task }: ActiveTaskCardProps) => {
 
 	const getStatusColor = (status: DbTaskStatus) => {
 		switch (status) {
-			case "PENDING":
+			case ActiveStatusesSchema.enum.PENDING:
 				return "bg-blue-100 text-blue-700 border-blue-300";
-			case "PROCESSING":
+			case ActiveStatusesSchema.enum.PROCESSING:
 				return "bg-yellow-100 text-yellow-700 border-yellow-300";
 			default:
 				return "bg-gray-100 text-gray-700 border-gray-300";

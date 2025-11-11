@@ -1,4 +1,4 @@
-import { DbTaskStatus, Task } from "../types";
+import { DbTaskStatus, Task, TerminalStatusesSchema } from "../types";
 import { Delete } from "./Delete";
 
 type CompletedTaskCardProps = {
@@ -20,11 +20,11 @@ export const CompletedTaskCard = ({ task }: CompletedTaskCardProps) => {
 
 	const getStatusColor = (status: DbTaskStatus) => {
 		switch (status) {
-			case "COMPLETED":
+			case TerminalStatusesSchema.enum.COMPLETED:
 				return "bg-green-100 text-green-700 border-green-300";
-			case "HAS_ERRORS":
+			case TerminalStatusesSchema.enum.HAS_ERRORS:
 				return "bg-yellow-100 text-yellow-700 border-yellow-300";
-			case "FAILED":
+			case TerminalStatusesSchema.enum.FAILED:
 				return "bg-red-100 text-red-700 border-red-300";
 			default:
 				return "bg-gray-100 text-gray-700 border-gray-300";
@@ -33,11 +33,11 @@ export const CompletedTaskCard = ({ task }: CompletedTaskCardProps) => {
 
 	const getBorderColor = (status: DbTaskStatus) => {
 		switch (status) {
-			case "COMPLETED":
+			case TerminalStatusesSchema.enum.COMPLETED:
 				return "border-l-green-500";
-			case "HAS_ERRORS":
+			case TerminalStatusesSchema.enum.HAS_ERRORS:
 				return "border-l-yellow-500";
-			case "FAILED":
+			case TerminalStatusesSchema.enum.FAILED:
 				return "border-l-red-500";
 			default:
 				return "border-l-gray-500";
@@ -70,7 +70,7 @@ export const CompletedTaskCard = ({ task }: CompletedTaskCardProps) => {
 			</div>
 
 			{/* Success Rate for completed tasks */}
-			{status === "COMPLETED" && (
+			{status === TerminalStatusesSchema.enum.COMPLETED && (
 				<div className="mb-4">
 					<div className="flex justify-between items-center mb-2">
 						<span className="text-sm font-medium text-gray-700">
