@@ -141,7 +141,7 @@ export type UploadProgressCallback = (
 
 /* Socket.io event schemas and types */
 const TaskProgressEventSchema = z.object({
-	taskId: z.string(),
+	taskId: z.number(),
 	progress: z.number().min(0).max(100),
 	status: z.string(),
 });
@@ -149,7 +149,7 @@ const TaskProgressEventSchema = z.object({
 export type TaskProgressEvent = z.infer<typeof TaskProgressEventSchema>;
 
 const TaskCompletionEventSchema = z.object({
-	taskId: z.string(),
+	taskId: z.number(),
 	status: z.enum([
 		TerminalStatusesSchema.enum.COMPLETED,
 		TerminalStatusesSchema.enum.HAS_ERRORS,
@@ -162,7 +162,7 @@ const TaskCompletionEventSchema = z.object({
 export type TaskCompletionEvent = z.infer<typeof TaskCompletionEventSchema>;
 
 const TaskSubscriptionEventSchema = z.object({
-	taskId: z.string(),
+	taskId: z.number(),
 });
 
 export type TaskSubscriptionEvent = z.infer<typeof TaskSubscriptionEventSchema>;
@@ -193,18 +193,17 @@ export type UseSocketConnectionReturn = z.infer<
 >;
 
 const UseTaskSubscriptionReturnSchema = z.object({
-	subscribedTasks: z.instanceof(Set<string>),
-	// subscribeToTask: z.function().args(z.string()).returns(z.void()),
+	subscribedTasks: z.instanceof(Set<number>),
 	subscribeToTask: z.function({
-		input: [z.string()],
+		input: [z.number()],
 		output: z.void(),
 	}),
 	unsubscribeFromTask: z.function({
-		input: [z.string()],
+		input: [z.number()],
 		output: z.void(),
 	}),
 	subscribeToActiveTasks: z.function({
-		input: [z.array(z.string())],
+		input: [z.array(TaskSchema)],
 		output: z.void(),
 	}),
 });

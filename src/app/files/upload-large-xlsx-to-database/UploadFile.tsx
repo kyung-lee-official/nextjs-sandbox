@@ -2,9 +2,10 @@
 
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { uploadLargeXlsxFile } from "./api";
+import { uploadLargeXlsxFile, UploadLargeXlsxToDatabaseQK } from "./api";
 import { validateFile } from "../utils/xlsx";
 import { humanReadableSize } from "../utils/file";
+import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
 export const UploadFile = () => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -24,6 +25,9 @@ export const UploadFile = () => {
 			if (fileInputRef.current) {
 				fileInputRef.current.value = "";
 			}
+			queryClient.invalidateQueries({
+				queryKey: [UploadLargeXlsxToDatabaseQK.GET_TASKS],
+			});
 		},
 		onError: (error: any) => {
 			console.error("Upload error:", error);
