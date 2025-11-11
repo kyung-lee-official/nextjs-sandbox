@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getTaskList, UploadLargeXlsxToDatabaseQK } from "../api";
 import { usePagination } from "@/app/components/pagination/usePagination";
 import { Pagination } from "@/app/components/pagination/Pagination";
-import { TaskCard } from "./Task";
-import { Task } from "../types";
+import { ActiveTaskCard } from "./ActiveTaskCard";
+import { CompletedTaskCard } from "./CompletedTaskCard";
+import { isActiveStatus, Task } from "../types";
 import { useSocketEnhancement } from "../socket/hooks";
-import { isActiveTask } from "../socket/subscriptions";
 
 export const Tasks = () => {
 	const { currentPage, updatePage } = usePagination();
@@ -18,7 +18,7 @@ export const Tasks = () => {
 		refetchInterval: (query) => {
 			/* Smart polling: only poll if there are active tasks */
 			const hasActiveTasks = query.state.data?.some((task: Task) =>
-				isActiveTask(task)
+				isActiveStatus(task.status)
 			);
 			/* 5s if has active, 30s for all static */
 			return hasActiveTasks ? 5000 : 30000;
@@ -97,20 +97,24 @@ export const Tasks = () => {
 				</div>
 			) : (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{tasks.map((task) => (
-						<TaskCard key={task.id} task={task} />
-					))}
+					{tasks.map((task) => {
+						const isActive = isActiveStatus(task.status);
+						return isActive ? (
+							<ActiveTaskCard key={task.id} task={task} />
+						) : (
+							<CompletedTaskCard key={task.id} task={task} />
+						);
+					})}
 				</div>
 			)}
-			<div className="flex justify-end">
-				<Pagination
-					currentPage={currentPage}
-					onPageChange={updatePage}
-					/* Simplified logic, could be enhanced with actual pagination info */
-					hasNextPage={tasks.length > 0}
-					hasPreviousPage={currentPage > 1}
-				/>
-			</div>
+
+			<Pagination
+				currentPage={currentPage}
+				onPageChange={updatePage}
+				/* Simplified logic, could be enhanced with actual pagination info */
+				hasNextPage={tasks.length > 0}
+				hasPreviousPage={currentPage > 1}
+			/>
 		</div>
 	);
 };
