@@ -69,3 +69,16 @@ export const deleteTaskById = async (taskId: string) => {
 	);
 	return res.data;
 };
+
+export const downloadTaskErrors = async (
+	taskId: number
+): Promise<ArrayBuffer> => {
+	const res = await axios.get(
+		`/applications/upload-large-xlsx/get-validation-errors-by-task-id/${taskId}`,
+		{
+			baseURL: process.env.NEXT_PUBLIC_NESTJS,
+			responseType: "arraybuffer",
+		}
+	);
+	return res.data;
+};

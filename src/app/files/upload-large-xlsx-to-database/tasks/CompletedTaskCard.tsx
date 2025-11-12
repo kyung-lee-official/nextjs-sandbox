@@ -1,5 +1,6 @@
 import { DbTaskStatus, Task, TerminalStatusesSchema } from "../types";
 import { Delete } from "./Delete";
+import { DownloadErrors } from "./DownloadErrors";
 
 type CompletedTaskCardProps = {
 	task: Task;
@@ -66,8 +67,11 @@ export const CompletedTaskCard = ({ task }: CompletedTaskCardProps) => {
 				>
 					{status}
 				</span>
-				<Delete taskId={id.toString()} />
+				<div className="flex items-center gap-2">
+					<Delete taskId={id.toString()} />
+				</div>
 			</div>
+			<DownloadErrors task={task} />
 
 			{/* Success Rate for completed tasks */}
 			{status === TerminalStatusesSchema.enum.COMPLETED && (
