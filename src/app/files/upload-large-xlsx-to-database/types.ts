@@ -188,14 +188,14 @@ export type UseSocketConnectionReturn = z.infer<
 
 const UseTaskSubscriptionReturnSchema = z.object({
 	subscribedTasks: z.instanceof(Set<number>),
-	subscribeToTask: z.function({
-		input: [z.number()],
-		output: z.void(),
-	}),
-	unsubscribeFromTask: z.function({
-		input: [z.number()],
-		output: z.void(),
-	}),
+	// subscribeToTask: z.function({
+	// 	input: [z.number()],
+	// 	output: z.void(),
+	// }),
+	// unsubscribeFromTask: z.function({
+	// 	input: [z.number()],
+	// 	output: z.void(),
+	// }),
 	subscribeToActiveTasks: z.function({
 		input: [z.array(TaskSchema)],
 		output: z.void(),
