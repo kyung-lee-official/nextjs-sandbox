@@ -8,11 +8,11 @@ import {
 	TaskWithProgress,
 } from "../types";
 
-type StatusAndPhaseProps = {
+type StatusProps = {
 	task: TaskWithProgress;
 };
 
-const Status = (props: StatusAndPhaseProps) => {
+const Status = (props: StatusProps) => {
 	const { task } = props;
 	const { status } = task;
 
