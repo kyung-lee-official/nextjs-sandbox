@@ -699,12 +699,16 @@ export default function Home() {
 				title="Styles | Tailwind"
 				list={[
 					{
-						link: "/styles/tailwind/react-responsive",
-						text: "react-responsive",
-					},
-					{
 						link: "/styles/tailwind/animation",
 						text: "animation",
+					},
+					{
+						link: "/styles/tailwind/customized-theme",
+						text: "customized theme",
+					},
+					{
+						link: "/styles/tailwind/react-responsive",
+						text: "react-responsive",
 					},
 				]}
 			/>
