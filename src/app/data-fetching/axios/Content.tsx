@@ -20,7 +20,7 @@ const Example = () => {
 				undefinedValue: undefined,
 			};
 			const serialized = queryString.stringify(complexData);
-			console.log("Serialized complex data:", serialized);
+			// console.log("Serialized complex data:", serialized);
 
 			const response = await axios.post(
 				"/api/data",

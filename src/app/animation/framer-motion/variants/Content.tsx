@@ -117,7 +117,7 @@ const Content: React.FC<any> = () => {
 				<motion.li variants={item3}>item</motion.li>
 				{items3.map((item: any, i: any) => {
 					let color: string = "";
-					console.log(i);
+					// console.log(i);
 
 					switch (i) {
 						case 0:

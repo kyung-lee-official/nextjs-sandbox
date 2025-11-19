@@ -34,7 +34,7 @@ export type BarStackProps = {
 	events?: boolean;
 };
 
-console.log(cityTemperature);
+// console.log(cityTemperature);
 
 const purple1 = "#6c5efb";
 const purple2 = "#c998ff";

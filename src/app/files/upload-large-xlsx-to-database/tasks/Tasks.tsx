@@ -2,19 +2,16 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getTaskList, UploadLargeXlsxToDatabaseQK } from "../api";
-import { usePagination } from "@/app/components/pagination/usePagination";
-import { Pagination } from "@/app/components/pagination/Pagination";
+import { SuspensePagination } from "@/app/components/pagination/SuspensePagination";
 import { ActiveTaskCard } from "./ActiveTaskCard";
 import { CompletedTaskCard } from "./CompletedTaskCard";
 import { isActiveStatus, Task } from "../types";
 import { useSocketEnhancement } from "../socket/hooks";
 
 export const Tasks = () => {
-	const { currentPage, updatePage } = usePagination();
-
 	const tasksQuery = useQuery({
-		queryKey: [UploadLargeXlsxToDatabaseQK.GET_TASKS, currentPage],
-		queryFn: () => getTaskList(currentPage),
+		queryKey: [UploadLargeXlsxToDatabaseQK.GET_TASKS],
+		queryFn: () => getTaskList(1),
 		refetchInterval: (query) => {
 			/* Smart polling: only poll if there are active tasks */
 			const hasActiveTasks = query.state.data?.some((task: Task) =>
@@ -108,12 +105,10 @@ export const Tasks = () => {
 				</div>
 			)}
 
-			<Pagination
-				currentPage={currentPage}
-				onPageChange={updatePage}
+			<SuspensePagination
 				/* Simplified logic, could be enhanced with actual pagination info */
 				hasNextPage={tasks.length > 0}
-				hasPreviousPage={currentPage > 1}
+				hasPreviousPage={true}
 			/>
 		</div>
 	);

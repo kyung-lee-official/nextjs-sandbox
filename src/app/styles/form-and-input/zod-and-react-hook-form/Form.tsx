@@ -16,17 +16,12 @@ const signIn = async (body: {
 	return res.data;
 };
 
-export type FormInput = {
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
-
 const schema = z.object({
 	email: z.string().email({ message: "Invalid email address" }),
 	password: z.string().min(1, { message: "Required" }),
 	confirmPassword: z.string().min(1, { message: "Required" }),
 });
+export type FormInput = z.infer<typeof schema>;
 
 export const Form = () => {
 	const [oldData, setOldData] = useState<FormInput>({
@@ -67,7 +62,7 @@ export const Form = () => {
 		 * therefore you can either using useEffect (recommended) or `watch` to track the changes
 		 */
 		mode: "onChange",
-		resolver: zodResolver(schema),
+		resolver: zodResolver(schema) as any,
 	});
 
 	const mutation = useMutation<any, AxiosError, FormInput>({

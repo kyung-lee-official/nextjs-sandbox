@@ -102,7 +102,7 @@ export const Content = () => {
 	const gridTemplateColumns = columns
 		.map((col) => (col.size ? `${col.size}px` : "1fr"))
 		.join(" ");
-	console.log(gridTemplateColumns);
+	// console.log(gridTemplateColumns);
 
 	// Helper for sticky/frozen columns
 	const getCellClass = (colIdx: number) => {

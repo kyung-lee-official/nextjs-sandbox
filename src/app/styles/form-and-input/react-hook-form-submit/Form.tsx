@@ -11,13 +11,10 @@ const signIn = async (body: { email: string }): Promise<any> => {
 	return res.data;
 };
 
-export type FormInput = {
-	email: string;
-};
-
 const schema = z.object({
 	email: z.string().email({ message: "Invalid email address" }),
 });
+type FormInput = z.infer<typeof schema>;
 
 export const Form = () => {
 	const [oldData, setOldData] = useState<FormInput>({
@@ -32,7 +29,7 @@ export const Form = () => {
 
 	const { register, handleSubmit, formState, control } = useForm<FormInput>({
 		mode: "onSubmit",
-		resolver: zodResolver(schema),
+		resolver: zodResolver(schema) as any,
 	});
 
 	async function onSubmit() {

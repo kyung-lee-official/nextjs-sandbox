@@ -7,12 +7,7 @@ export const Debug = (props: {
 	formState: FormState<FormInput>;
 	isConfirmPasswordBlur: boolean;
 }) => {
-	const {
-		data,
-		isPasswordMatch,
-		isConfirmPasswordBlur,
-		formState,
-	} = props;
+	const { data, isPasswordMatch, isConfirmPasswordBlur, formState } = props;
 	const { email, password, confirmPassword } = data;
 
 	return (

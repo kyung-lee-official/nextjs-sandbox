@@ -31,10 +31,10 @@ export function Content() {
 		watch,
 		formState: { errors },
 	} = useForm<FormData>({
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(formSchema as any),
 		defaultValues: {
-			type: "person",
-		},
+			type: "person" as const, // Add 'as const' for literal type
+		} as FormData,
 	});
 
 	// 4. Watch the 'type' field to conditionally render fields
