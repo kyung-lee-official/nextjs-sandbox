@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Airbnb } from "./chart/visx/Icons";
 
 const Block = ({
@@ -22,11 +22,7 @@ const Block = ({
 			<div className="flex flex-col">
 				{list.map((item) => {
 					return (
-						<Link
-							key={item.link}
-							href={item.link}
-							className="hover:underline"
-						>
+						<Link key={item.link} href={item.link} className="hover:underline">
 							{item.text}
 						</Link>
 					);
@@ -217,9 +213,7 @@ export default function Home() {
 			</Block>
 			<Block
 				title="Auth | Google OAuth2"
-				list={[
-					{ link: "/auth/google-oauth-2/vanilla", text: "vanilla" },
-				]}
+				list={[{ link: "/auth/google-oauth-2/vanilla", text: "vanilla" }]}
 			/>
 			<Block
 				title="CAPTCHA | Google reCAPTCHA v3"
@@ -230,10 +224,7 @@ export default function Home() {
 					},
 				]}
 			/>
-			<Block
-				title="Casl"
-				list={[{ link: "/casl/basic", text: "basic" }]}
-			/>
+			<Block title="Casl" list={[{ link: "/casl/basic", text: "basic" }]} />
 			<Block
 				title={
 					<div className="flex items-center gap-2">
@@ -265,6 +256,10 @@ export default function Home() {
 					{
 						link: "/data-fetching/axios",
 						text: "axios & qs",
+					},
+					{
+						link: "/data-fetching/axios-error-handling-for-medusa",
+						text: "axios error handling for medusa",
 					},
 					{
 						link: "/data-fetching/tanstack-query",
@@ -382,14 +377,9 @@ export default function Home() {
 			/>
 			<Block
 				title="Libraries"
-				list={[
-					{ link: "/libraries/local-library", text: "local library" },
-				]}
+				list={[{ link: "/libraries/local-library", text: "local library" }]}
 			/>
-			<Block
-				title="Medusa"
-				list={[{ link: "/medusa", text: "Medusa" }]}
-			/>
+			<Block title="Medusa" list={[{ link: "/medusa", text: "Medusa" }]} />
 			<Block
 				title="NextJS"
 				list={[

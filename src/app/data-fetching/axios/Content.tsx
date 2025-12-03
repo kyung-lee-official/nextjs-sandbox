@@ -1,9 +1,9 @@
 "use client";
 
-import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 import { QueryClientProvider, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import queryString from "query-string";
+import { queryClient } from "@/app/data-fetching/tanstack-query/queryClient";
 
 const Example = () => {
 	const mutation = useMutation({
@@ -38,7 +38,7 @@ const Example = () => {
 					params: {
 						"query-param": "value",
 					},
-				}
+				},
 			);
 			return response.data;
 		},
@@ -47,6 +47,7 @@ const Example = () => {
 		<div className="p-4">
 			Check out the DevTools Network tab for request details{" "}
 			<button
+				type="button"
 				className="bg-blue-500 text-white p-2 rounded cursor-pointer"
 				onClick={() => mutation.mutate()}
 			>
