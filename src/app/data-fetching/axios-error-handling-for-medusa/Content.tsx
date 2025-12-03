@@ -56,10 +56,7 @@ const Content = () => {
 				<button
 					type="submit"
 					disabled={mutation.isPending}
-					className="p-1
-					text-white
-					bg-blue-500
-					rounded"
+					className="rounded bg-blue-500 p-1 text-white"
 				>
 					{mutation.isPending ? "Loading..." : "Get User"}
 				</button>
@@ -87,10 +84,7 @@ const Content = () => {
 				type="button"
 				onClick={() => nonExistentMutation.mutate()}
 				disabled={nonExistentMutation.isPending}
-				className="p-1
-				text-white
-				bg-red-500
-				rounded"
+				className="rounded bg-red-500 p-1 text-white"
 			>
 				{mutation.isPending ? "Loading..." : "Get Non-Existent Endpoint"}
 			</button>
